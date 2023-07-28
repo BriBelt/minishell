@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:36:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/28 17:31:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:32:12 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_2D_array(char **array)
 	free(array);
 }
 
+/* Just a function that frees a linked list and its content. */
 void	free_list(t_lexer **lst)
 {
 	t_lexer	*aux;

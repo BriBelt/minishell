@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:45:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/28 17:59:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:19:57 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	minishell_exe(void)
 			printf("\n");
 		add_history(rd);
 //		free(rd);
-//		rl_redisplay(); /* idk what this is for*/
 		rl_on_new_line();
 		if (!ft_strncmp(rd, "exit", ft_strlen(rd)))
 		{
