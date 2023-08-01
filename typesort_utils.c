@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:23:56 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/28 17:48:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:22:26 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,4 @@ int	is_file(char *content)
 	if (!access(content, F_OK | R_OK))
 		return (FIL);
 	return (STR);
-}
-
-/* Returns the array (char **) of the sent *pathname. */
-char	**get_paths(char *pathname)
-{
-	char	**paths;
-	char	*whole;
-
-	whole = getenv(pathname);
-	paths = ft_split(whole, ':');
-	return (paths);
-}
-
-/* Returns the expanded value of the environment variable given by 
- * getenv(); if it exist, otherwise returns NULL.
- * ONLY FOR lst->type = VAR */
-char	*expand_envar(char *data)
-{
-	char	*expanded;
-	char	*clean_data;
-	int		len;
-
-	len = ft_strlen(data) - 1;
-	clean_data = ft_substr(data, 1, len);
-	expanded = getenv(clean_data);
-	free(clean_data);
-	free(data);
-	return (expanded);
 }

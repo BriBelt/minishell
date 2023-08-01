@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:23:21 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/28 18:37:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:39:43 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_lexer	*ft_lexernew(char *content, int i)
 
 	node = malloc(sizeof(t_lexer));
 	if (!node)
-		return (0);
+		return (NULL);
 	node->data = content; 
 	node->next = NULL; 
 	node->index = i; 
@@ -55,6 +55,8 @@ t_lexer	**create_list(char **words)
 
 	i = 0;
 	lst = malloc(sizeof(t_lexer *));
+	if (!lst)
+		return (NULL);
 	*lst = NULL;
 	while (words[i])
 	{

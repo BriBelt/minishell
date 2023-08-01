@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:45:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/31 18:45:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:55:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,20 @@ int	main(int argc, char **argv, char **envp)
 	atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
-	minishell_exe(envp);
+	t_shell *mini;
+
+	mini = malloc(sizeof(t_shell));
+	if (!mini)
+		/*should return an error, create a new exit function for errors*/
+		return (0);
+	mini->envp = copy_envp(envp);
+	minishell_exe(mini);
+	/* Check if the new envp is not empty, if it is then the program was
+	 * launched with env -i */
 	return (0);
 }
 
-void	minishell_exe(char **envp)
+void	minishell_exe(t_shell *mini)
 {
 	char	*rd;
 	char	**words;
@@ -36,7 +45,6 @@ void	minishell_exe(char **envp)
 	while (1)
 	{
 		rd = readline("minishell>");
-	
 		words = ft_split(rd, ' ');
 		lst = create_list(words);
 		def_type(lst);
@@ -44,35 +52,21 @@ void	minishell_exe(char **envp)
 		while (ptr)
 		{
 			if (ptr->type == BUILTIN)
-				call_builtins(ptr, envp);
+				call_builtins(ptr, mini->envp, mini);
 			ptr = ptr->next;
 		}
-//		print_quotes(rd);
-	
-//		check_quotes(rd);
-	/*	while (ptr)
-		{
-//			printf("%s, index: %i, type: %i\n", ptr->data, ptr->index, ptr->type);
-			if (ptr->type == VAR)
-			{
-				ptr->data = expand_envar(ptr->data);
-				printf("Changed value: %s\n", ptr->data);
-			}
-			ptr = ptr->next;
-		}
-		ptr = NULL;*/
 		if (rd[0] != '\0')
 			printf("\n");
 		add_history(rd);
-//		free(rd);
 		rl_on_new_line();
 		if (!ft_strncmp(rd, "exit", ft_strlen(rd)))
 		{
 			free(rd);
+			free_2D_array(mini->envp);
+			free(mini);
 			clear_history();
 			free_list(lst);
 			exit(0);
-//			return ;
 		}
 	}
 }
