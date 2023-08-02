@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 15:18:01 by jaimmart          #+#    #+#             */
-/*   Updated: 2023/08/02 15:56:43 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:49:23 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	handle_quotes(char *rd, size_t	*i)
 		if ((single == 2 && first == 1) || (q_double == 2 && first == 2))
 		{
 			end = *i;
+			(*i)++;
 			break ;
 		}
 		if (normal && !x)
@@ -69,6 +70,12 @@ void	handle_quotes(char *rd, size_t	*i)
 			x = 1;
 			start = (*i) + 1;
 		}
+		if (normal && rd[*i + 1] == '\'')
+		{
+			(*i)++;
+			end = *i;
+			break ;
+		}
 		(*i)++;
 	}
 	data = ft_substr(rd, start, end - start);
@@ -79,7 +86,7 @@ void	handle_quotes(char *rd, size_t	*i)
 
 int	main(void)
 {
-	char	*str = "\"\'first\'\"\"second\"third\'\'";
+	char	*str = "\"\'first\'\"\"second\"third\'four\'";
 	size_t	i = 0;
 	
 	while (i < ft_strlen(str))
