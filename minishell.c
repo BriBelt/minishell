@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/26 12:45:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/03 15:26:35 by bbeltran         ###   ########.fr       */
+/*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
+/*   Updated: 2023/08/03 17:48:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,30 @@ int	main(int argc, char **argv, char **envp)
 void	minishell_exe(t_shell *mini)
 {
 	char	*rd;
+	char	*new_rd;
 	char	**words;
-	t_lexer	**lst;
-	t_lexer	*ptr;
+	int		i = 0;
 
 	while (1)
 	{
+		if (mini->lex)
+			free_list(mini->lex);
 		rd = readline("minishell>");
-		words = ft_split(rd, ' ');
-		lst = create_list(words);
-		def_type(lst);
-		ptr = *lst;
-		while (ptr)
+		new_rd = handle_quotes(rd);
+		printf("new_rd: %s\n", new_rd);
+		words = ft_split(new_rd, '!');
+		/* Should also be separated by quotes after assigning type value
+		 * to each node. */
+		mini->lex = create_list(words);
+		def_type(mini->lex);
+		clean_quotes(mini->lex);
+//		curr = *mini->lex;
+		i = 0;
+		while (i < 3)
 		{
-			if (ptr->type == BUILTIN)
-				call_builtins(ptr, mini->envp, mini);
-			ptr = ptr->next;
-		}
-		if (rd[0] != '\0')
-			printf("\n");
-		add_history(rd);
-		rl_on_new_line();
-		if (!ft_strncmp(rd, "exit", ft_strlen(rd)))
-		{
-			free(rd);
-			free_2D_array(mini->envp);
-			free(mini);
-			clear_history();
-			free_list(lst);
-			exit(0);
+			printf("index: %i, node: %s, type: %i\n", (*mini->lex)->index, (*mini->lex)->data, (*mini->lex)->type);
+			*mini->lex = (*mini->lex)->next;
+			i++;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/01 12:42:28 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:18:23 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,17 @@ typedef	struct	s_lexer
 typedef	struct	s_shell
 {
 	char	**envp;
+	t_lexer	**lex;
 }				t_shell;
+
+typedef struct	s_quote
+{
+	int		i;
+	int		j;
+	int		open;
+	int		normal;
+	int		closed;
+	char	*data;
+}				t_quote;
+
 #endif
