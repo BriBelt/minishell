@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:12:02 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/03 16:22:57 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:22:29 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,41 @@ void	clean_quotes(t_lexer **lex)
 		printf("new_data assigned: %s\n", ptr->data);
 		ptr = ptr->next;
 	}
+}
+
+char	*split_quote_sens(char *data, size_t *i)
+{
+	size_t	start;
+	size_t	end;
+	size_t	normal;
+	char	*new;
+
+	normal = 1;
+	end = 0;
+	while (data[*i] == ' ')
+		(*i)++;
+	start = *i;
+	while (data[*i])
+	{
+		if (normal && data[*i] == ' ')
+		{
+			end = *i;
+			break ;
+		}
+		if (quote_type(data[*i]))
+			normal = 0;
+		(*i)++;
+	}
+	if (*i == ft_strlen(data))
+		end = ft_strlen(data);
+	new = ft_substr(data, start, end - start);
+	return (new);
+}
+
+int	main(void)
+{
+	char	*str = "    hola \"test\"";
+	size_t	i = 0;
+	while (i < ft_strlen(str))
+		printf("new: %s\n", split_quote_sens(str, &i));
 }
