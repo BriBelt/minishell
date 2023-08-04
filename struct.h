@@ -6,12 +6,14 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/03 12:18:23 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:26:46 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
+/* Change defines for enum structures, one for types and one for types of
+ * rediredirect. */
 # define STR 1 
 # define REDIR 2 
 # define PIPE 3
@@ -20,6 +22,12 @@
 # define FIL 6
 # define FLAG 7
 # define VAR 8
+
+typedef	struct	s_basic
+{
+	char		*data;
+	struct	s_basic	*next;
+}				t_basic;
 
 typedef	struct	s_lexer
 {

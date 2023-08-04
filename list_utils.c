@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:23:21 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/01 16:39:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:53:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_lexer	*ft_lexernew(char *content, int i)
 	node = malloc(sizeof(t_lexer));
 	if (!node)
 		return (NULL);
-	node->data = content; 
-	node->next = NULL; 
-	node->index = i; 
+	node->data = content;
+	node->next = NULL;
+	node->index = i;
 	return (node);
 }
 
@@ -48,20 +48,37 @@ void	ft_lexer_insert(t_lexer	**lst, char *content, int i)
 
 /* Using ft_lexer_insert(); iterates the given array (char **) assigning
  * each array[i] (string) to the node->data. */
-t_lexer	**create_list(char **words)
+t_lexer	**create_lexer(t_basic **basic)
 {
-	int		i;
+	size_t	i;
+	int		n;
 	t_lexer	**lst;
+	t_basic	*curr;
 
-	i = 0;
+	n = 0;
 	lst = malloc(sizeof(t_lexer *));
 	if (!lst)
 		return (NULL);
 	*lst = NULL;
-	while (words[i])
+	curr = *basic;
+	while (curr)
 	{
-		ft_lexer_insert(lst, words[i], i);
-		i++;
+		i = 0;
+		while (i < ft_strlen(curr->data))
+			ft_lexer_insert(lst, split_quote_sens(curr->data, &i), n++);
+		curr = curr->next;
 	}
 	return (lst);
 }
+
+/*int	count_redirects(t_lexer **lex)
+{
+	t_lexer	*curr;
+	int		count;
+
+	while (curr)
+	{
+		if (curr->type == 2)
+		curr = curr->next;
+	}
+}*/

@@ -6,13 +6,13 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/03 18:22:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:10:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_quote	*initialize_t_quote(size_t malloc_size)
+/*t_quote	*initialize_t_quote(size_t malloc_size)
 {
 	t_quote	*handle;
 
@@ -24,73 +24,6 @@ t_quote	*initialize_t_quote(size_t malloc_size)
 	handle->closed = -1;
 	handle->data = ft_calloc(malloc_size, sizeof(char));
 	return (handle);
-}
-
-size_t	space_needed(char *rd)
-{
-	size_t	i;
-	int		open;
-	int		closed;
-	size_t	spaces;
-
-	i = -1;
-	open = 0;
-	closed = 0;
-	spaces = 0;
-	while (rd[++i])
-	{
-		if (quote_type(rd[i]))
-		{
-			if (!open)
-				open = quote_type(rd[i++]);
-			if (open && quote_type(rd[i]) == open)
-			{
-				spaces++;
-				open = 0;
-			}
-		}
-	}
-	return (i + spaces);
-}
-
-void	found_quote(t_quote *h, char *rd)
-{
-	if (!h->open)
-	{
-		h->open = quote_type(rd[h->i]);
-		h->data[h->j++] = rd[h->i++];
-	}
-	if (h->open && quote_type(rd[h->i]) == h->open && h->closed == -1)
-		h->closed = h->i;
-}
-
-/*char	*separate_quotes(char *rd)
-{
-	t_quote	*h;
-
-	h = initialize_t_quote(space_needed(rd));
-	while (rd[++h->i] && h->j < (int)space_needed(rd))
-	{
-		if (quote_type(rd[h->i]))
-		{
-			h->normal = 0;
-			found_quote(h, rd);
-		}
-		if (h->i != h->closed)
-			h->data[h->j] = rd[h->i];
-		else if (h->i == h->closed
-			|| (h->normal && h->open && h->closed == -1))
-		{
-			h->data[h->j] = rd[h->i];
-			h->data[h->j + 1] = '!';
-			h->j++;
-			h->open = 0;
-			h->closed = -1;
-		}
-		h->j++;
-	}
-	free(rd);
-	return (h->data);
 }*/
 
 /*char	*handle_quotes(char	*rd)
@@ -183,24 +116,8 @@ char	*handle_quotes(char *rd, size_t	*i)
 			x = 1;
 			start = *i;
 		}
-//		if (normal && quote_type(rd[*i + 1]))
-//		{
-//			(*i)++;
-//			end = *i;
-//			break ;
-//		}
 		(*i)++;
 	}
 	data = ft_substr(rd, start, end - start);
 	return (data);
-}
-
-int	main(void)
-{
-	char	*str = "\"\'first\'\"\"second\"third\'four\'";
-	size_t	i = 0;
-	
-	while (i < ft_strlen(str))
-//		handle_quotes(str, &i);
-		printf("new= %s\n", handle_quotes(str, &i)); 
 }

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/03 17:42:16 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/04 13:30:13 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@
 
 void	minishell_exe(t_shell *mini);
 void	ft_pwd(void);
+/*		parser			*/
+void	ft_parsing(t_shell *mini, char *rd);
+/*		t_basic			*/
+t_basic	**create_basic_lst(char *rd);
 /*		list_utils		*/
-t_lexer	**create_list(char **words);
+t_lexer	**create_lexer(t_basic **basic);
 t_lexer	*ft_lexernew(char *content, int i);
 void	ft_lexer_insert(t_lexer	**lst, char *content, int i);
 /*		typesort		*/
@@ -38,7 +42,6 @@ void	free_2D_array(char **array);
 void	free_list(t_lexer **lst);
 /*		echo			*/
 void	ft_echo(t_lexer *node, t_shell *mini);
-
 /*		cd				*/
 void	ft_cd(t_lexer *node);
 /*		env				*/
@@ -62,4 +65,5 @@ char	*handle_quotes(char	*rd, size_t	*i);
 int		quote_type(char c);
 /*		quote_clean		*/
 void	clean_quotes(t_lexer **lex);
+char	*split_quote_sens(char *data, size_t *i);
 #endif

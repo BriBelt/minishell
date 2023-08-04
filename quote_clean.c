@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:12:02 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/03 18:22:29 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:49:17 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ void	clean_quotes(t_lexer **lex)
 			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
 		else if (no_quotes[0] && !no_quotes[1])
 			new_data = ft_strdup(no_quotes[0]);
-		printf("new_data: %s\n", new_data);
 		ptr->data = new_data;
-		printf("new_data assigned: %s\n", ptr->data);
 		ptr = ptr->next;
 	}
 }
@@ -91,12 +89,4 @@ char	*split_quote_sens(char *data, size_t *i)
 		end = ft_strlen(data);
 	new = ft_substr(data, start, end - start);
 	return (new);
-}
-
-int	main(void)
-{
-	char	*str = "    hola \"test\"";
-	size_t	i = 0;
-	while (i < ft_strlen(str))
-		printf("new: %s\n", split_quote_sens(str, &i));
 }
