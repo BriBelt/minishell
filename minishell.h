@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 13:30:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/07 14:31:54 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ void	ft_pwd(void);
 void	ft_parsing(t_shell *mini, char *rd);
 /*		t_basic			*/
 t_basic	**create_basic_lst(char *rd);
+void	ft_basic_insert(t_basic	**lst, char *content);
 /*		list_utils		*/
 t_lexer	**create_lexer(t_basic **basic);
 t_lexer	*ft_lexernew(char *content, int i);
 void	ft_lexer_insert(t_lexer	**lst, char *content, int i);
+/*      redirections        */
+t_basic	**redirec_separate(t_basic **closed_q);
 /*		typesort		*/
 void	def_type(t_lexer **lst);
 /*		typesort_utils		*/
