@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 19:07:49 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/07 15:41:26 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*If the first redirection symbol appears before the first quote character, 
+it returns 1; otherwise, it returns 0. This is done to avoid handling false
+redirections between quotes.*/
 int	first_redirect(char *data)
 {
 	int	i;
@@ -43,6 +46,8 @@ int	first_redirect(char *data)
 	return (0);
 }
 
+/*This function is used to extract substrings from the input data based on 
+redirection symbols.*/
 char	*redirect_split(char *data, size_t *i)
 {
 	size_t	loop;
@@ -67,6 +72,10 @@ char	*redirect_split(char *data, size_t *i)
 	return (new);
 }
 
+/*This function takes a linked list of type t_basic(closed_q) and 
+processes each element to handle redirections.Then creates a new linked 
+list(red_basic) to store the substrings extracted from the data field of 
+each t_basic element with redirect_split().*/
 t_basic	**redirec_separate(t_basic **closed_q)
 {
 	t_basic	**red_basic;
