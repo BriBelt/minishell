@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   quote_clean.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:12:02 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 11:49:17 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 08:56:27 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* This function extracts quoted substrings from data. It iterates through the 
+input string and finds the opening and closing quotes (single or double).
+If quotes are found, it creates a new array of strings (clean) using ft_split, 
+and returns it. If the quotes are not closed properly, the function displays 
+an error message and exits the program.*/
 char	**quotes_in_node(char *data)
 {
 	int		i;
@@ -41,6 +46,10 @@ char	**quotes_in_node(char *data)
 	return (clean);
 }
 
+/* This function cleans the quotes from the data in each node of the linked 
+list.For each node, it calls quotes_in_node() to extract the substrings 
+without quotes, if there are more than 1 string, uses strjoin(), then updates 
+data field with new_data.*/
 void	clean_quotes(t_lexer **lex)
 {
 	t_lexer	*ptr;
@@ -62,6 +71,8 @@ void	clean_quotes(t_lexer **lex)
 	}
 }
 
+/*This function is used to split the input string data based on spaces but 
+considering quoted regions, avoiding spliting those regions.*/
 char	*split_quote_sens(char *data, size_t *i)
 {
 	size_t	start;
