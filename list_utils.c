@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:23:21 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 15:53:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:11:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	ft_lexer_insert(t_lexer	**lst, char *content, int i)
 	t_lexer	*node;
 	t_lexer	*ptr;
 
+	if (content[0] == '\0')
+		return ;
 	node = ft_lexernew(content, i);
 	if (*lst == NULL)
 		*lst = node;
