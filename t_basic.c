@@ -6,12 +6,17 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 13:10:08 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 10:20:53 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* t_basic is the structure that will be used for creating a **basic list.
+ * This **basic list will contain the quote/space separated readline from
+ * the user inside their node->data. This **basic list will later be used
+ * to create the t_lexer **lex. */
+/* Creates a node for the t_basic structure. */
 t_basic	*ft_basic_new(char *content)
 {
 	t_basic	*node;
@@ -24,6 +29,7 @@ t_basic	*ft_basic_new(char *content)
 	return (node);
 }
 
+/* Inserts a node at the end of our t_basic **basic list. */
 void	ft_basic_insert(t_basic	**lst, char *content)
 {
 	t_basic	*node;
@@ -41,6 +47,8 @@ void	ft_basic_insert(t_basic	**lst, char *content)
 	}
 }
 
+/* Counts the quotes found inside the user readline, this function will
+ * later be used for creating the list. */
 int	found_quote(char *rd)
 {
 	int	i;
@@ -68,6 +76,10 @@ int	found_quote(char *rd)
 	return (count);
 }
 
+/* Creates a t_basic **basic list from the received readline.
+ * First, calls the found_quote(); and checks it result, if 
+ * the module of that between 2, is NOT zero, that means the
+ * quotes are not closed. Next, with the handle_quotes();*/
 t_basic	**create_basic_lst(char *rd)
 {
 	t_basic	**basic;
@@ -78,7 +90,7 @@ t_basic	**create_basic_lst(char *rd)
 	found = found_quote(rd);
 	if (found % 2 != 0)
 	{
-		perror("All quotes must be closed.");
+		perror("create_basic: All quotes must be closed.");
 		exit (1);
 	}
 	basic = malloc(sizeof(t_basic *));

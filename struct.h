@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 13:26:46 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:38:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ typedef	struct	s_shell
 
 typedef struct	s_quote
 {
-	int		i;
-	int		j;
-	int		open;
 	int		normal;
-	int		closed;
-	char	*data;
+	int		count;
+	int		start;
+	int		first;
+	int		end;
 }				t_quote;
 
 #endif

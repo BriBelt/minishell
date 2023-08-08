@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 13:30:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/05 12:04:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,9 @@ char	**get_paths(char *pathname);
 char	*expand_envar(char *data, t_shell *mini);
 char	**copy_envp(char **envp);
 /*		quotes		*/
-char	*separate_quotes(char *rd);
+void	clean_quotes(t_lexer **lex);
+char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);
 /*		quote_utils		*/
 int		quote_type(char c);
-/*		quote_clean		*/
-void	clean_quotes(t_lexer **lex);
-char	*split_quote_sens(char *data, size_t *i);
 #endif
