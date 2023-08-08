@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 17:22:00 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:35:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ t_basic	**redirect_separate(t_basic **closed_q);
 int		check_redirects(t_lexer **lex);
 /*		pipes			*/
 t_basic	**pipe_separate(t_basic **r_basic);
+int		check_pipes(t_lexer **lex);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 17:22:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:32:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,8 @@ int	check_redirects(t_lexer **lex)
 		{
 			if (ft_strchr(curr->data, '<') || ft_strchr(curr->data, '>'))
 			{
-				if (curr->type != 2)
-				{
-					perror("Syntax error.");
-					return (0);
-				}
+				if (curr->type != REDIR)
+					return (perror("Syntax error"), 0);
 			}
 		}
 		curr = curr->next;

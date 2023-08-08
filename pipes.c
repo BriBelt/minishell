@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:05:34 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 17:24:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:53:28 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ char	*pipe_split(char *data, size_t *i)
 		loop = 1;
 		(*i)++;
 	}
-	while (data[*i] && data[*i] == '|' && !loop) 
+	if (data[*i] && data[*i] == '|' && !loop)
+	{
 		(*i)++;
+		return (ft_substr(data, start, 1));
+	}
 	if (*i > (size_t)first_pipe(data))
 		*i = ft_strlen(data);
 	end = *i;
@@ -91,4 +94,26 @@ t_basic	**pipe_separate(t_basic **r_basic)
 		r_curr = r_curr->next;
 	}
 	return (p_basic);
+}
+
+int	check_pipes(t_lexer **lex)
+{
+	t_lexer	*curr;
+
+	curr = *lex;
+	while (curr)
+	{
+		if (curr->type == PIPE)
+		{
+			if (curr->next == NULL)
+				return (perror("Pipes need at least one command"), 0);
+			else
+			{
+				if (curr->next->type == PIPE)
+					return (perror("Syntax Error"), 0);
+			}
+		}
+		curr = curr->next;
+	}
+	return (1);
 }
