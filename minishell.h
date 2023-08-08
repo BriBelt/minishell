@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 10:35:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:22:00 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		flag_or_envar(char *content);
 int		is_file(char *content);
 /*		free_utils		*/
 void	free_2D_array(char **array);
-void	free_list(t_lexer **lst);
+void	free_t_lexer(t_lexer **lst);
+void	free_t_basic(t_basic **lst);
 /*		echo			*/
 void	ft_echo(t_lexer *node, t_shell *mini);
 /*		cd				*/
@@ -67,5 +68,8 @@ char	*handle_quotes(char	*rd, size_t	*i);
 int		quote_type(char c);
 /*		redirections	*/
 t_basic	**redirect_separate(t_basic **closed_q);
+int		check_redirects(t_lexer **lex);
+/*		pipes			*/
+t_basic	**pipe_separate(t_basic **r_basic);
 
 #endif

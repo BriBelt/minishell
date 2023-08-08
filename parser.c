@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 13:12:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 16:11:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:23:17 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@ void	ft_parsing(t_shell *mini, char *rd)
 {
 	t_basic	**basic;
 	t_basic	**r_basic;
+	t_basic	**p_basic;
 	t_lexer	*curr;
 //	t_basic	*curr;
 
-	if (mini->lex)
-		free_list(mini->lex);
 	basic = create_basic_lst(rd);
 	r_basic = redirect_separate(basic);
-	mini->lex = create_lexer(r_basic);
+	free_t_basic(basic);
+	p_basic = pipe_separate(r_basic);
+	free_t_basic(r_basic);
+	mini->lex = create_lexer(p_basic);
+	free_t_basic(p_basic);
 	def_type(mini->lex);
+	if (!check_redirects(mini->lex))
+		free_t_lexer(mini->lex);
 	clean_quotes(mini->lex);
 	curr = *mini->lex;
 //	curr = *basic;

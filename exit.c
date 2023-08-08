@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 17:51:39 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/28 18:17:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:10:21 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void	ft_exit(t_lexer **lst, char *rd) /*Should receive a SIGNAL?*/
 {
 	free(rd);
-	free_list(lst);
+	free_t_lexer(lst);
 	exit(0);
 }

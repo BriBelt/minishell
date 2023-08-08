@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:23:21 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 16:11:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:33:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_lexer	**create_lexer(t_basic **basic)
 	{
 		i = 0;
 		while (i < ft_strlen(curr->data))
+			/*Error n still adds to itself if the node content is null*/
 			ft_lexer_insert(lst, split_quote_sens(curr->data, &i), n++);
 		curr = curr->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 15:32:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:22:03 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,27 @@ t_basic	**redirect_separate(t_basic **closed_q)
 		curr_c = curr_c->next;
 	}
 	return (red_basic);
+}
+
+int	check_redirects(t_lexer **lex)
+{
+	t_lexer	*curr;
+
+	curr = *lex;
+	while (curr)
+	{
+		if (!ft_strchr(curr->data, '\'') && !ft_strchr(curr->data, '\"'))
+		{
+			if (ft_strchr(curr->data, '<') || ft_strchr(curr->data, '>'))
+			{
+				if (curr->type != 2)
+				{
+					perror("Syntax error.");
+					return (0);
+				}
+			}
+		}
+		curr = curr->next;
+	}
+	return (1);
 }
