@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 11:57:50 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:32:31 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	first_redirect(char *data)
 	int	redirect;
 
 	i = -1;
-	quote = 0;
+	quote = -2;
 	redirect = 0;
 	while (data[++i])
 	{
@@ -38,9 +38,9 @@ int	first_redirect(char *data)
 			break ;
 		}
 	}
-	if (redirect < quote)
+	if (redirect < quote || quote == -2)
 		return (quote);
-	return (0);
+	return (-1);
 }
 
 char	*redirect_split(char *data, size_t *i)
@@ -50,7 +50,7 @@ char	*redirect_split(char *data, size_t *i)
 	size_t	end;
 	char	*new;
 
-	if (!first_redirect(data))
+	if (first_redirect(data) == -1)
 		return (data);
 	start = *i;
 	loop = 0;
@@ -84,7 +84,7 @@ t_basic	**redirect_separate(t_basic **closed_q)
 		i = 0;
 		while (i < ft_strlen(curr_c->data))
 		{
-			if (first_redirect(curr_c->data))
+			if (first_redirect(curr_c->data) != -1)
 				ft_basic_insert(red_basic, redirect_split(curr_c->data, &i));
 			else
 				ft_basic_insert(red_basic, split_quote_sens(curr_c->data, &i));
@@ -94,22 +94,3 @@ t_basic	**redirect_separate(t_basic **closed_q)
 	}
 	return (red_basic);
 }
-
-/*int	main(void)
-{
-	t_basic **sep;
-	t_basic **red;
-	t_basic *curr;
-	
-	sep = malloc(sizeof(t_basic *));
-	*sep = malloc(sizeof(t_basic));
-	(*sep)->data = "hola<<que";
-	(*sep)->next = NULL;
-	red = redirect_separate(sep);
-	curr = *red;
-	while (curr)
-	{
-		printf("Node: %s\n", curr->data);
-		curr = curr->next;
-	}
-}*/

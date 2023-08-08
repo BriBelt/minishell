@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 10:20:53 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:49:03 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ int	found_quote(char *rd)
 
 	i = -1;
 	count = 0;
-	first = 0;
+	first = -1;
 	while (rd[++i])
 	{
 		if (quote_type(rd[i]))
 		{
-			if (!first)
+			if (first == -1)
 			{
 				count++;
 				first = i++;
@@ -71,7 +71,7 @@ int	found_quote(char *rd)
 				count++;
 		}
 		if (count % 2 == 0)
-			first = 0;
+			first = -1;
 	}
 	return (count);
 }

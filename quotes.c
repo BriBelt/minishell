@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/05 15:37:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:46:30 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,12 @@ void	clean_quotes(t_lexer **lex)
 	int		i;
 
 	ptr = *lex;
+	new_data = NULL;
 	while (ptr)
 	{
 		i = 0;
 		no_quotes = quotes_in_node(ptr->data);
-		if (no_quotes[1])
+		if (no_quotes[0] && no_quotes[1])
 			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
 		else if (no_quotes[0] && !no_quotes[1])
 			new_data = ft_strdup(no_quotes[0]);
