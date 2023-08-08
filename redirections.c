@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/04 19:07:49 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:57:50 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	first_redirect(char *data)
 		}
 	}
 	if (redirect < quote)
-		return (1);
+		return (quote);
 	return (0);
 }
 
@@ -55,19 +55,21 @@ char	*redirect_split(char *data, size_t *i)
 	start = *i;
 	loop = 0;
 	end = 0;
-	while (data[*i]!= '\0' && data[*i] != '>' && data[*i] != '<')
+	while (data[*i] && data[*i] != '>' && data[*i] != '<')
 	{
 		loop = 1;
 		(*i)++;
 	}
 	while (data[*i] && (data[*i] == '>' ||data[*i] == '<') && !loop) 
 		(*i)++;
+	if (*i > (size_t)first_redirect(data))
+		*i = ft_strlen(data);
 	end = *i;
 	new = ft_substr(data, start, end - start);
 	return (new);
 }
 
-t_basic	**redirec_separate(t_basic **closed_q)
+t_basic	**redirect_separate(t_basic **closed_q)
 {
 	t_basic	**red_basic;
 	t_basic	*curr_c;
@@ -81,8 +83,33 @@ t_basic	**redirec_separate(t_basic **closed_q)
 	{
 		i = 0;
 		while (i < ft_strlen(curr_c->data))
-			ft_basic_insert(red_basic, redirect_split(curr_c->data, &i));
+		{
+			if (first_redirect(curr_c->data))
+				ft_basic_insert(red_basic, redirect_split(curr_c->data, &i));
+			else
+				ft_basic_insert(red_basic, split_quote_sens(curr_c->data, &i));
+
+		}
 		curr_c = curr_c->next;
 	}
 	return (red_basic);
 }
+
+/*int	main(void)
+{
+	t_basic **sep;
+	t_basic **red;
+	t_basic *curr;
+	
+	sep = malloc(sizeof(t_basic *));
+	*sep = malloc(sizeof(t_basic));
+	(*sep)->data = "hola<<que";
+	(*sep)->next = NULL;
+	red = redirect_separate(sep);
+	curr = *red;
+	while (curr)
+	{
+		printf("Node: %s\n", curr->data);
+		curr = curr->next;
+	}
+}*/

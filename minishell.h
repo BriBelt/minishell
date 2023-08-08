@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/05 12:04:59 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/08 10:35:55 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_pwd(void);
 /*		parser			*/
 void	ft_parsing(t_shell *mini, char *rd);
 /*		t_basic			*/
+void	ft_basic_insert(t_basic	**lst, char *content);
 t_basic	**create_basic_lst(char *rd);
 /*		list_utils		*/
 t_lexer	**create_lexer(t_basic **basic);
@@ -64,4 +65,7 @@ char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);
 /*		quote_utils		*/
 int		quote_type(char c);
+/*		redirections	*/
+t_basic	**redirect_separate(t_basic **closed_q);
+
 #endif
