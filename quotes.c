@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 15:46:30 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:35:23 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,48 +25,6 @@ t_quote	*initialize_t_quote(void)
 	return (handle);
 }
 
-/*char	*handle_quotes(char	*rd)
-{
-	int		i;
-	int		j;
-	int		open;
-	int		normal;
-	int		closed;
-	char	*data;
-
-	i = -1;
-	j = 0;
-	normal = 1;
-	open = 0;
-	closed = -1;
-	data = ft_calloc(space_needed(rd), sizeof(char));
-	while (rd[++i] && j < (int)space_needed(rd))
-	{
-		if (quote_type(rd[i]))
-		{
-			normal = 0;
-			if (!open)
-			{
-				open = quote_type(rd[i]);
-				data[j++] = rd[i++];
-			}
-			if (open && quote_type(rd[i]) == open && closed == -1)
-				closed = i;
-		}
-		if (i != closed)
-			data[j] = rd[i];
-		else if (i == closed || (normal && open && closed == -1))
-		{
-			data[j] = rd[i];
-			data[j + 1] = '!';
-			j++;
-			open = 0;
-			closed = -1;
-		}
-		j++;
-	}
-	return (data);
-}*/
 char	**quotes_in_node(char *data)
 {
 	int		i;
@@ -113,6 +71,9 @@ void	clean_quotes(t_lexer **lex)
 			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
 		else if (no_quotes[0] && !no_quotes[1])
 			new_data = ft_strdup(no_quotes[0]);
+		else if (!no_quotes[0])
+			new_data = ft_strdup("");
+		free_2D_array(no_quotes);
 		ptr->data = new_data;
 		ptr = ptr->next;
 	}

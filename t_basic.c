@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 12:49:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:32:47 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * the user inside their node->data. This **basic list will later be used
  * to create the t_lexer **lex. */
 /* Creates a node for the t_basic structure. */
-t_basic	*ft_basic_new(char *content)
+t_basic	*ft_basic_new(char *content, int join)
 {
 	t_basic	*node;
 
@@ -25,17 +25,21 @@ t_basic	*ft_basic_new(char *content)
 	if (!node)
 		return (NULL);
 	node->data = content;
+	if (join > 0)
+		node->join = 1;
+	else if (join == 0)
+		node->join = 0;
 	node->next = NULL;
 	return (node);
 }
 
 /* Inserts a node at the end of our t_basic **basic list. */
-void	ft_basic_insert(t_basic	**lst, char *content)
+void	ft_basic_insert(t_basic	**lst, char *content, size_t join)
 {
 	t_basic	*node;
 	t_basic	*ptr;
 
-	node = ft_basic_new(content);
+	node = ft_basic_new(content, join);
 	if (*lst == NULL)
 		*lst = node;
 	else
@@ -49,7 +53,7 @@ void	ft_basic_insert(t_basic	**lst, char *content)
 
 /* Counts the quotes found inside the user readline, this function will
  * later be used for creating the list. */
-int	found_quote(char *rd)
+int	found_quote(char *rd, size_t *join)
 {
 	int	i;
 	int	count;
@@ -68,7 +72,11 @@ int	found_quote(char *rd)
 				first = i++;
 			}
 			if (rd[i] == rd[first])
+			{
+				if (count && rd[i + 1] && rd[i + 1] != ' ')
+					(*join)++;
 				count++;
+			}
 		}
 		if (count % 2 == 0)
 			first = -1;
@@ -86,8 +94,10 @@ t_basic	**create_basic_lst(char *rd)
 	size_t	i;
 	size_t	rd_len;
 	int		found;
+	size_t	join;
 
-	found = found_quote(rd);
+	join = 0;
+	found = found_quote(rd, &join);
 	if (found % 2 != 0)
 	{
 		perror("create_basic: All quotes must be closed.");
@@ -100,12 +110,12 @@ t_basic	**create_basic_lst(char *rd)
 	if (found && found % 2 == 0)
 	{
 		while (i < rd_len)
-			ft_basic_insert(basic, handle_quotes(rd, &i));
+			ft_basic_insert(basic, handle_quotes(rd, &i), join--);
 	}
 	else if (!found)
 	{
 		while (i < rd_len)
-			ft_basic_insert(basic, split_quote_sens(rd, &i));
+			ft_basic_insert(basic, split_quote_sens(rd, &i), join--);
 	}
 	return (basic);
 }

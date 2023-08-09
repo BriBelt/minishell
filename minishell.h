@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 17:35:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:01:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	ft_pwd(void);
 /*		parser			*/
 void	ft_parsing(t_shell *mini, char *rd);
 /*		t_basic			*/
-void	ft_basic_insert(t_basic	**lst, char *content);
+void	ft_basic_insert(t_basic	**lst, char *content, size_t join);
 t_basic	**create_basic_lst(char *rd);
 /*		list_utils		*/
 t_lexer	**create_lexer(t_basic **basic);
-t_lexer	*ft_lexernew(char *content, int i);
-void	ft_lexer_insert(t_lexer	**lst, char *content, int i);
+t_lexer	*ft_lexernew(char *content, int i, size_t join);
+void	ft_lexer_insert(t_lexer	**lst, char *content, int i, size_t join);
 /*		typesort		*/
 void	def_type(t_lexer **lst);
 /*		typesort_utils		*/
@@ -66,11 +66,14 @@ char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);
 /*		quote_utils		*/
 int		quote_type(char c);
+void	clean_false_join(t_lexer **lex);
 /*		redirections	*/
 t_basic	**redirect_separate(t_basic **closed_q);
 int		check_redirects(t_lexer **lex);
 /*		pipes			*/
 t_basic	**pipe_separate(t_basic **r_basic);
 int		check_pipes(t_lexer **lex);
+/*		final_lexer		*/
+t_lexer	**create_final_lex(t_lexer **lst);
 
 #endif

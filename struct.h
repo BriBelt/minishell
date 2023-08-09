@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/05 15:38:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:29:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@
 # define FIL 6
 # define FLAG 7
 # define VAR 8
+#include <stdio.h>
 
 typedef	struct	s_basic
 {
 	char		*data;
+	size_t		join;
 	struct	s_basic	*next;
 }				t_basic;
 
@@ -34,6 +36,7 @@ typedef	struct	s_lexer
 	char		*data;
 	int			index;
 	int			type;
+	size_t		join;
 	struct	s_lexer		*next;
 }				t_lexer;
 

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:05:34 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/08 17:53:28 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:35:33 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_basic	**pipe_separate(t_basic **r_basic)
 	t_basic	**p_basic;
 	t_basic	*r_curr;
 	size_t	i;
+	size_t	join;
 
 	p_basic = malloc(sizeof(t_basic *));
 	*p_basic = NULL;
@@ -84,12 +85,13 @@ t_basic	**pipe_separate(t_basic **r_basic)
 	while (r_curr)
 	{
 		i = 0;
+		join = r_curr->join;
 		while (i < ft_strlen(r_curr->data))
 		{
 			if (first_pipe(r_curr->data) != -1)
-				ft_basic_insert(p_basic, pipe_split(r_curr->data, &i));
+				ft_basic_insert(p_basic, pipe_split(r_curr->data, &i), join);
 			else
-				ft_basic_insert(p_basic, split_quote_sens(r_curr->data, &i));
+				ft_basic_insert(p_basic, split_quote_sens(r_curr->data, &i), join);
 		}
 		r_curr = r_curr->next;
 	}
