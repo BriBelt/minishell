@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/10 12:03:01 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:30:16 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);
 /*		quote_utils		*/
 int		quote_type(char c);
+void	set_new_join(t_lexer **first, char *rd);
 void	clean_false_join(t_lexer **lex);
 /*		redirections	*/
 t_basic	**redirect_separate(t_basic **closed_q);

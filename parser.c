@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 13:12:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/10 12:14:34 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:29:00 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	ft_parsing(t_shell *mini, char *rd)
 	mini->lex = create_lexer(p_basic);
 //	free_t_basic(p_basic);
 	clean_false_join(mini->lex);
-	printf("final count %zu\n", nodes_to_join(mini->lex));
-	printf("final nlen: %zu\n", new_node_len(mini->lex, nodes_to_join(mini->lex)));
-	printf("joined nodes: %s\n", join_nodes(mini->lex, nodes_to_join(mini->lex)));
+	set_new_join(mini->lex, rd);
+//	printf("final count %zu\n", nodes_to_join(mini->lex));
+//	printf("final nlen: %zu\n", new_node_len(mini->lex, nodes_to_join(mini->lex)));
+//	printf("joined nodes: %s\n", join_nodes(mini->lex, nodes_to_join(mini->lex)));
 //	mini->lex = create_final_lex(first);
 	def_type(mini->lex);
 	if (!check_redirects(mini->lex) || !check_pipes(mini->lex))
