@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/09 15:01:40 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:03:01 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Libft/libft.h"
+#include "libft/libft.h"
 
 void	minishell_exe(t_shell *mini);
 void	ft_pwd(void);
@@ -74,6 +74,9 @@ int		check_redirects(t_lexer **lex);
 t_basic	**pipe_separate(t_basic **r_basic);
 int		check_pipes(t_lexer **lex);
 /*		final_lexer		*/
+size_t	nodes_to_join(t_lexer **first);
+size_t	new_node_len(t_lexer **first, size_t count);
+char	*join_nodes(t_lexer **first, size_t count);
 t_lexer	**create_final_lex(t_lexer **lst);
 
 #endif
