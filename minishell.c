@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/09 10:30:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:56:16 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	minishell_exe(t_shell *mini)
 	while (1)
 	{
 		rd = readline("minishell>");
-		ft_parsing(mini, rd);
+//		ft_parsing(mini, rd);
+		ft_parser(mini, rd);
 	}
 }

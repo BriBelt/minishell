@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:07:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/10 17:32:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:10:00 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,44 @@ void	set_new_join(t_lexer **first, char *rd)
 	{
 		quoted = 0;
 		if (ft_strchr(curr->data, '\'') || ft_strchr(curr->data, '\"'))
+		{
+			printf("Found quote at node: %s\n", curr->data);
 			quoted = 1;
+		}
 		j = 0;
 		while (rd[i] && curr->data[j])
 			(i++, j++);
 		if (rd[i] == ' ')
+		{
+			printf("Found space at node: %s, i: %i\n", curr->data, i);
 			space = 1;
+		}
 		if (quoted && !space)
 		{
 			if (!curr->join)
+			{
 				curr->join = 1;
+				printf("curr->join: %zu\n", curr->join);
+			}
 			if (curr->next)
-				curr->next->join = 1;
+			{
+				curr = curr->next;
+				if (ft_strchr(curr->data, '\'') || ft_strchr(curr->data, '\"'))
+				{
+					printf("Found quote at node: %s\n", curr->data);
+					quoted = 1;
+				}
+				if (quoted)
+					curr->join = 1;
+				printf("next->join: %zu\n", curr->join);
+			}
+			printf("New join! %s, join: %zu\n", curr->data, curr->join);
 		}
-		else if (space)
+		if (space)
 		{
 			curr->join = 0;
 			space = 0;
+			printf("There's a space at %s\n", curr->data);
 		}
 		curr = curr->next;
 	}

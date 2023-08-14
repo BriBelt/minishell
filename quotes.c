@@ -6,13 +6,13 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/09 11:35:23 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:25:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_quote	*initialize_t_quote(void)
+/*t_quote	*initialize_t_quote(void)
 {
 	t_quote	*handle;
 
@@ -23,7 +23,7 @@ t_quote	*initialize_t_quote(void)
 	handle->end = 0;
 	handle->first = 0;
 	return (handle);
-}
+}*/
 
 char	**quotes_in_node(char *data)
 {

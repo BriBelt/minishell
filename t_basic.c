@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/09 13:32:47 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:42:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ t_basic	*ft_basic_new(char *content, int join)
 	if (!node)
 		return (NULL);
 	node->data = content;
-	if (join > 0)
-		node->join = 1;
-	else if (join == 0)
-		node->join = 0;
+//	if (join > 0)
+//		node->join = 1;
+//	else if (join == 0)
+//		node->join = 0;
+	node->join = join;
 	node->next = NULL;
 	return (node);
 }

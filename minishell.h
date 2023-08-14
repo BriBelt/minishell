@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/10 17:30:16 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:25:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 void	minishell_exe(t_shell *mini);
 void	ft_pwd(void);
 /*		parser			*/
-void	ft_parsing(t_shell *mini, char *rd);
+//void	ft_parsing(t_shell *mini, char *rd);
+void	ft_parser(t_shell *mini, char *rd);
+t_basic	**create_quote_sep(t_basic **space_sep);
 /*		t_basic			*/
 void	ft_basic_insert(t_basic	**lst, char *content, size_t join);
 t_basic	**create_basic_lst(char *rd);
@@ -61,6 +63,7 @@ char	**get_paths(char *pathname);
 char	*expand_envar(char *data, t_shell *mini);
 char	**copy_envp(char **envp);
 /*		quotes		*/
+t_quote	*initialize_t_quote(void);
 void	clean_quotes(t_lexer **lex);
 char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);
