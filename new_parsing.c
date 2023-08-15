@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/15 16:50:02 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:35:25 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ void	clean_false_joins(t_basic **pipes)
  *				VARIABLES	
  *  										*/
 /* Splits the given node->data depending on if it finds a "$"
- * if */
+ * or quotes. Returns the result of the cutted *data. */
 char	*split_variables(char *data, int *i)
 {
 	int	loop;
@@ -257,6 +257,111 @@ char	*split_variables(char *data, int *i)
 	return (ft_substr(data, start, end - start));
 }
 
+/* Provisional function of expand_envar(); */
+char	*expand_envar(char *data, char **envp)
+{
+	char	*expanded;
+	char	*clean_data;
+	int		len;
+
+	len = ft_strlen(data) - 1;
+	clean_data = ft_substr(data, 1, len);
+	if (search_in_envar(clean_data, envp))
+		expanded = getenv(clean_data);
+	else
+		expanded = NULL;
+	free(clean_data);
+	free(data);
+	return (expanded);
+}
+
+int	set_quoted_var(char *new)
+{
+	int	quoted;
+
+	quoted = 0;
+	if (ft_strchr(new, '\''))
+		quoted = 1;
+	if (ft_strchr(new, '\"'))
+		quoted = 2;
+	return (quoted);
+}
+
+/* Gets the amount of memory that the new node data will
+ * need. */
+int	total_node_len(char *data, char **envp)
+{
+	int		i;
+	int		len;
+	int		total;
+	int		quoted;
+	char	*new;
+
+	i = 0;
+	len = (int)ft_strlen(data);
+	quoted = 0;
+	total = 0;
+	while (i < len)
+	{
+		new = split_variables(data, &i);
+		quoted = set_quoted_var(new);
+		if (ft_strchr(new, '$') && (quoted == 2 || !quoted))
+		{
+			new = expand_envar(new, envp);
+			quoted = 0;
+		}
+		total += ft_strlen(new) - 1;
+//		free(new);
+	}
+	return (total);
+}
+
+
+char	*found_symbol(char *data, char **envp)
+{
+	int		i;
+	int		len;
+	int		quoted;
+	char	*new;
+	char	*final;
+
+	i = 0;
+	len = (int)ft_strlen(data);
+	quoted = 0;
+	final = ft_calloc(total_node_len(data, envp) + 1, sizeof(char));
+	if (!final)
+		return (NULL);
+	while (i < len)
+	{
+		new = split_variables(data, &i);
+		quoted = set_quoted_var(new);
+		if (ft_strchr(new, '$') && (quoted == 2 || !quoted))
+		{
+			new = expand_envar(new, envp);
+			quoted = 0;
+		}
+		final = ft_strjoin(final, new);
+//		free(new);
+	}
+//	free(data);
+	return (final);
+}
+
+/*void	change_node_var(t_basic **pipes, t_shell *mini)
+{
+	t_basic	*curr;
+	int		i;
+
+	curr = *pipes;
+	while (curr)
+	{
+		if (ft_strchr(curr->data, '$'))
+
+
+		}
+		curr = curr->next;
+	}
+}*/
 /* Will only be called if the node->data has a "$". 
  * If node->quote = 0 or 2, takes the data and copies anything
  * that is before the symbol, stores it into *previous. Next,
@@ -333,15 +438,18 @@ char	*split_variables(char *data, int *i)
 	}
 	
 }*/
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*str;
-	int		i;
+//	int		i;
+	(void)argc;
+	(void)argv;
 
 //	str = "<< |\"\'hola\'\"hello !";
 	str = "hello$PATH$HOME\'hi\'";
-	i = 0;
-	while (str[i])
-		printf("new:%s\n", split_variables(str, &i));
+	printf("Result: %s\n", found_symbol(str, envp));
+//	i = 0;
+//	while (str[i])
+//		printf("new:%s\n", split_variables(str, &i));
 	return (0);
 }

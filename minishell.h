@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/15 11:17:34 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:10:25 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	call_builtins(t_lexer *node, char **envp, t_shell *mini);
 /*		path_utils		*/
 int		search_in_envar(char *search, char **envars);
 char	**get_paths(char *pathname);
-char	*expand_envar(char *data, t_shell *mini);
+//char	*expand_envar(char *data, t_shell *mini);
 char	**copy_envp(char **envp);
 /*		quotes		*/
 t_quote	*initialize_t_quote(void);
