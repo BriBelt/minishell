@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/14 17:54:59 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:50:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,13 +198,119 @@ t_basic	**create_quote_sep(t_basic **space_sep)
 	return (quote_sep);
 }
 
-void	clean_basic_list(t_basic **space_sep)
+/*
+ *				IDENTIFY JOIN NODES
+ *  											*/
+/* Iterates the whole **list, checking each node->content for
+ * quotes, depending on the type sets curr->quote to the value
+ * of the quote found. It also checks if the node->data is actually
+ * a pipe or a redirection, if it is, sets the curr->join value
+ * to 0. */
+void	clean_false_joins(t_basic **pipes)
 {
 	t_basic *curr;
-	char	*new_data;
+
+	curr = *pipes;
+	while (curr)
+	{
+		if (ft_strchr(curr->data, '\''))
+			curr->quote = 1;
+		else if (ft_strchr(curr->data, '\"'))
+			curr->quote = 2;
+		else
+			curr->quote = 0;
+		if (redirect_or_pipe(curr->data))
+			curr->join = 0;
+		curr = curr->next;
+	}
 }
+
+/*
+ *				VARIABLES	
+ *  										*/
+/* Splits the given node->data depending on if it finds a "$"
+ * if */
+char	*split_variables(char *data, int *i)
+{
+	int	loop;
+	int	start;
+	int	end;
+
+	start = *i;
+	end = -1;
+	loop = 0;
+	while (data[*i] && data[*i] != '$' && !quote_type(data[*i]))
+	{
+		loop = 1;
+		(*i)++;
+	}
+	while (!loop && data[*i] && end == -1)
+	{
+		if (quote_type(data[*i]) && start != *i)
+			break ;
+		if (data[*i] == '$' && start != *i)
+			break ;
+		(*i)++;
+	}
+	if (end == -1)
+		end = *i;
+	return (ft_substr(data, start, end - start));
+}
+
+/* Will only be called if the node->data has a "$". 
+ * If node->quote = 0 or 2, takes the data and copies anything
+ * that is before the symbol, stores it into *previous. Next,
+ * takes the variable name (including the symbol) and calls
+ * expand_envar();. */
+/*void	variable_node_edit(char *data)
+{
+	char	*rest;
+	char	*var;
+	char	*result;
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	while (data[++i] && data[i] != '$')
+		rest[i] = data[i];	
+	rest[i] = '\0';
+	while (data[i++] && !quote_type(data[i]))
+	{
+		var[j] = data[i];
+		j++;
+	}
+
+}*/
+/* This function manages $VARs, iterates the **list, checks each
+ * node->content for a $ character, if is not found, does nothing
+ * else if the character is found, checks what the node->quote is.
+ * If node->quote is 2 or 0, expands the variable if it exists.
+ * Else if node->quote is 1, the node->data does not change. */ 
+/*void	variable_management(t_basic **pipes)
+{
+	t_basic	*curr;
+
+	curr = *pipes;
+	while (curr)
+	{
+		if (ft_strchr(curr->data, '$'))
+	}
+}*/
+/*t_basic	**create_final_list(t_basic **pipes)
+{
+	t_basic	**final_b;
+	t_basic *curr;
+
+	final_b = malloc(sizeof(t_basic *));
+	if (!final_b)
+		return (NULL);
+	*final_b = NULL;
+	curr = *pipes;
+
+}*/
 /* Provisional parsing function */
-void	ft_parser(t_shell *mini, char *rd)
+/*void	ft_parser(t_shell *mini, char *rd)
 {
 	t_basic	**space_sep;
 	t_basic	**redirects;
@@ -214,27 +320,28 @@ void	ft_parser(t_shell *mini, char *rd)
 
 	(void)mini;
 	space_sep = create_space_sep(rd);
-	redirects = redirect_separate(space_sep);
+	quote_sep = create_quote_sep(space_sep);
+	redirects = redirect_separate(quote_sep);
 	pipes = pipe_separate(redirects);
-	quote_sep = create_quote_sep(pipes);
-	curr = *quote_sep;
+	clean_false_joins(pipes);
+	curr = *pipes;
+
 	while (curr)
 	{
-		printf("Basic: %s join: %zu\n", curr->data, curr->join);
+		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
 		curr = curr->next;
 	}
 	
-}
-/*int	main(void)
+}*/
+int	main(void)
 {
 	char	*str;
 	int		i;
-	int		len;
 
-	str = "   << |\"\'hola\'\"hello !     ";
+//	str = "<< |\"\'hola\'\"hello !";
+	str = "hello$PATH$HOME\'hi\'";
 	i = 0;
-	len = cut_end_spaces(str);
-	while (str[i] && i < len)
-		printf("new:%s\n", space_split(str, &i));
+	while (str[i])
+		printf("new:%s\n", split_variables(str, &i));
 	return (0);
-}*/
+}

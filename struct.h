@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/14 17:42:48 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/15 10:57:35 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef	struct	s_basic
 {
 	char		*data;
 	size_t		join;
+	size_t		quote;
 	struct	s_basic	*next;
 }				t_basic;
 
