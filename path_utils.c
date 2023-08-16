@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/15 18:09:38 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:55:36 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**get_paths(char *pathname)
 /* Returns the expanded value of the environment variable given by 
  * getenv(); if it exist, otherwise returns NULL.
  * ONLY FOR lst->type = VAR */
-/*char	*expand_envar(char *data, t_shell *mini)
+char	*expand_envar(char *data, t_shell *mini)
 {
 	char	*expanded;
 	char	*clean_data;
@@ -57,7 +57,7 @@ char	**get_paths(char *pathname)
 	free(clean_data);
 	free(data);
 	return (expanded);
-}*/
+}
 
 /* As its name says so, creates a copy of the **envp array and returns it.*/
 char	**copy_envp(char **envp)

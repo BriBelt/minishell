@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/14 17:25:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:11:52 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,16 @@ char	**quotes_in_node(char *data)
 	return (clean);
 }
 
-void	clean_quotes(t_lexer **lex)
+void	clean_quotes(t_basic **pipes)
 {
-	t_lexer	*ptr;
+	t_basic	*ptr;
 	char	**no_quotes;
 	char	*new_data;
-	int		i;
 
-	ptr = *lex;
+	ptr = *pipes;
 	new_data = NULL;
 	while (ptr)
 	{
-		i = 0;
 		no_quotes = quotes_in_node(ptr->data);
 		if (no_quotes[0] && no_quotes[1])
 			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
@@ -78,6 +76,28 @@ void	clean_quotes(t_lexer **lex)
 		ptr = ptr->next;
 	}
 }
+/*void	clean_quotes(t_lexer **lex)
+{
+	t_lexer	*ptr;
+	char	**no_quotes;
+	char	*new_data;
+
+	ptr = *lex;
+	new_data = NULL;
+	while (ptr)
+	{
+		no_quotes = quotes_in_node(ptr->data);
+		if (no_quotes[0] && no_quotes[1])
+			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
+		else if (no_quotes[0] && !no_quotes[1])
+			new_data = ft_strdup(no_quotes[0]);
+		else if (!no_quotes[0])
+			new_data = ft_strdup("");
+		free_2D_array(no_quotes);
+		ptr->data = new_data;
+		ptr = ptr->next;
+	}
+}*/
 
 char	*split_quote_sens(char *data, size_t *i)
 {

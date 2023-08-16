@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/15 18:35:25 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:41:49 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,24 +257,6 @@ char	*split_variables(char *data, int *i)
 	return (ft_substr(data, start, end - start));
 }
 
-/* Provisional function of expand_envar(); */
-char	*expand_envar(char *data, char **envp)
-{
-	char	*expanded;
-	char	*clean_data;
-	int		len;
-
-	len = ft_strlen(data) - 1;
-	clean_data = ft_substr(data, 1, len);
-	if (search_in_envar(clean_data, envp))
-		expanded = getenv(clean_data);
-	else
-		expanded = NULL;
-	free(clean_data);
-	free(data);
-	return (expanded);
-}
-
 int	set_quoted_var(char *new)
 {
 	int	quoted;
@@ -289,146 +271,122 @@ int	set_quoted_var(char *new)
 
 /* Gets the amount of memory that the new node data will
  * need. */
-int	total_node_len(char *data, char **envp)
+int	total_node_len(char *data, t_shell *mini)
 {
 	int		i;
-	int		len;
 	int		total;
-	int		quoted;
 	char	*new;
 
 	i = 0;
-	len = (int)ft_strlen(data);
-	quoted = 0;
 	total = 0;
-	while (i < len)
+	while (i < (int)ft_strlen(data))
 	{
 		new = split_variables(data, &i);
-		quoted = set_quoted_var(new);
-		if (ft_strchr(new, '$') && (quoted == 2 || !quoted))
-		{
-			new = expand_envar(new, envp);
-			quoted = 0;
-		}
-		total += ft_strlen(new) - 1;
-//		free(new);
+		if (ft_strchr(new, '$'))
+			new = expand_envar(new, mini);
+		if (new)
+			total += ft_strlen(new);
 	}
 	return (total);
 }
 
-
-char	*found_symbol(char *data, char **envp)
+/* This function is only called when a "$" symbol is found
+ * inside the node */
+char	*found_symbol(char *data, t_shell *mini)
 {
 	int		i;
-	int		len;
-	int		quoted;
 	char	*new;
 	char	*final;
 
 	i = 0;
-	len = (int)ft_strlen(data);
-	quoted = 0;
-	final = ft_calloc(total_node_len(data, envp) + 1, sizeof(char));
+	final = ft_calloc(total_node_len(data, mini), sizeof(char));
 	if (!final)
 		return (NULL);
-	while (i < len)
+	while (i < (int)ft_strlen(data))
 	{
 		new = split_variables(data, &i);
-		quoted = set_quoted_var(new);
-		if (ft_strchr(new, '$') && (quoted == 2 || !quoted))
-		{
-			new = expand_envar(new, envp);
-			quoted = 0;
-		}
-		final = ft_strjoin(final, new);
-//		free(new);
+		if (ft_strchr(new, '$'))
+			new = expand_envar(new, mini);
+		if (new)
+			final = ft_strjoin(final, new);
 	}
-//	free(data);
 	return (final);
 }
 
-/*void	change_node_var(t_basic **pipes, t_shell *mini)
+int	sym_in_quotes(char *data)
+{
+	int	first;
+	int	i;
+	int	last;
+	int	count;
+	int	symbol;
+
+	first = -1;
+	last = -1;
+	symbol = 0;
+	count = 0;
+	i = 0;
+	while (data[i] && last == -1)
+	{
+		if (data[i] == '\'')
+		{
+			count++;
+			if (first == -1)
+				first = i;
+		}
+		if (count == 2)
+			last = i;
+		i++;
+	}
+	while (data[symbol] != '$')
+		symbol++;
+	if (symbol > first && symbol < last)
+		return (1);
+	return (0);
+}
+
+void	change_node_var(t_basic **pipes, t_shell *mini)
 {
 	t_basic	*curr;
-	int		i;
+	char	*new_node;
+	int		inside;
 
 	curr = *pipes;
+	inside = 0;
 	while (curr)
 	{
 		if (ft_strchr(curr->data, '$'))
-
-
+		{
+			if (curr->quote == 1)
+				inside = sym_in_quotes(curr->data);
+			if (!inside)
+			{
+				new_node = found_symbol(curr->data, mini);
+				free(curr->data);
+				curr->data = new_node;
+			}
 		}
 		curr = curr->next;
 	}
-}*/
-/* Will only be called if the node->data has a "$". 
- * If node->quote = 0 or 2, takes the data and copies anything
- * that is before the symbol, stores it into *previous. Next,
- * takes the variable name (including the symbol) and calls
- * expand_envar();. */
-/*void	variable_node_edit(char *data)
-{
-	char	*rest;
-	char	*var;
-	char	*result;
-	int		i;
-	int		j;
+}
 
-	i = -1;
-	j = 0;
-	while (data[++i] && data[i] != '$')
-		rest[i] = data[i];	
-	rest[i] = '\0';
-	while (data[i++] && !quote_type(data[i]))
-	{
-		var[j] = data[i];
-		j++;
-	}
-
-}*/
-/* This function manages $VARs, iterates the **list, checks each
- * node->content for a $ character, if is not found, does nothing
- * else if the character is found, checks what the node->quote is.
- * If node->quote is 2 or 0, expands the variable if it exists.
- * Else if node->quote is 1, the node->data does not change. */ 
-/*void	variable_management(t_basic **pipes)
-{
-	t_basic	*curr;
-
-	curr = *pipes;
-	while (curr)
-	{
-		if (ft_strchr(curr->data, '$'))
-	}
-}*/
-/*t_basic	**create_final_list(t_basic **pipes)
-{
-	t_basic	**final_b;
-	t_basic *curr;
-
-	final_b = malloc(sizeof(t_basic *));
-	if (!final_b)
-		return (NULL);
-	*final_b = NULL;
-	curr = *pipes;
-
-}*/
 /* Provisional parsing function */
-/*void	ft_parser(t_shell *mini, char *rd)
+void	ft_parser(t_shell *mini, char *rd)
 {
 	t_basic	**space_sep;
 	t_basic	**redirects;
 	t_basic	**pipes;
 	t_basic	**quote_sep;
 	t_basic	*curr;
-
 	(void)mini;
+
 	space_sep = create_space_sep(rd);
 	quote_sep = create_quote_sep(space_sep);
 	redirects = redirect_separate(quote_sep);
 	pipes = pipe_separate(redirects);
 	clean_false_joins(pipes);
+	change_node_var(pipes, mini);
+//	clean_quotes(pipes);
 	curr = *pipes;
 
 	while (curr)
@@ -436,20 +394,21 @@ char	*found_symbol(char *data, char **envp)
 		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
 		curr = curr->next;
 	}
-	
-}*/
-int	main(int argc, char **argv, char **envp)
+}
+//int	main(int argc, char **argv, char **envp)
+/*int	main(void)
 {
 	char	*str;
-//	int		i;
-	(void)argc;
-	(void)argv;
+	int		i;
+//	(void)argc;
+//	(void)argv;
 
 //	str = "<< |\"\'hola\'\"hello !";
-	str = "hello$PATH$HOME\'hi\'";
-	printf("Result: %s\n", found_symbol(str, envp));
-//	i = 0;
-//	while (str[i])
-//		printf("new:%s\n", split_variables(str, &i));
+//	str = "\'hello$PATH\'";
+	str = "\'$PATH\'";
+//	printf("Result: %s\n", found_symbol(str, envp));
+	i = 0;
+	while (str[i])
+		printf("new:%s\n", split_variables(str, &i));
 	return (0);
-}
+}*/
