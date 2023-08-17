@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/16 16:10:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:52:49 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	**copy_envp(char **envp);
 /*		quotes		*/
 t_quote	*initialize_t_quote(void);
 //void	clean_quotes(t_lexer **lex);
+void	check_closed_quotes(t_basic **pipes);
 void	clean_quotes(t_basic **pipes);
 char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);

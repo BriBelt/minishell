@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/16 18:41:49 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:26:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_basic	*new_create_node(char *content, int join)
 	node->data = content;
 	node->next = NULL;
 	node->join = join;
+//	node->quote = 0;
 	return (node);
 }
 
@@ -97,6 +98,8 @@ char	*space_split(char *rd, int *i)
 	}
 	if (end == -1)
 		end = *i;
+	if (!normal && count != 2)
+		return (perror("Quotes must be closed.\n"), NULL);
 	return (ft_substr(rd, start, end - start));
 }
 
@@ -106,6 +109,7 @@ char	*space_split(char *rd, int *i)
 t_basic	**create_space_sep(char *rd)
 {
 	t_basic	**space_sep;
+	char	*new;
 	int		i;
 	int		rd_len;
 
@@ -116,7 +120,11 @@ t_basic	**create_space_sep(char *rd)
 	*space_sep = NULL;
 	rd_len = ft_strlen(rd);
 	while (i < rd_len)
-		ft_basic_insert(space_sep, space_split(rd, &i), 0);
+	{
+		new = space_split(rd, &i);
+		if (new)
+			ft_basic_insert(space_sep, new, 0);
+	}
 	return (space_sep);
 }
 
@@ -257,6 +265,7 @@ char	*split_variables(char *data, int *i)
 	return (ft_substr(data, start, end - start));
 }
 
+/* Returns the type of quote found inside the *new.*/
 int	set_quoted_var(char *new)
 {
 	int	quoted;
@@ -313,6 +322,14 @@ char	*found_symbol(char *data, t_shell *mini)
 	return (final);
 }
 
+/* This function is only called when there's a node with
+ * single quotes. It checks the *data, looks for the first
+ * and last occurence of a single quote, next looks for the
+ * occurence of a $ symbol. Finally, it compares if the
+ * symbol position is greater than the first single quote
+ * and smaller than the last quote position. If it is,
+ * returns a 1, meaning that the variable is inside single
+ * quotes, therefore it won't be expanded. */
 int	sym_in_quotes(char *data)
 {
 	int	first;
@@ -345,6 +362,12 @@ int	sym_in_quotes(char *data)
 	return (0);
 }
 
+/* Checks the **pipes list, if the node contains a $
+ * symbol, if it does, checks if the node->quote is 
+ * 1, calls sym_in_quotes();. If the result of that
+ * function is 0, calls found_symbol(); and sets
+ * the new value of curr->data as the new expanded 
+ * node. */
 void	change_node_var(t_basic **pipes, t_shell *mini)
 {
 	t_basic	*curr;
@@ -370,15 +393,62 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 	}
 }
 
+/*
+ *				NODE JOIN	
+ *  										*/
+int	new_joined_len(t_basic **pipes)
+{
+	t_basic	*curr;
+	int		len;
+	size_t	previous;
+
+	curr = *pipes;
+	len = 0;
+	previous = 0;
+	while (curr)
+	{
+		if (curr->join > 0)
+		{
+			previous = curr->join;
+			if (curr->next && curr->next->join != previous && curr->next->join > 0)
+				len += ft_strlen(curr->data);
+		}
+		curr = curr->next;
+	}
+	return (len);
+}
+
+/*t_basic	**final_basic(t_basic **pipes)
+{
+	t_basic	**final;
+	t_basic	*curr;
+
+	curr = *pipes;
+	while (curr)
+	{
+		if (curr->join > 0)
+		{
+			previous = curr->join;
+			while (curr->next && curr->next->join != previous
+					&& curr->next->join > 0)
+			{
+				len = ft_strlen(curr->data);
+
+			}
+		}
+
+			
+	}
+}*/
 /* Provisional parsing function */
 void	ft_parser(t_shell *mini, char *rd)
 {
 	t_basic	**space_sep;
+	t_basic	**quote_sep;
 	t_basic	**redirects;
 	t_basic	**pipes;
-	t_basic	**quote_sep;
 	t_basic	*curr;
-	(void)mini;
+//	(void)mini;
 
 	space_sep = create_space_sep(rd);
 	quote_sep = create_quote_sep(space_sep);
@@ -386,29 +456,13 @@ void	ft_parser(t_shell *mini, char *rd)
 	pipes = pipe_separate(redirects);
 	clean_false_joins(pipes);
 	change_node_var(pipes, mini);
-//	clean_quotes(pipes);
+	check_closed_quotes(pipes);
+	clean_quotes(pipes);
+	printf("new join: %i\n", new_joined_len(pipes));
 	curr = *pipes;
-
 	while (curr)
 	{
 		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
 		curr = curr->next;
 	}
 }
-//int	main(int argc, char **argv, char **envp)
-/*int	main(void)
-{
-	char	*str;
-	int		i;
-//	(void)argc;
-//	(void)argv;
-
-//	str = "<< |\"\'hola\'\"hello !";
-//	str = "\'hello$PATH\'";
-	str = "\'$PATH\'";
-//	printf("Result: %s\n", found_symbol(str, envp));
-	i = 0;
-	while (str[i])
-		printf("new:%s\n", split_variables(str, &i));
-	return (0);
-}*/
