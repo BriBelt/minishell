@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/17 17:26:40 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:22:23 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,49 @@ t_basic	**create_space_sep(char *rd)
 /* This function splits the given *data by the first type of
  * quotes found inside the *data, returns a new string that
  * will later be used by our ft_basic_insert();. */
+int	check_for_closed_quotes(char *data)
+{
+	int	i;
+	int	first;
+	int	count;
+	int	normal;
+	
+	i = -1;
+	count = 0;
+	first = 0;
+	normal = 1;
+	while (data[++i])
+	{
+		if (quote_type(data[i]))
+		{
+			normal = 0;
+			if (!first)
+				first = quote_type(data[i]);
+			if (quote_type(data[i]) == first)
+				count++;
+		}
+		if (count == 2)
+			return (1);
+	}
+	if (first && count != 2)
+		return (perror("Quotes must be closed."), 0);
+	return (1);
+}
+
+int	quote_list_checker(t_basic **list)
+{
+	t_basic	*curr;
+
+	curr = *list;
+	while (curr)
+	{
+		if (!check_for_closed_quotes(curr->data))
+			return (0);
+		curr = curr->next;
+	}
+	return (1);
+}
+
 char	*quote_split(char *rd, int *i)
 {
 	t_quote	*h;
@@ -161,6 +204,8 @@ char	*quote_split(char *rd, int *i)
 			h->start = *i;
 		(*i)++;
 	}
+	if (h->count == 1 && h->start && !h->end)
+		h->end = ft_strlen(rd);
 	return (ft_substr(rd, h->start, h->end - h->start));
 }
 
@@ -398,48 +443,26 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
  *  										*/
 int	new_joined_len(t_basic **pipes)
 {
+	size_t	len;
+	size_t	prev;
 	t_basic	*curr;
-	int		len;
-	size_t	previous;
 
-	curr = *pipes;
 	len = 0;
-	previous = 0;
+	prev = 0;
+	curr = *pipes;
 	while (curr)
 	{
 		if (curr->join > 0)
 		{
-			previous = curr->join;
-			if (curr->next && curr->next->join != previous && curr->next->join > 0)
+			if (prev == curr->join)
 				len += ft_strlen(curr->data);
 		}
+		prev++;
 		curr = curr->next;
 	}
 	return (len);
 }
 
-/*t_basic	**final_basic(t_basic **pipes)
-{
-	t_basic	**final;
-	t_basic	*curr;
-
-	curr = *pipes;
-	while (curr)
-	{
-		if (curr->join > 0)
-		{
-			previous = curr->join;
-			while (curr->next && curr->next->join != previous
-					&& curr->next->join > 0)
-			{
-				len = ft_strlen(curr->data);
-
-			}
-		}
-
-			
-	}
-}*/
 /* Provisional parsing function */
 void	ft_parser(t_shell *mini, char *rd)
 {
@@ -448,17 +471,20 @@ void	ft_parser(t_shell *mini, char *rd)
 	t_basic	**redirects;
 	t_basic	**pipes;
 	t_basic	*curr;
-//	(void)mini;
+	(void)mini;
 
 	space_sep = create_space_sep(rd);
+	if (!quote_list_checker(space_sep))
+		return ;
 	quote_sep = create_quote_sep(space_sep);
+	if (!quote_list_checker(quote_sep))
+		return ;
 	redirects = redirect_separate(quote_sep);
 	pipes = pipe_separate(redirects);
 	clean_false_joins(pipes);
 	change_node_var(pipes, mini);
-	check_closed_quotes(pipes);
 	clean_quotes(pipes);
-	printf("new join: %i\n", new_joined_len(pipes));
+//	printf("new join: %i\n", new_joined_len(pipes));
 	curr = *pipes;
 	while (curr)
 	{

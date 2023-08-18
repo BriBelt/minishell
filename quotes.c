@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/17 13:10:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:15:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**quotes_in_node(char *data)
 	if (open && closed == -1)
 	{
 		perror("Quotes must be closed.\n");
-		exit(1);
+		return (NULL);
 	}
 	clean = ft_split(data, data[closed]);
 	return (clean);
@@ -92,6 +92,8 @@ void	clean_quotes(t_basic **pipes)
 	while (ptr)
 	{
 		no_quotes = quotes_in_node(ptr->data);
+		if (!no_quotes)
+			return ;
 		if (no_quotes[0] && no_quotes[1])
 			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
 		else if (no_quotes[0] && !no_quotes[1])
