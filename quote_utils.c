@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:07:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:21:32 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:10:00 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,58 +93,3 @@ void	set_new_join(t_lexer **first, char *rd)
 		curr = curr->next;
 	}
 }
-
-/*void	clean_false_join(t_lexer **first, char *rd)
-{
-	t_lexer	*curr;
-	int		i;
-	int		j;
-	int		space;
-
-	i = 0;
-	space = 0;
-	curr = *first;
-	while (curr)
-	{
-		j = 0;
-		while (rd[i] && curr->data[j])
-		{
-			i++;
-			j++;
-		}
-		if (rd[i] == ' ' && curr->next)
-			space = i;
-
-
-		
-		curr = curr->next;
-	}
-}*/
-
-/*void	clean_false_join(t_lexer **first, char *rd)
-{
-	t_lexer *curr;
-	int		i;
-	int		j;
-
-	i = 0;
-	curr = *first;
-	while (curr)
-	{
-		j = 0;
-		while (rd[i])
-		{
-			if (rd[i] == ' ' && curr->data[j] == '\0')
-			{
-				if (curr->next && !ft_strchr(curr->next->data)
-					curr->next->join = 0;
-				else
-					node->next->join = 1;
-				break ;
-			}
-			i++;
-			j++;
-		}
-		curr = curr->next;
-	}
-}*/

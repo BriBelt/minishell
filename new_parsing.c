@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:18:06 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:10:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_basic	*new_create_node(char *content, int join)
 	node->data = content;
 	node->next = NULL;
 	node->join = join;
-//	node->quote = 0;
 	return (node);
 }
 
@@ -441,26 +440,95 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 /*
  *				NODE JOIN	
  *  										*/
-int	new_joined_len(t_basic **pipes)
+size_t	join_len(t_basic *node)
 {
-	size_t	len;
-	size_t	prev;
 	t_basic	*curr;
+	size_t	len;
+	size_t	i;
 
+	curr = node;
+	i = 0;
 	len = 0;
-	prev = 0;
-	curr = *pipes;
-	while (curr)
+	while (curr && curr->join == ++i)
 	{
-		if (curr->join > 0)
-		{
-			if (prev == curr->join)
-				len += ft_strlen(curr->data);
-		}
-		prev++;
+		len += ft_strlen(curr->data);
 		curr = curr->next;
 	}
 	return (len);
+}
+
+/*char	*joined_data(t_basic *node)
+{
+	t_basic	*curr;
+	size_t	len;
+	size_t	i;
+	char	*new;
+
+	i = 0;
+	curr = node;
+	len = join_len(curr); 
+	new = ft_calloc(len + 1, sizeof(char));
+	while (curr && curr->join == ++i)
+	{
+		new = ft_strjoin(new, curr->data);
+		curr = curr->next;
+	}
+	return (new);
+}*/
+
+size_t	join_times(t_basic *node)
+{
+	t_basic	*curr;
+	size_t	times;
+	size_t	i;
+
+	times = 0;
+	i = 0;
+	curr = node;
+	while (curr && curr->join == ++i)
+	{
+		times++;
+		curr = curr->next;
+	}
+	return (times);
+}
+
+t_lexer	**final_lexer(t_basic **lst)
+{
+	t_lexer	**lexer;
+	t_basic	*curr;
+	char	*data;
+	size_t	times;
+	size_t	i;
+	int		n;
+
+	lexer = malloc(sizeof(t_lexer *));
+	if (!lexer)
+		return (NULL);
+	*lexer = NULL;
+	n = 0;
+	curr = *lst;
+	while (curr)
+	{
+		if (curr->join == 1)
+		{
+			i = 0;
+			data = ft_calloc(join_len(curr) + 1, sizeof(char));
+			times = join_times(curr);
+			while (++i <= times)
+			{
+				data = ft_strjoin(data, curr->data);
+				curr = curr->next;
+			}
+		}
+		else
+		{
+			data = curr->data;
+			curr = curr->next;
+		}
+		ft_lexer_insert(lexer, data, n++, 0);
+	}
+	return (lexer);
 }
 
 /* Provisional parsing function */
@@ -470,7 +538,9 @@ void	ft_parser(t_shell *mini, char *rd)
 	t_basic	**quote_sep;
 	t_basic	**redirects;
 	t_basic	**pipes;
-	t_basic	*curr;
+//	t_basic	*curr;
+	t_lexer	*curr;
+	t_lexer	**lexer;
 	(void)mini;
 
 	space_sep = create_space_sep(rd);
@@ -484,11 +554,15 @@ void	ft_parser(t_shell *mini, char *rd)
 	clean_false_joins(pipes);
 	change_node_var(pipes, mini);
 	clean_quotes(pipes);
+	printf("join times: %zu\n", join_times(*pipes));
+	lexer = final_lexer(pipes);
 //	printf("new join: %i\n", new_joined_len(pipes));
-	curr = *pipes;
+	curr = *lexer;
+//	curr = *pipes;
 	while (curr)
 	{
-		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
+		printf("Lex Node: %s, index: %i, join: %zu\n", curr->data, curr->index, curr->join);
+//		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
 		curr = curr->next;
 	}
 }
