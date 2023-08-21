@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:22:43 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:30:15 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,18 @@ t_basic	**redirect_separate(t_basic **closed_q)
 	return (red_basic);
 }
 
+int valid_redirects(char *data)
+{
+	size_t	len;
+
+	len = ft_strlen(data);
+	if (!ft_strcmp("<", data) || !ft_strcmp(">", data))
+		return (1);
+	if (!ft_strcmp("<<", data) || !ft_strcmp(">>", data))
+		return (1);
+	return (0);
+}
+
 int	check_redirects(t_lexer **lex)
 {
 	t_lexer	*curr;
@@ -106,13 +118,11 @@ int	check_redirects(t_lexer **lex)
 	curr = *lex;
 	while (curr)
 	{
-		if (!ft_strchr(curr->data, '\'') && !ft_strchr(curr->data, '\"'))
+		if ((ft_strchr(curr->data, '>') || ft_strchr(curr->data, '<'))
+				&& curr->type == 1 && curr->join == 0)
 		{
-			if (ft_strchr(curr->data, '<') || ft_strchr(curr->data, '>'))
-			{
-				if (curr->type != REDIR)
-					return (perror("Syntax error"), 0);
-			}
+			if (!valid_redirects(curr->data))
+				return (perror("Syntax error"), 0);
 		}
 		curr = curr->next;
 	}

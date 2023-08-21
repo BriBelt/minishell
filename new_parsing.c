@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 16:19:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:30:13 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,16 @@ void	ft_parser(t_shell *mini, char *rd)
 	change_node_var(pipes, mini);
 	clean_quotes(pipes);
 	lexer = final_lexer(pipes);
-//	printf("new join: %i\n", new_joined_len(pipes));
+	def_type(lexer);
+	if (!check_redirects(lexer))
+		return ;
+	if (!check_pipes(lexer))
+		return ;
 	curr = *lexer;
 //	curr = *pipes;
 	while (curr)
 	{
-		printf("Lex Node: %s, index: %i, join: %zu\n", curr->data, curr->index, curr->join);
+		printf("Lex Node: %s, index: %i, quote: %zu, type: %i\n", curr->data, curr->index, curr->join, curr->type);
 //		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
 		curr = curr->next;
 	}

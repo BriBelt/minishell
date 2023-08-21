@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:28:19 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:25:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	def_type(t_lexer **lst)
 	curr = *lst;
 	while (curr)
 	{
-		if (redirect_or_pipe(curr->data))
+		if (redirect_or_pipe(curr->data) && curr->join == 0)
 			curr->type = redirect_or_pipe(curr->data);		
 		else
 			curr->type = is_builtin(curr->data);
