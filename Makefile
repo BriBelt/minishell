@@ -6,7 +6,7 @@
 #    By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/08/21 12:39:22 by jaimmart         ###   ########.fr        #
+#    Updated: 2023/08/21 16:29:51 by bbeltran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ LIBFT  = $(addprefix $(LIBF_DIR), $(LIBFT_A))
 HEADER = minishell.h struct.h
 
 MINI_SRC = path_utils.c pwd.c builtins.c cd.c quote_utils.c echo.c quotes.c \
-env.c exit.c export.c free_utils.c list_utils.c minishell.c parser.c \
+env.c exit.c export.c free_utils.c list_utils.c minishell.c \
 redirections.c t_basic.c typesort.c typesort_utils.c unset.c pipes.c \
-final_lexer.c new_parsing.c
+new_parsing.c node_join.c quote_split.c space_split.c var_expand.c
 MINI_OBJ = $(MINI_SRC:.c=.o)
 
 

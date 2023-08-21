@@ -6,24 +6,26 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:21:54 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:19:45 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*t_quote	*initialize_t_quote(void)
+t_quote	*initialize_t_quote(void)
 {
 	t_quote	*handle;
 
 	handle = malloc(sizeof(t_quote));
+	if (!handle)
+		return (NULL);
 	handle->normal = 1;
 	handle->count = 0;
 	handle->start = -1;
 	handle->end = 0;
 	handle->first = 0;
 	return (handle);
-}*/
+}
 
 void	check_closed_quotes(t_basic **pipes)
 {
@@ -105,28 +107,6 @@ void	clean_quotes(t_basic **pipes)
 		ptr = ptr->next;
 	}
 }
-/*void	clean_quotes(t_lexer **lex)
-{
-	t_lexer	*ptr;
-	char	**no_quotes;
-	char	*new_data;
-
-	ptr = *lex;
-	new_data = NULL;
-	while (ptr)
-	{
-		no_quotes = quotes_in_node(ptr->data);
-		if (no_quotes[0] && no_quotes[1])
-			new_data = ft_strjoin(no_quotes[0], no_quotes[1]);
-		else if (no_quotes[0] && !no_quotes[1])
-			new_data = ft_strdup(no_quotes[0]);
-		else if (!no_quotes[0])
-			new_data = ft_strdup("");
-		free_2D_array(no_quotes);
-		ptr->data = new_data;
-		ptr = ptr->next;
-	}
-}*/
 
 char	*split_quote_sens(char *data, size_t *i)
 {
