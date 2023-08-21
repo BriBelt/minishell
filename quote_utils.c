@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:07:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 13:10:00 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:37:47 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	quote_type(char c)
 	return (0);
 }
 
-void	clean_false_join(t_lexer **lex)
+/*void	clean_false_join(t_lexer **lex)
 {
 	t_lexer	*curr;
 
@@ -35,9 +35,9 @@ void	clean_false_join(t_lexer **lex)
 		}
 		curr = curr->next;
 	}
-}
+}*/
 
-void	set_new_join(t_lexer **first, char *rd)
+/*void	set_new_join(t_lexer **first, char *rd)
 {
 	t_lexer *curr;
 	int		i;
@@ -92,4 +92,4 @@ void	set_new_join(t_lexer **first, char *rd)
 		}
 		curr = curr->next;
 	}
-}
+}*/

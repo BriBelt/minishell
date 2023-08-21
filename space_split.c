@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:11:03 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 16:11:50 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:42:13 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ char	*space_split(char *rd, int *i)
 	}
 	if (end == -1)
 		end = *i;
-	if (!normal && count != 2)
-		return (perror("Quotes must be closed.\n"), NULL);
 	return (ft_substr(rd, start, end - start));
 }
 

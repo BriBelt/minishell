@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:12:22 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:26:16 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	change_node_var(t_basic **pipes, t_shell *mini);
 /*		node_join		*/
 t_lexer	**final_lexer(t_basic **lst);
 /*		t_basic			*/
+t_basic	*new_create_node(char *content, int join);
 void	ft_basic_insert(t_basic	**lst, char *content, size_t join);
-t_basic	**create_basic_lst(char *rd);
+//t_basic	**create_basic_lst(char *rd);
 /*		list_utils		*/
 t_lexer	**create_lexer(t_basic **basic);
 t_lexer	*ft_lexernew(char *content, int i, size_t join);
@@ -72,15 +73,12 @@ char	*expand_envar(char *data, t_shell *mini);
 char	**copy_envp(char **envp);
 /*		quotes		*/
 t_quote	*initialize_t_quote(void);
-//void	clean_quotes(t_lexer **lex);
 void	check_closed_quotes(t_basic **pipes);
 void	clean_quotes(t_basic **pipes);
 char	*split_quote_sens(char *data, size_t *i);
 char	*handle_quotes(char	*rd, size_t	*i);
 /*		quote_utils		*/
 int		quote_type(char c);
-//void	set_new_join(t_lexer **first, char *rd);
-//void	clean_false_join(t_lexer **lex);
 /*		redirections	*/
 t_basic	**redirect_separate(t_basic **closed_q);
 int		check_redirects(t_lexer **lex);

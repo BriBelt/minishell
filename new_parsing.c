@@ -6,27 +6,11 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:30:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:42:00 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Provisional create_node function */
-t_basic	*new_create_node(char *content, int join)
-{
-	t_basic	*node;
-
-	node = malloc(sizeof(t_basic));
-	if (!node)
-		return (NULL);
-	node->data = content;
-	node->next = NULL;
-	node->join = join;
-	return (node);
-}
-
-
 
 /*
  *				IDENTIFY JOIN NODES

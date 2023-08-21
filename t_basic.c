@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:27:13 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:36:33 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@ t_basic	*ft_basic_new(char *content, int join)
 	if (!node)
 		return (NULL);
 	node->data = content;
-//	if (join > 0)
-//		node->join = 1;
-//	else if (join == 0)
-//		node->join = 0;
-	node->join = join;
 	node->next = NULL;
+	node->join = join;
 	return (node);
 }
 
@@ -89,7 +85,7 @@ int	found_quote(char *rd, size_t *join)
  * First, calls the found_quote(); and checks it result, if 
  * the module of that between 2, is NOT zero, that means the
  * quotes are not closed. Next, with the handle_quotes();*/
-t_basic	**create_basic_lst(char *rd)
+/*t_basic	**create_basic_lst(char *rd)
 {
 	t_basic	**basic;
 	size_t	i;
@@ -119,4 +115,4 @@ t_basic	**create_basic_lst(char *rd)
 			ft_basic_insert(basic, split_quote_sens(rd, &i), join--);
 	}
 	return (basic);
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:16:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 16:17:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:36:52 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,6 @@ size_t	join_len(t_basic *node)
 	}
 	return (len);
 }
-
-/*char	*joined_data(t_basic *node)
-{
-	t_basic	*curr;
-	size_t	len;
-	size_t	i;
-	char	*new;
-
-	i = 0;
-	curr = node;
-	len = join_len(curr); 
-	new = ft_calloc(len + 1, sizeof(char));
-	while (curr && curr->join == ++i)
-	{
-		new = ft_strjoin(new, curr->data);
-		curr = curr->next;
-	}
-	return (new);
-}*/
 
 size_t	join_times(t_basic *node)
 {

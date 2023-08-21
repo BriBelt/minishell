@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 16:19:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:37:58 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**quotes_in_node(char *data)
 	}
 	if (open && closed == -1)
 	{
-		perror("Quotes must be closed.\n");
+		perror("quotes in node: Quotes must be closed.\n");
 		return (NULL);
 	}
 	clean = ft_split(data, data[closed]);
