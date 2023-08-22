@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 18:26:16 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:43:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 #include "libft/libft.h"
 
 void	minishell_exe(t_shell *mini);
@@ -85,5 +86,10 @@ int		check_redirects(t_lexer **lex);
 /*		pipes			*/
 t_basic	**pipe_separate(t_basic **r_basic);
 int		check_pipes(t_lexer **lex);
+/*		heredoc			*/
+char	*find_delimiter(t_lexer **lexer);
+void	here_doc_exe(char *del);
+/*		check_execution		*/
 
+/*		execution		*/
 #endif

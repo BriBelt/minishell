@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:42:00 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:41:24 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ void	ft_parser(t_shell *mini, char *rd)
 //	curr = *pipes;
 	while (curr)
 	{
-		printf("Lex Node: %s, index: %i, quote: %zu, type: %i\n", curr->data, curr->index, curr->join, curr->type);
+//		printf("Lex Node: %s, index: %i, quote: %zu, type: %i\n", curr->data, curr->index, curr->join, curr->type);
+		if (!ft_strcmp(curr->data, "<<"))
+			here_doc_exe(find_delimiter(lexer));
 //		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
 		curr = curr->next;
 	}
