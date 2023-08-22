@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:08:58 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:31:10 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
  * executes the corresponding command for the builtin. */
 void	call_builtins(t_lexer *node, char **envp, t_shell *mini)
 {
-	int		len;
-
-	len = ft_strlen(node->data);
 	if (!ft_strcmp(node->data, "pwd"))
 		ft_pwd();
 	else if (!ft_strcmp(node->data, "cd"))

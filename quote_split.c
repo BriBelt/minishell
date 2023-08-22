@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:12:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 18:15:01 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:35:59 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,14 @@ int	check_for_closed_quotes(char *data)
 	int	i;
 	int	first;
 	int	count;
-	int	normal;
 	
 	i = -1;
 	count = 0;
 	first = 0;
-	normal = 1;
 	while (data[++i])
 	{
 		if (quote_type(data[i]))
 		{
-			normal = 0;
 			if (!first)
 				first = quote_type(data[i]);
 			if (quote_type(data[i]) == first)

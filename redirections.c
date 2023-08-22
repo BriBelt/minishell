@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:30:15 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:31:56 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,6 @@ t_basic	**redirect_separate(t_basic **closed_q)
 
 int valid_redirects(char *data)
 {
-	size_t	len;
-
-	len = ft_strlen(data);
 	if (!ft_strcmp("<", data) || !ft_strcmp(">", data))
 		return (1);
 	if (!ft_strcmp("<<", data) || !ft_strcmp(">>", data))
