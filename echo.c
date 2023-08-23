@@ -6,18 +6,49 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:09:52 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:38:14 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_lexer *node, t_shell *mini)
+int	only_n(char	*data)
 {
-	if (node->next)
+	int	i;
+
+	i = 0;
+	while (data[++i])
 	{
-		if (node->next->type == VAR)
-			node->next->data = expand_envar(node->next->data, mini);
-		printf("%s\n", node->next->data);
+		if (data[i] != 'n')
+			return (0);
+	}
+	return (1);
+}
+
+void	ft_echo(t_lexer *node)
+{
+	t_lexer	*curr;
+
+	curr = node->next;
+	if (curr)
+	{
+		if (curr->type == FLAG && only_n(curr->data))
+		{
+			curr = curr->next;
+			while (curr)
+			{
+				printf("%s", curr->data);
+				curr = curr->next;
+			}
+		}
+		else
+		{
+			while (curr)
+			{
+				printf("%s ", curr->data);
+				curr = curr->next;
+			}
+			printf("\n");
+		}
 	}
 }

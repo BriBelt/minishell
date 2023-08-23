@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/22 15:41:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:41:57 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,21 @@ void	clean_false_joins(t_basic **pipes)
 	return (lexer);
 }*/
 /* Provisional parsing function */
-void	ft_parser(t_shell *mini, char *rd)
+t_lexer	**ft_parser(t_shell *mini, char *rd)
 {
 	t_basic	**space_sep;
 	t_basic	**quote_sep;
 	t_basic	**redirects;
 	t_basic	**pipes;
-//	t_basic	*curr;
-	t_lexer	*curr;
 	t_lexer	**lexer;
 	(void)mini;
 
 	space_sep = create_space_sep(rd);
 	if (!quote_list_checker(space_sep))
-		return ;
+		return (NULL);
 	quote_sep = create_quote_sep(space_sep);
 	if (!quote_list_checker(quote_sep))
-		return ;
+		return (NULL);
 	redirects = redirect_separate(quote_sep);
 	pipes = pipe_separate(redirects);
 	clean_false_joins(pipes);
@@ -106,17 +104,8 @@ void	ft_parser(t_shell *mini, char *rd)
 	lexer = final_lexer(pipes);
 	def_type(lexer);
 	if (!check_redirects(lexer))
-		return ;
+		return (NULL);
 	if (!check_pipes(lexer))
-		return ;
-	curr = *lexer;
-//	curr = *pipes;
-	while (curr)
-	{
-//		printf("Lex Node: %s, index: %i, quote: %zu, type: %i\n", curr->data, curr->index, curr->join, curr->type);
-		if (!ft_strcmp(curr->data, "<<"))
-			here_doc_exe(find_delimiter(lexer));
-//		printf("Basic: %s join: %zu quote: %zu\n", curr->data, curr->join, curr->quote);
-		curr = curr->next;
-	}
+		return (NULL);
+	return (lexer);
 }

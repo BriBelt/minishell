@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/22 12:29:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:41:27 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+void	executor(t_shell *mini)
+{
+	t_lexer	*curr;
+
+	curr = *mini->lex;
+	while (curr)
+	{
+		if (curr->type == BUILTIN)
+			call_builtins(curr, mini);
+		curr = curr->next;
+	}
+}
 void	minishell_exe(t_shell *mini)
 {
 	char	*rd;
@@ -42,6 +54,8 @@ void	minishell_exe(t_shell *mini)
 	while (1)
 	{
 		rd = readline("minishell>");
-		ft_parser(mini, rd);
+		mini->lex = ft_parser(mini, rd);
+		if (mini->lex)
+			executor(mini);
 	}
 }
