@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 16:17:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:03:44 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	call_builtins(t_lexer *node, t_shell *mini)
 
 	times = 0;
 	if (!ft_strcmp(node->data, "pwd"))
-		ft_pwd();
+		ft_pwd(node, &times);
 	else if (!ft_strcmp(node->data, "cd"))
-		ft_cd(node);
+		ft_cd(node, &times);
 	else if (!ft_strcmp(node->data, "env"))
-		ft_env(mini->envp);
+		ft_env(node, mini->envp);
 	else if (!ft_strcmp(node->data, "echo"))
 		times = ft_echo(node);
 	else if (!ft_strcmp(node->data, "unset"))

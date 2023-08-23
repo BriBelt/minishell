@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 16:17:38 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:03:43 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include "libft/libft.h"
 
 void	minishell_exe(t_shell *mini);
-void	ft_pwd(void);
 /*		parser			*/
 t_lexer	**ft_parser(t_shell *mini, char *rd);
 /*		space_split		*/
@@ -54,12 +53,14 @@ int		is_file(char *content);
 void	free_2D_array(char **array);
 void	free_t_lexer(t_lexer **lst);
 void	free_t_basic(t_basic **lst);
+/*		pwd				*/
+void	ft_pwd(t_lexer *node, int *times);
 /*		echo			*/
 int		ft_echo(t_lexer *node);
 /*		cd				*/
-void	ft_cd(t_lexer *node);
+void	ft_cd(t_lexer *node, int *times);
 /*		env				*/
-void	ft_env(char **envp);
+void	ft_env(t_lexer *node, char **envp);
 /*		unset			*/
 int		array_size(char **envp, char *desired_path);
 char	**ft_unset(char **envp, t_lexer *node, int *times);
