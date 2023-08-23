@@ -6,22 +6,22 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/22 16:43:09 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:37:33 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#include "struct.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include "libft/libft.h"
+# include "struct.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <errno.h>
+# include <stdlib.h>
+# include <string.h>
+# include <fcntl.h>
+# include "libft/libft.h"
 
 void	minishell_exe(t_shell *mini);
 void	ft_pwd(void);

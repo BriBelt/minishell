@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exe_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/22 16:42:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/23 10:34:29 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Checks the type of redirect found in node->data(input,1 or output,2). 
+Usefull for checking wich is the last redirect(before pipe or NULL).*/
 int	redirect_type(char *data)
 {
 	if (!ft_strcmp(data, "<"))
@@ -21,6 +23,10 @@ int	redirect_type(char *data)
 	return (0);
 }
 
+/* By introducing as an argument the type of redirect and the starting node, 
+it will search for the last position of that redirect in the lexer before NULL 
+or pipe. Usefull since it will be the only one that passes the input or output 
+to a command or pipe.*/
 int	redirect_last_position(t_lexer *start, int type)
 {
 	t_lexer	*curr;
@@ -48,6 +54,10 @@ int	redirect_last_position(t_lexer *start, int type)
 	return (0);
 }
 
+/* Iterates through the lexer, if it finds a redirect node type, checks if 
+there is a following node and if it is an accessible file. If it has found 
+a input redirect it will check for existance and reading permissions, if 
+it's a output redirect only for writing permissions*/
 int	check_redir_access(t_lexer **lexer)
 {
 	t_lexer	*curr;
@@ -58,13 +68,13 @@ int	check_redir_access(t_lexer **lexer)
 		if (curr->type == REDIR)
 		{
 			if (redirect_type(curr->data) == 1 && curr->next
-					&& access(curr->next->data, F_OK | R_OK))
+				&& access(curr->next->data, F_OK | R_OK))
 			{
 				printf("%s: No such file or directory\n", curr->next->data);
 				return (0);
 			}
 			else if (redirect_type(curr->data) == 2 && curr->next
-					&& access(curr->next->data, W_OK))
+				&& access(curr->next->data, W_OK))
 			{
 				printf("%s: No such file or directory\n", curr->next->data);
 				return (0);

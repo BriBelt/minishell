@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 18:44:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/23 10:00:36 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int	has_pipe(t_lexer **lexer)
 	return (0);
 }
 
+/* Gets posible paths for executables with get_paths() and tries to access 
+every path with the node's data append to it. If it access the file 
+successfully, returns the correct path so that it can be use in a execve().*/
 char	*find_comm_path(char *data)
 {
 	char	*com_path;
