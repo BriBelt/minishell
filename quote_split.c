@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:12:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/22 21:35:59 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/08/24 11:16:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_for_closed_quotes(char *data)
 			return (1);
 	}
 	if (first && count != 2)
-		return (perror("Quotes must be closed."), 0);
+		return (printf(QUOTE_ERR), 0);
 	return (1);
 }
 

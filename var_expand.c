@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 16:18:32 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:19:58 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,6 @@ char	*split_variables(char *data, int *i)
 		end = *i;
 	return (ft_substr(data, start, end - start));
 }
-
-/* Returns the type of quote found inside the *new.*/
-/*int	set_quoted_var(char *new)
-{
-	int	quoted;
-
-	quoted = 0;
-	if (ft_strchr(new, '\''))
-		quoted = 1;
-	if (ft_strchr(new, '\"'))
-		quoted = 2;
-	return (quoted);
-}*/
 
 /* Gets the amount of memory that the new node data will
  * need. */

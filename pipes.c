@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:05:34 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:30:14 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:15:24 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,18 @@ int	check_pipes(t_lexer **lex)
 	t_lexer	*curr;
 
 	curr = *lex;
+	if (curr->type == PIPE && !curr->index)
+		return (printf(PIPE_ERR), 0);
 	while (curr)
 	{
 		if (curr->type == PIPE)
 		{
 			if (curr->next == NULL)
-				return (perror("Pipes need at least one command"), 0);
+				return (printf(PIPE_ERR), 0);
 			else
 			{
 				if (curr->next->type == PIPE)
-					return (perror("Syntax Error"), 0);
+					return (printf(PIPE_ERR), 0);
 			}
 		}
 		curr = curr->next;

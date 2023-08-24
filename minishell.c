@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 12:18:17 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:25:03 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_leaks(void)
 {
-	system("Leaks a.out");
+	system("Leaks minishell");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -35,35 +35,33 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-void	executor(t_shell *mini)
-{
-	t_lexer	*curr;
-	int		times;
-
-	curr = *mini->lex;
-	times = 0;
-	while (curr)
-	{
-		if (curr->type == BUILTIN)
-			times = call_builtins(curr, mini);
-		if (times > 0)
-		{
-			while (times--)
-				curr = curr->next;
-		}
-		else
-			curr = curr->next;
-	}
-}
 void	minishell_exe(t_shell *mini)
 {
 	char	*rd;
+	t_command	**lst;
 
 	while (1)
 	{
 		rd = readline("minishell>");
+		add_history(rd);
 		mini->lex = ft_parser(mini, rd);
-		if (mini->lex)
-			executor(mini);
+		lst = create_command_list(mini->lex);
+		t_command	*curr;
+		curr = *lst;
+		int	i = 0;
+		while (curr)
+		{
+			printf("--new node--\n");
+			i = 0;
+			while (curr->args[i])
+			{
+				printf("arg[%i] = %s\n", i, curr->args[i]);
+				i++;
+			}
+			curr = curr->next;
+		}
+		
+//		if (mini->lex)
+//			builtin_executor(mini);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 10:00:36 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:54:26 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,25 @@ char	*find_comm_path(char *data)
 		i++;
 	}
 	return (com_path);
+}
+
+void	builtin_executor(t_shell *mini)
+{
+	t_lexer	*curr;
+	int		times;
+
+	curr = *mini->lex;
+	times = 0;
+	while (curr)
+	{
+		if (curr->type == BUILTIN)
+			times = call_builtins(curr, mini);
+		if (times > 0)
+		{
+			while (times--)
+				curr = curr->next;
+		}
+		else
+			curr = curr->next;
+	}
 }

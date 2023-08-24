@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 11:41:57 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:16:05 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,47 +39,6 @@ void	clean_false_joins(t_basic **pipes)
 	}
 }
 
-
-/*t_lexer	**final_lexer(t_basic **lst)
-{
-	t_lexer	**lexer;
-	t_basic	*curr;
-	char	*data;
-	size_t	times;
-	size_t	i;
-	size_t	quote;
-	int		n;
-
-	lexer = malloc(sizeof(t_lexer *));
-	if (!lexer)
-		return (NULL);
-	*lexer = NULL;
-	n = 0;
-	curr = *lst;
-	while (curr)
-	{
-		if (curr->join == 1)
-		{
-			i = 0;
-			data = ft_calloc(join_len(curr) + 1, sizeof(char));
-			times = join_times(curr);
-			quote = curr->quote;
-			while (++i <= times)
-			{
-				data = ft_strjoin(data, curr->data);
-				curr = curr->next;
-			}
-		}
-		else
-		{
-			data = curr->data;
-			quote = curr->quote;
-			curr = curr->next;
-		}
-		ft_lexer_insert(lexer, data, n++, quote);
-	}
-	return (lexer);
-}*/
 /* Provisional parsing function */
 t_lexer	**ft_parser(t_shell *mini, char *rd)
 {

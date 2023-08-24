@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:37:58 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:17:50 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,7 @@ char	**quotes_in_node(char *data)
 		}
 	}
 	if (open && closed == -1)
-	{
-		perror("quotes in node: Quotes must be closed.\n");
-		return (NULL);
-	}
+		return (printf(QUOTE_ERR), NULL);
 	clean = ft_split(data, data[closed]);
 	return (clean);
 }
@@ -166,56 +163,3 @@ char	*handle_quotes(char *rd, size_t	*i)
 	}
 	return (ft_substr(rd, h->start, h->end - h->start));
 }
-/*
-char	*handle_quotes(char *rd, size_t	*i)
-{
-	int		single;
-	int		q_double;
-	int		normal;
-	int		start;
-	int		first;
-	int		x;
-	int		end;
-	char	*data;
-
-	normal = 1;
-	single = 0;
-	q_double = 0;
-	start = 0;
-	end = 0;
-	first = 0;
-	x = 0;
-	while (rd[*i])
-	{
-		if (quote_type(rd[*i]))
-		{
-			normal = 0;
-			if (quote_type(rd[*i]) == 1)
-				single++;
-			else if (quote_type(rd[*i]) == 2)
-				q_double++;
-			if (!first)
-				first = quote_type(rd[*i]);
-		}
-		if ((single == 2 && first == 1) || (q_double == 2 && first == 2))
-		{
-			end = (*i) + 1;
-			(*i)++;
-			break ;
-		}
-		if (normal && !x)
-		{
-			x = 1;
-			start = *i;
-		}
-		else if (((single == 1 && first == 1) || (q_double == 1 && first == 2)) && !x)
-		{
-			x = 1;
-			start = *i;
-		}
-		(*i)++;
-	}
-	data = ft_substr(rd, start, end - start);
-	return (data);
-}
-*/

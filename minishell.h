@@ -6,13 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 17:03:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:03:28 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "struct.h"
+# include "enum.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -53,6 +54,10 @@ int		is_file(char *content);
 void	free_2D_array(char **array);
 void	free_t_lexer(t_lexer **lst);
 void	free_t_basic(t_basic **lst);
+/*		t_red				*/
+t_red	**create_redir_list(t_lexer	*curr);
+/*		t_command - execution_utils			*/
+t_command	**create_command_list(t_lexer **lexer);
 /*		pwd				*/
 void	ft_pwd(t_lexer *node, int *times);
 /*		echo			*/
@@ -93,4 +98,5 @@ void	here_doc_exe(char *del);
 /*		check_execution		*/
 
 /*		execution		*/
+void	builtin_executor(t_shell *mini);
 #endif
