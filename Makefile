@@ -6,7 +6,7 @@
 #    By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/08/24 13:07:57 by bbeltran         ###   ########.fr        #
+#    Updated: 2023/08/24 13:30:22 by bbeltran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ MINI_SRC = path_utils.c pwd.c builtins.c cd.c quote_utils.c echo.c quotes.c \
 env.c exit.c export.c free_utils.c list_utils.c minishell.c \
 redirections.c t_basic.c typesort.c typesort_utils.c unset.c pipes.c \
 new_parsing.c node_join.c quote_split.c space_split.c var_expand.c heredoc.c \
-execution.c t_red.c execution_utils.c
+execution.c t_red.c execution_utils.c t_command.c
 MINI_OBJ = $(MINI_SRC:.c=.o)
 
 
