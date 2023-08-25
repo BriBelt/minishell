@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 11:05:15 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:42:23 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_env(t_lexer *node, char **envp);
 int		array_size(char **envp, char *desired_path);
 char	**ft_unset(char **envp, t_lexer *node, int *times);
 /*		export			*/
+void	print_sort_env(char **envp);
 char	**ft_export(char **envp, t_lexer *node, int *times);
 /*		builtins		*/
 char	*str_tolow(char *str);
