@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 13:25:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/25 10:31:12 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	minishell_exe(t_shell *mini)
 			curr = curr->next;
 		}
 		
-//		if (mini->lex)
-//			builtin_executor(mini);
+		if (mini->lex)
+			builtin_executor(mini);
 	}
 }

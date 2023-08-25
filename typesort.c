@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:25:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:06:51 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	is_builtin(char *content)
 	int	len;
 
 	len = ft_strlen(content);
-	if (!ft_strncmp(content, "echo", len))
+	if (!ft_strncmp(str_tolow(content), "echo", len))
 		return (BUILTIN);
-	if (!ft_strncmp(content, "pwd", len))
+	if (!ft_strncmp(str_tolow(content), "pwd", len))
 		return (BUILTIN);
 	if (!ft_strncmp(content, "cd", len))
 		return (BUILTIN);
@@ -52,7 +52,7 @@ int	is_builtin(char *content)
 		return (BUILTIN);
 	if (!ft_strncmp(content, "unset", len))
 		return (BUILTIN);
-	if (!ft_strncmp(content, "env", len))
+	if (!ft_strncmp(str_tolow(content), "env", len))
 		return (BUILTIN);
 	return (STR);
 }

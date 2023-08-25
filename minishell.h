@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 13:03:28 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:05:15 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
+# include <sys/types.h>
 # include "libft/libft.h"
 
 void	minishell_exe(t_shell *mini);
@@ -72,6 +73,7 @@ char	**ft_unset(char **envp, t_lexer *node, int *times);
 /*		export			*/
 char	**ft_export(char **envp, t_lexer *node, int *times);
 /*		builtins		*/
+char	*str_tolow(char *str);
 int		call_builtins(t_lexer *node, t_shell *mini);
 /*		path_utils		*/
 int		search_in_envar(char *search, char **envars);

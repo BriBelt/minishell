@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 17:52:53 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/25 10:47:41 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct s_command
 
 typedef struct s_pipex
 {
-	pid_t	child;
-	int		pipefd[2]
+	int		child_id;
+	int		pipefd[2];
 	int		in_fd;
 	int		out_fd;
 	char	*cmd_path;

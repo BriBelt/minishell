@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enum.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:01:20 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:31:00 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/25 10:21:23 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define PIPE_ERR "Syntax error near unexpected token \'|\'\n"
 # define REDIR_ERR "Syntax error near unexpected redirect token\n"
 # define QUOTE_ERR "Syntax error: Unclosed quotes\n"
+
 enum	e_redir
 {
 	NO_REDIR,
@@ -34,6 +35,13 @@ enum	e_type
 	COMMAND,
 	FIL,
 	FLAG,
-	VAR 
+	VAR,
 };
- #endif
+
+enum	e_fd
+{
+	STDIN,
+	STDOUT,
+	STDERR,
+};
+#endif

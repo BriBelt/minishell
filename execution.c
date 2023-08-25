@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 17:52:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:12:37 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	get_file_fd(t_pipex pipex, t_red **redirect)
 	t_red	*in_file;
 	t_red	*out_file;
 
-	in_file = last_redirect(redirect, INPUT); 
-	out_file = last_redirect(redirect, OUTPUT); 
+	in_file = last_redirect(redirect, INPUT);
+	out_file = last_redirect(redirect, OUTPUT);
 	if (in_file)
 		pipex.in_fd = open(in_file->data, F_OK | O_RDWR);
 	if (out_file->type == OUTPUT)
@@ -124,7 +124,7 @@ void	first_command_child(t_shell *mini, t_command **commands)
 		else
 			dup2(pipex.pipefd[1], STDOUT);
 		if (execve(pipex.cmd_path, commands->args, mini->envp) == -1)
-			printf("%s: command not found\n", command->args[0]);
+			printf("%s: command not found\n", commands->args[0]);
 	}
 }
 
@@ -159,7 +159,7 @@ void	middle_command_child(t_shell *mini, t_command **commands)
 void	last_command_child(t_shell *mini, t_command **commands)
 {
 	t_pipex	pipex;
-	
+
 	pipex_init(pipex, commands->args[0], commands->redirect);
 	pipex.child = fork();
 	if (pipex.child == 0)
