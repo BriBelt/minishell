@@ -6,20 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 10:31:12 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:36:07 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_leaks(void)
-{
-	system("Leaks minishell");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
-	atexit(ft_leaks);
 	(void)argc;
 	(void)argv;
 	t_shell *mini;
