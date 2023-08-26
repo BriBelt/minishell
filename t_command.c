@@ -6,12 +6,14 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 13:30:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:44:34 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Iterates though the **lexer from the given *node, checks the amount of
+ **/
 int	args_size(t_lexer *curr)
 {
 	t_lexer	*ptr;
@@ -21,9 +23,9 @@ int	args_size(t_lexer *curr)
 	size = 0;
 	while (ptr && ptr->type != PIPE)
 	{
-		if (ptr->type != REDIR)
+		if (ptr->type != REDIR && ptr->type != FIL)
 			size++;
-		if (ptr->type == REDIR)
+		if (ptr->type == REDIR && ptr->next->next)
 			ptr += 2;
 		else
 			ptr = ptr->next;
@@ -44,13 +46,13 @@ char	**get_args(t_lexer *curr)
 		return (NULL);
 	while (ptr && ptr->type != PIPE)
 	{
-		if (ptr->type != REDIR)
+		if (ptr->type != REDIR && ptr->type != FIL)
 		{
 			args[i] = ft_strdup(ptr->data);
 			i++;
 		}
-		if (ptr->type == REDIR)
-			ptr += 2;
+		if (ptr->type == REDIR && ptr->next->next)
+				ptr += 2;
 		else
 			ptr = ptr->next;
 	}

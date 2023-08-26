@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 23:42:23 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/08/26 13:43:55 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	def_type(t_lexer **lst);
 /*		typesort_utils		*/
 int		flag_or_envar(char *content);
 int		is_file(char *content);
+void	is_file_type(t_lexer **lexer);
 /*		free_utils		*/
 void	free_2D_array(char **array);
 void	free_t_lexer(t_lexer **lst);

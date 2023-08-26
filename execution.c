@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 11:12:37 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:03:48 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ char	*find_comm_path(char *data)
 	return (com_path);
 }
 
+/* Function that iterates through the **lexer, until it finds a BUILTIN,
+ * after finding a BUILTIN, it calls the call_builtins() function, which checks and
+ * executes the corresponding builtin, and returns the amount of times the list
+ * has been iterated, so we know how many times we should iterate in this list. */
 void	builtin_executor(t_shell *mini)
 {
 	t_lexer	*curr;
@@ -102,7 +106,7 @@ void	pipex_init(t_pipex pipex, char *cmd, t_red **redirect)
 	get_file_fd(pipex, redirect);
 }
 
-void	first_command_child(t_shell *mini, t_command **commands)
+t_pipex	first_command_child(t_shell *mini, t_command **commands)
 {
 	t_pipex	pipex;
 	
@@ -126,19 +130,20 @@ void	first_command_child(t_shell *mini, t_command **commands)
 		if (execve(pipex.cmd_path, commands->args, mini->envp) == -1)
 			printf("%s: command not found\n", commands->args[0]);
 	}
+	return (pipex);
 }
 
-void	middle_command_child(t_shell *mini, t_command **commands)
+t_pipex	middle_command_child(t_pipex pipex, t_shell *mini, t_command **commands)
 {
-	t_pipex	pipex;
+//	t_pipex	pipex;
 	
-	pipex_init(pipex, commands->args[0], commands->redirect);
-	if (pipe(pipex.pipefd) == -1)
-	{
+//	pipex_init(pipex, commands->args[0], commands->redirect);
+//	if (pipe(pipex.pipefd) == -1)
+//	{
 //		close pipes
-		printf("Error creating the pipe\n");
-		exit(errno);
-	}
+//		printf("Error creating the pipe\n");
+//		exit(errno);
+//	}
 	pipex.child = fork();
 	if (pipex.child == 0)
 	{
@@ -154,13 +159,14 @@ void	middle_command_child(t_shell *mini, t_command **commands)
 		if (execve(pipex.cmd_path, commands->args, mini->envp) == -1)
 			printf("%s: command not found\n", command->args[0]);
 	}
+	return (pipex);
 }
 
-void	last_command_child(t_shell *mini, t_command **commands)
+void	last_command_child(t_pipex pipex, t_shell *mini, t_command **commands)
 {
-	t_pipex	pipex;
+//	t_pipex	pipex;
 
-	pipex_init(pipex, commands->args[0], commands->redirect);
+//	pipex_init(pipex, commands->args[0], commands->redirect);
 	pipex.child = fork();
 	if (pipex.child == 0)
 	{
@@ -176,13 +182,33 @@ void	last_command_child(t_shell *mini, t_command **commands)
 	}
 }
 
-void	command_executor(t_shell *mini, t_command **commands)
+int	command_counter(t_command **commands)
 {
 	t_command	*curr;
+	int			count;
 
+	count = 0;
 	curr = *commands;
 	while (curr)
 	{
+		count++;
+		curr = curr->next;
+	}
+	return (count);
+}
+
+void	command_executor(t_shell *mini, t_command **commands)
+{
+	t_command	*curr;
+	int			count;
+	t_pipex		pipex;
+
+	curr = *commands;
+	count = command_counter(commands);
+	while (curr)
+	{
+		if (count == 1)
+			pipex = first_command_child(mini, commands);
 
 		curr = curr->next;
 	}

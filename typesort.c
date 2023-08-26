@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 11:06:51 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:48:24 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ void	def_type(t_lexer **lst)
 			curr->type = is_builtin(curr->data);
 		curr = curr->next;
 	}
+	is_file_type(lst);
 	str_type(lst);
 }

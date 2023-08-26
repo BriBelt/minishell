@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:23:56 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:28:45 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:43:22 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,17 @@ int	is_file(char *content)
 	if (!access(content, F_OK | R_OK))
 		return (FIL);
 	return (STR);
+}
+
+void	is_file_type(t_lexer **lexer)
+{
+	t_lexer	*curr;
+
+	curr = *lexer;
+	while (curr)
+	{
+		if (curr->type == REDIR && curr->next)
+			curr->next->type = FIL;
+		curr = curr->next;
+	}
 }

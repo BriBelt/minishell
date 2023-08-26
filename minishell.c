@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 14:36:07 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:28:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ void	minishell_exe(t_shell *mini)
 		{
 			printf("--new node--\n");
 			i = 0;
-			while (curr->args[i])
-			{
-				printf("arg[%i] = %s\n", i, curr->args[i]);
-				i++;
-			}
-			curr = curr->next;
+//			while (curr->args[i])
+//			{
+//				printf("arg[%i] = %s", i, curr->args[i]);
+//				i++;
+//			}
+//			curr = curr->next;
 		}
 		
 		if (mini->lex)
