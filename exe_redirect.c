@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/26 13:44:33 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:21:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_red	*last_redirect(t_red **redirect, int in_or_out)
 	t_red	*input;
 	t_red	*output;
 
-	curr = *redirec;
+	curr = *redirect;
 	while (curr)
 	{
 		if (curr->type == INPUT)

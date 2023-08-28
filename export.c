@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 23:43:42 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/08/28 12:55:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,27 @@ char	**export_new_envar(char **envp, char *new_var)
 /* Export builtin function, calls export_new_envar(); that creates a new array
  * of the updated **envp (with the new variable), frees the old array **envp,
  * and returns the new array. */
-char	**ft_export(char **envp, t_lexer *node, int *times)
+char	**ft_export(char **envp, t_command *node)
 {
-	char	**new_envp;
-	char	**aux;
-	t_lexer	*curr;
+	char		**new_envp;
+	char		**aux;
+	t_command	*curr;
+	int			i;
 
-	if (node->next)
+	i = 1;
+	curr = node;
+	if (curr->args[i])
 	{
-		curr = node->next;
 		new_envp = envp;
-		while (curr)
+		while (curr->args[i])
 		{
-			if (check_for_export(curr->data))
+			if (check_for_export(curr->args[i]))
 			{
 				aux = new_envp;
-				new_envp = export_new_envar(aux, curr->data);
+				new_envp = export_new_envar(aux, curr->args[i]);
 				free_2D_array(aux);
 			}
-			curr = curr->next;
-			(*times)++;
+			i++;
 		}
 		return (new_envp);
 	}

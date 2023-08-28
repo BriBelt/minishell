@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/23 12:24:09 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:00:31 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,53 @@ int	only_n(char	*data)
 	return (1);
 }
 
-void	echo_flagged(t_lexer *curr, int *times)
+int	check_for_flag(char	**args)
 {
-	curr = curr->next;
-	(*times)++;
-	while (curr && curr->type != PIPE && curr->type != REDIR)
+	int	i;
+	int count;
+
+	count = 1; 
+	i = 0;
+	while (args[++i])
 	{
-		printf("%s", curr->data);
-		curr = curr->next;
-		(*times)++;
+		if (args[i][0] == '-' && only_n(args[i]))
+			count++;
+	}
+	return (count);
+}
+
+void	echo_flagged(t_command *curr)
+{
+	int	i;
+
+	i = check_for_flag(curr->args);
+	while (curr->args[i])
+	{
+		printf("%s", curr->args[i]);
+		i++;
 	}
 }
 
-void	echo_no_flag(t_lexer *curr, int *times)
+void	echo_no_flag(t_command *curr)
 {
-	while (curr && curr->type != PIPE && curr->type != REDIR)
-	{
-		printf("%s ", curr->data);
-		curr = curr->next;
-		(*times)++;
-	}
+	int	i;
+
+	i = 0;
+	while (curr->args[++i])
+		printf("%s ", curr->args[i]);
 	printf("\n");
 }
 
-int	ft_echo(t_lexer *node)
+void	ft_echo(t_command *node)
 {
-	t_lexer	*curr;
-	int		times;
+	t_command	*curr;
 
-	curr = node->next;
-	times = 0;
+	curr = node;
 	if (curr)
 	{
-		if (curr->type == FLAG && only_n(curr->data))
-			echo_flagged(curr, &times);
+		if (check_for_flag(curr->args) > 1)
+			echo_flagged(curr);
 		else
-			echo_no_flag(curr, &times);
+			echo_no_flag(curr);
 	}
-	return (times);
 }

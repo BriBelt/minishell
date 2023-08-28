@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/26 13:44:34 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:39:10 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	**get_args(t_lexer *curr)
 		else
 			ptr = ptr->next;
 	}
+	args[i] = NULL;
 	return (args);
 }
 

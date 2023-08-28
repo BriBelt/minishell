@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 10:48:55 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:10:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,30 @@ char	*str_tolow(char *str)
 /* This function's purpose is only to call check the given node, if the 
  * node->data of the lexer is the same as any of the specified builtins, it
  * executes the corresponding command for the builtin. */
-int	call_builtins(t_lexer *node, t_shell *mini)
+int	call_builtins(t_command *node, t_shell *mini)
 {
-	int	times;
-
-	times = 0;
-	if (!ft_strcmp(str_tolow(node->data), "pwd"))
-		ft_pwd(node, &times);
-	else if (!ft_strcmp(node->data, "cd"))
-		ft_cd(node, &times);
-	else if (!ft_strcmp(str_tolow(node->data), "env"))
-		ft_env(node, mini->envp);
-	else if (!ft_strcmp(str_tolow(node->data), "echo"))
-		times = ft_echo(node);
-	else if (!ft_strcmp(node->data, "unset"))
-		mini->envp = ft_unset(mini->envp, node, &times);
-	else if (!ft_strcmp(node->data, "export"))
-		mini->envp = ft_export(mini->envp, node, &times);
-	else if (!ft_strcmp(node->data, "exit"))
+	if (!ft_strcmp(str_tolow(node->args[0]), "pwd"))
+		return (ft_pwd(node), 1);
+	else if (!ft_strcmp(node->args[0], "cd"))
+		return (ft_cd(node), 1);
+	else if (!ft_strcmp(str_tolow(node->args[0]), "env"))
+		return (ft_env(node, mini->envp), 1);
+	else if (!ft_strcmp(str_tolow(node->args[0]), "echo"))
+		return (ft_echo(node), 1);
+	else if (!ft_strcmp(node->args[0], "unset"))
+	{
+		mini->envp = ft_unset(mini->envp, node);
+		return (1);
+	}
+	else if (!ft_strcmp(node->args[0], "export"))
+	{
+		mini->envp = ft_export(mini->envp, node);
+		return (1);
+	}
+	else if (!ft_strcmp(node->args[0], "exit"))
 	{
 		printf("exit\n");
 		exit(0);
 	}
-	return (++times);
+	return (0);
 }

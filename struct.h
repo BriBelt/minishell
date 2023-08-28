@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/25 10:47:41 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:03:11 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ typedef struct s_command
 
 typedef struct s_pipex
 {
-	int		child_id;
-	int		pipefd[2];
+	int		ids[1024];
+	int		i;
+	int		out_pipefd[2];
+	int		in_pipefd[2];
 	int		in_fd;
 	int		out_fd;
 	char	*cmd_path;
@@ -57,8 +59,9 @@ typedef struct s_pipex
 
 typedef struct s_shell
 {
-	char	**envp;
-	t_lexer	**lex;
+	char		**envp;
+	t_lexer		**lex;
+	t_command	**cmds;
 }				t_shell;
 
 typedef struct s_quote

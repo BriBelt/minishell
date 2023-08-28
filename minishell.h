@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/26 13:43:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:11:10 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,22 @@ t_red	**create_redir_list(t_lexer	*curr);
 /*		t_command - execution_utils			*/
 t_command	**create_command_list(t_lexer **lexer);
 /*		pwd				*/
-void	ft_pwd(t_lexer *node, int *times);
+void	ft_pwd(t_command *node);
 /*		echo			*/
-int		ft_echo(t_lexer *node);
+void	ft_echo(t_command *node);
 /*		cd				*/
-void	ft_cd(t_lexer *node, int *times);
+void	ft_cd(t_command *node);
 /*		env				*/
-void	ft_env(t_lexer *node, char **envp);
+void	ft_env(t_command *node, char **envp);
 /*		unset			*/
 int		array_size(char **envp, char *desired_path);
-char	**ft_unset(char **envp, t_lexer *node, int *times);
+char	**ft_unset(char **envp, t_command *node);
 /*		export			*/
 void	print_sort_env(char **envp);
-char	**ft_export(char **envp, t_lexer *node, int *times);
+char	**ft_export(char **envp, t_command *node);
 /*		builtins		*/
 char	*str_tolow(char *str);
-int		call_builtins(t_lexer *node, t_shell *mini);
+int		call_builtins(t_command *node, t_shell *mini);
 /*		path_utils		*/
 int		search_in_envar(char *search, char **envars);
 char	**get_paths(char *pathname);
@@ -100,7 +100,11 @@ int		check_pipes(t_lexer **lex);
 char	*find_delimiter(t_lexer **lexer);
 void	here_doc_exe(char *del);
 /*		check_execution		*/
+/*		exe_redirect		*/
+t_red	*last_redirect(t_red **redirect, int in_or_out);
 
 /*		execution		*/
-void	builtin_executor(t_shell *mini);
+//void	builtin_executor(t_shell *mini);
+void	command_executor(t_shell *mini, t_command **commands);
+void	executor(t_shell *mini);
 #endif
