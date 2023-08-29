@@ -6,13 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 12:03:11 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:06:39 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 # include <stdio.h>
+# include <sys/wait.h>
 # include "enum.h"
 
 typedef struct s_basic
@@ -48,10 +49,8 @@ typedef struct s_command
 
 typedef struct s_pipex
 {
-	int		ids[1024];
-	int		i;
-	int		out_pipefd[2];
-	int		in_pipefd[2];
+	pid_t	child_id;
+	int		pipes[2];
 	int		in_fd;
 	int		out_fd;
 	char	*cmd_path;

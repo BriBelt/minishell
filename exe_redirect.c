@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 13:21:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:47:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_red	*last_redirect(t_red **redirect, int in_or_out)
 			output = curr;
 		curr = curr->next;
 	}
-	if (in_or_out == INPUT)
+	if (in_or_out == INPUT && input)
 		return (input);
-	else if (in_or_out == OUTPUT)
+	else if (in_or_out == OUTPUT && output->data)
 		return (output);
 	return (NULL);
 }
@@ -42,11 +42,13 @@ t_red	*last_redirect(t_red **redirect, int in_or_out)
 there is a following node and if it is an accessible file. If it has found 
 a input redirect it will check for existance and reading permissions, if 
 it's a output redirect only for writing permissions*/
-/*int	check_redir_access(t_lexer **lexer)
+int	check_redir_access(t_lexer **lexer)
 {
 	t_lexer	*curr;
+	int		new;
 
 	curr = *lexer;
+	new = 0;
 	while (curr)
 	{
 		if (curr->type == REDIR)
@@ -57,14 +59,21 @@ it's a output redirect only for writing permissions*/
 				printf("%s: No such file or directory\n", curr->next->data);
 				return (0);
 			}
-			else if (redirect_type(curr->data) == 2 && curr->next
-				&& access(curr->next->data, W_OK))
+			else if (redirect_type(curr->data) == 2 && curr->next)
 			{
-				printf("%s: No such file or directory\n", curr->next->data);
-				return (0);
+				if (access(curr->next->data, F_OK) == -1)
+				{
+					new = open(curr->next->data, O_CREAT, 0644);
+					if (new < 0)
+					{
+						printf("Error creating file or directory\n");
+						return (0);
+					}
+					close(new);
+				}
 			}
 		}
 		curr = curr->next;
 	}
 	return (1);
-}*/
+}
