@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 13:03:56 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:27:11 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	found_redirect_type(t_red **redirect, int type)
 	return (0);
 }
 
-void	get_file_des(t_pipex pipex, t_red **redirect)
+void	get_file_des(t_pipex *pipex, t_red **redirect)
 {
 	t_red	*out;
 	t_red	*in;
@@ -89,17 +89,13 @@ void	get_file_des(t_pipex pipex, t_red **redirect)
 	if (found_redirect_type(redirect, INPUT))
 	{
 		in = last_redirect(redirect, INPUT);
-		pipex.in_fd = open(in->data, O_RDWR);
+		(*pipex).in_fd = open(in->data, O_RDWR);
 	}
-	else
-		pipex.in_fd = -1;
 	if (found_redirect_type(redirect, OUTPUT))
 	{
 		out = last_redirect(redirect, OUTPUT);
-		pipex.out_fd = open(out->data, O_WRONLY);
+		(*pipex).out_fd = open(out->data, O_WRONLY);
 	}
-	else
-		pipex.out_fd = -1;
 }
 
 void	create_pipes(t_command **commands, t_pipex pipex)

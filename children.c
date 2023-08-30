@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 14:45:14 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:27:04 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,18 @@
 
 void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
-	get_file_des(pipex, command->redirect);
+	get_file_des(&pipex, command->redirect);
 	pipex.child_id = fork();
 	if (!pipex.child_id)
 	{
 		pipex.cmd_path = find_comm_path(command->args[0]);
 		dup2(pipex.out_fd, STDOUT);
-//		int i = 0;
-//		while (command->args[i])
-//		{
-//			printf("Arg[%i] = %s\n", i, command->args[i]);
-//			i++;
-//		}
 		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: Error\n");
 	}
 }
 
-t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
+/*t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
 	if (*command->redirect)
 		get_file_des(pipex, command->redirect);
@@ -93,4 +87,4 @@ void	last_child(t_pipex pipex, t_command *command, t_shell *mini)
 				printf("LAST Execve: Error\n");
 		}
 	}
-}
+}*/
