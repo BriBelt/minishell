@@ -6,13 +6,11 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 16:56:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:44:15 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//t_shell	*mini = malloc(sizeof(t_shell *));
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -38,10 +36,12 @@ void	minishell_exe(t_shell *mini)
 	while (1)
 	{
 		rd = readline("minishell>");
-		add_history(rd);
-		mini->lex = ft_parser(mini, rd);
-		mini->cmds = create_command_list(mini->lex);
-		executor(mini);
-
+		if (ft_strlen(rd) > 0)
+		{
+			add_history(rd);
+			mini->lex = ft_parser(mini, rd);
+			mini->cmds = create_command_list(mini->lex);
+			executor(mini);
+		}
 	}
 }

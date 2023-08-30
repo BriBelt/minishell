@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/29 17:59:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:01:27 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,17 @@ int		check_redir_access(t_lexer **lexer);
 
 /*		execution		*/
 //void	builtin_executor(t_shell *mini);
+t_pipex	pipex_init(void);
 void	command_executor(t_shell *mini, t_command **commands);
 void	executor(t_shell *mini);
 /*		children_utils	*/
 int		command_counter(t_command **commands);
 char	*find_comm_path(char *data);
 int		found_redirect_type(t_red **redirect, int type);
-void	get_file_des(t_pipex *pipex, t_red **redirect);
-void	create_pipes(t_command **commands, t_pipex *pipex);
+void	get_file_des(t_pipex pipex, t_red **redirect);
+void	create_pipes(t_command **commands, t_pipex pipex);
 /*		children		*/
-void	only_child(t_pipex *pipex, t_command *command, t_shell *mini);
-void	first_child(t_pipex *pipex, t_command *commands, t_shell *mini);
-void	last_child(t_pipex *pipex, t_command *commands, t_shell *mini);
+void	only_child(t_pipex pipex, t_command *command, t_shell *mini);
+t_pipex	first_child(t_pipex pipex, t_command *commands, t_shell *mini);
+void	last_child(t_pipex pipex, t_command *commands, t_shell *mini);
 #endif
