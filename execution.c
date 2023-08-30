@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 14:45:59 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:05:41 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	executor(t_shell *mini)
 	if (command_counter(mini->cmds) == 1)
 	{
 		if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
-				only_child(pipex, *mini->cmds, mini);
+			only_child(pipex, *mini->cmds, mini);
+		waitpid(pipex.child_id, NULL, 0);
 	}
 	else if (command_counter(mini->cmds) == 2)
 	{
@@ -38,11 +39,11 @@ void	executor(t_shell *mini)
 		{
 			pipe(pipex.pipes);
 			pipex = first_child(pipex, *mini->cmds, mini);
-			close(pipex.pipes[1]);
 			last_child(pipex, (*mini->cmds)->next, mini);
 			close(pipex.pipes[0]);
 			close(pipex.pipes[1]);
 		}
+		waitpid(pipex.child_id, NULL, 0);
+		waitpid(pipex.child_id, NULL, 0);
 	}
-	waitpid(-1, NULL, 0);
 }
