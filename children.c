@@ -6,22 +6,57 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 17:27:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:53:58 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
+void	only_child(t_pipex *pipex, t_command *command, t_shell *mini)
 {
-	get_file_des(&pipex, command->redirect);
-	pipex.child_id = fork();
-	if (!pipex.child_id)
+	get_file_des(pipex, command->redirect);
+	(*pipex).child_id[0] = fork();
+	if (!(*pipex).child_id[0])
 	{
-		pipex.cmd_path = find_comm_path(command->args[0]);
-		dup2(pipex.out_fd, STDOUT);
-		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
+		(*pipex).cmd_path = find_comm_path(command->args[0]);
+		dup2((*pipex).out_fd, STDOUT);
+		if (execve((*pipex).cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: Error\n");
+	}
+}
+
+void	first_child(t_pipex *pipex, t_command *command, t_shell *mini)
+{
+	get_file_des(pipex, command->redirect);
+	(*pipex).child_id[0] = fork();
+	if (!(*pipex).child_id[0])
+	{
+		(*pipex).cmd_path = find_comm_path(command->args[0]);
+		close((*pipex).pipes[0]);
+		dup2((*pipex).pipes[1], STDOUT);
+		close((*pipex).pipes[1]);
+		if (!call_builtins(command, mini))
+		{
+			if (execve((*pipex).cmd_path, command->args, mini->envp) == -1)
+				printf("FIRST Execve: Error\n");
+		}
+	}
+}
+
+void	last_child(t_pipex *pipex, t_command *command, t_shell *mini)
+{
+	get_file_des(pipex, command->redirect);
+	(*pipex).child_id[1] = fork();
+	if (!(*pipex).child_id[1])
+	{
+		(*pipex).cmd_path = find_comm_path(command->args[0]);
+		dup2((*pipex).pipes[0], STDIN);
+		close((*pipex).pipes[0]);
+		if (!call_builtins(command, mini))
+		{
+			if (execve((*pipex).cmd_path, command->args, mini->envp) == -1)
+				printf("FIRST Execve: Error\n");
+		}
 	}
 }
 
