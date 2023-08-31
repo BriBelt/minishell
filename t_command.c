@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 15:39:10 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:41:14 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,24 @@ int	args_size(t_lexer *curr)
 {
 	t_lexer	*ptr;
 	int		size;
+	int		redir;
 
 	ptr = curr;
 	size = 0;
+	redir = 0;
 	while (ptr && ptr->type != PIPE)
 	{
-		if (ptr->type != REDIR && ptr->type != FIL)
-			size++;
-		if (ptr->type == REDIR && ptr->next->next)
-			ptr += 2;
-		else
+		if (ptr->type == REDIR)
+			redir = 1;
+		if (ptr->type == FIL && redir && ptr->next)
+		{
 			ptr = ptr->next;
+			redir = 0;
+		}
+		if ((ptr->type == FIL && !redir)
+				|| (ptr->type != REDIR && ptr->type != FIL))
+			size++;
+		ptr = ptr->next;
 	}
 	return (size);
 }
@@ -38,23 +45,30 @@ char	**get_args(t_lexer *curr)
 	char	**args;
 	t_lexer	*ptr;
 	int		i;
+	int		redir;
 
 	ptr = curr;
 	i = 0;
+	redir = 0;
 	args = ft_calloc(args_size(curr) + 1, sizeof(char *));
 	if (!args)
 		return (NULL);
 	while (ptr && ptr->type != PIPE)
 	{
-		if (ptr->type != REDIR && ptr->type != FIL)
+		if (ptr->type == REDIR)
+			redir = 1;
+		if (ptr->type == FIL && redir && ptr->next)
+		{
+			ptr = ptr->next;
+			redir = 0;
+		}
+		if ((ptr->type == FIL && !redir)
+				|| (ptr->type != REDIR && ptr->type != FIL))
 		{
 			args[i] = ft_strdup(ptr->data);
 			i++;
 		}
-		if (ptr->type == REDIR && ptr->next->next)
-				ptr += 2;
-		else
-			ptr = ptr->next;
+		ptr = ptr->next;
 	}
 	args[i] = NULL;
 	return (args);
