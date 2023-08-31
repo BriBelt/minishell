@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 14:12:23 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:26:00 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ t_pipex	pipex_init(void)
 	pipex.in_fd = -1;
 	pipex.out_fd = -1;
 	return (pipex);
+}
+
+void	wait_for_child(t_pipex pipex, int count)
+{
+	int	i;
+
+	i = 0;
+	while (pipex.child_id[i] && i < count)
+	{
+		waitpid(pipex.child_id[i], NULL, 0);
+		i++;
+	}
 }
 
 void	executor(t_shell *mini)
@@ -51,8 +63,15 @@ void	executor(t_shell *mini)
 		{
 			cmd = *mini->cmds;
 			i = 0;
-			while (i < count)
+			while (i < count && cmd)
 			{
+				int j = 0;
+				while (cmd->args[j])
+				{
+					printf("cmd[%i] = %s\n", j, cmd->args[j]);
+					j++;
+				}
+				pipe(pipex.pipes[i]);
 				if (i == 0)
 					pipex = first_child(pipex, cmd, mini);
 				else if (i == count - 1)
@@ -60,11 +79,14 @@ void	executor(t_shell *mini)
 				else
 					pipex = middle_child(pipex, cmd, mini, i);
 				i++;
+				close(pipex.pipes[i][0]);
+				close(pipex.pipes[i][1]);
 				cmd = cmd->next;
 			}
 		}
 	}
-	waitpid(pipex.child_id[0], NULL, 0);
-	waitpid(pipex.child_id[1], NULL, 0);
+	wait_for_child(pipex, count);
+//	waitpid(pipex.child_id[0], NULL, 0);
+//	waitpid(pipex.child_id[1], NULL, 0);
 //	waitpid(-1, NULL, 0);
 }
