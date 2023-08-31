@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 10:45:49 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:48:38 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_redir_access(t_lexer **lexer)
 		if (curr->type == REDIR)
 		{
 			if (redirect_type(curr->data) == 1 && curr->next
-				&& access(curr->next->data, F_OK | R_OK))
+				&& access(curr->next->data, F_OK | R_OK) == -1)
 			{
 				printf("%s: No such file or directory\n", curr->next->data);
 				return (0);

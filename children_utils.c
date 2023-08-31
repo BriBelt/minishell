@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 17:27:11 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:12:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	get_file_des(t_pipex *pipex, t_red **redirect)
 	}
 }
 
-void	create_pipes(t_command **commands, t_pipex pipex)
+/*void	create_pipes(t_command **commands, t_pipex pipex)
 {
 	int	i;
 	int	command_count;
@@ -114,4 +114,4 @@ void	create_pipes(t_command **commands, t_pipex pipex)
 //		we will need to free if the result is less than 0
 		i++;
 	}
-}
+}*/

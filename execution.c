@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 17:49:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:51:39 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,19 @@ void	executor(t_shell *mini)
 	if (command_counter(mini->cmds) == 1)
 	{
 		if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
-			only_child(&pipex, *mini->cmds, mini);
+			only_child(pipex, *mini->cmds, mini);
 	}
 	else if (command_counter(mini->cmds) == 2)
+	{
+		if (check_redir_access(mini->lex))
+		{
+			pipe(pipex.pipes[0]);
+			pipex = first_child(pipex, *mini->cmds, mini);
+			pipex = last_child(pipex, (*mini->cmds)->next, mini);
+			(close(pipex.pipes[0][0]) , close(pipex.pipes[0][1]));
+		}
+	}
+/*	else if (command_counter(mini->cmds) == 2)
 	{
 		if (check_redir_access(mini->lex))
 		{
@@ -39,7 +49,7 @@ void	executor(t_shell *mini)
 			first_child(&pipex, *mini->cmds, mini);
 			last_child(&pipex, *mini->cmds, mini);
 		}
-	}
+	}*/
 /*	else if (command_counter(mini->cmds) == 2)
 	{
 		if (check_redir_access(mini->lex))
