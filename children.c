@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 14:29:59 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:37:52 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 			dup2(pipex.pipes[i - 1][0], STDIN);
 		if (pipex.out_fd != -1)
 			dup2(pipex.out_fd, STDOUT);
+		printf("inpipe_fd = %i\n", i - 1);
+		printf("infile_fd = %i\n", pipex.in_fd);
+		printf("outfile_fd = %i\n", pipex.out_fd);
 		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve last: Error\n");
 	}

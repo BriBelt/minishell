@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 14:29:58 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:04:16 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ t_pipex	pipex_init(void)
 	return (pipex);
 }
 
+/*void	close_pipes(t_pipex pipex, int count)
+{
+	int i;
+	i = 0;
+	while (i < count)
+	{
+		close(pipex.pipes[i][0]);
+		close(pipex.pipes[i][1]);
+	}
+
+}*/
 void	wait_for_child(t_pipex pipex, int count)
 {
 	int	i;
@@ -72,22 +83,38 @@ void	executor(t_shell *mini)
 					printf("cmd[%i] = %s\n", j, cmd->args[j]);
 					j++;
 				}
-				pipe(pipex.pipes[i]);
+				printf("count = %i\n", count);
+				if (i != count - 1)
+					pipe(pipex.pipes[i]);
 				if (i == 0)
+				{
 					pipex = first_child(pipex, cmd, mini);
+//					close(pipex.pipes[i][0]);
+				}
 				else if (i == count - 1)
+				{
+					close(pipex.pipes[i - 1][1]);
 					pipex = last_child(pipex, cmd, mini, i);
-				else
+				}
+				else if (i < 0 && i < count - 1)
+				{
+//					close(pipex.pipes[i - 1][1]);
 					pipex = middle_child(pipex, cmd, mini, i);
+//					close(pipex.pipes[i][0]);
+				}
 				i++;
-				close(pipex.pipes[i][0]);
-				close(pipex.pipes[i][1]);
 				cmd = cmd->next;
+//	Da segfault			if (i != count - 1)
+//				{
+//					close(pipex.pipes[i][0]);
+//					close(pipex.pipes[i][1]);
+//				}
 			}
 		}
 	}
-	wait_for_child(pipex, count);
-//	waitpid(pipex.child_id[0], NULL, 0);
-//	waitpid(pipex.child_id[1], NULL, 0);
+//	wait_for_child(pipex, count);
+	waitpid(pipex.child_id[0], NULL, 0);
+	waitpid(pipex.child_id[1], NULL, 0);
+	waitpid(pipex.child_id[2], NULL, 0);
 //	waitpid(-1, NULL, 0);
 }
