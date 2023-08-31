@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 13:02:41 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:29:58 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,73 @@ t_pipex	pipex_init(void)
 	return (pipex);
 }
 
+void	wait_for_child(t_pipex pipex, int count)
+{
+	int	i;
+
+	i = 0;
+	while (pipex.child_id[i] && i < count)
+	{
+		waitpid(pipex.child_id[i], NULL, 0);
+		i++;
+	}
+}
+
 void	executor(t_shell *mini)
 {
-	t_pipex	pipex;
+	t_pipex		pipex;
+	t_command	*cmd;
+	int			i;
+	int			count;
 
 	pipex = pipex_init();
-	if (command_counter(mini->cmds) == 1)
+	count = command_counter(mini->cmds);
+	if (count == 1)
 	{
 		if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
 			only_child(pipex, *mini->cmds, mini);
 
 	}
-	else if (command_counter(mini->cmds) == 2)
+	else if (count == 2)
 	{
 		if (check_redir_access(mini->lex))
 		{
 			pipe(pipex.pipes[0]);
 			pipex = first_child(pipex, *mini->cmds, mini);
-			pipex = last_child(pipex, (*mini->cmds)->next, mini);
+			pipex = last_child(pipex, (*mini->cmds)->next, mini, 1);
 			(close(pipex.pipes[0][0]) , close(pipex.pipes[0][1]));
 		}
 	}
-	waitpid(pipex.child_id[0], NULL, 0);
-	waitpid(pipex.child_id[1], NULL, 0);
+	else
+	{
+		if (check_redir_access(mini->lex))
+		{
+			cmd = *mini->cmds;
+			i = 0;
+			while (i < count && cmd)
+			{
+				int j = 0;
+				while (cmd->args[j])
+				{
+					printf("cmd[%i] = %s\n", j, cmd->args[j]);
+					j++;
+				}
+				pipe(pipex.pipes[i]);
+				if (i == 0)
+					pipex = first_child(pipex, cmd, mini);
+				else if (i == count - 1)
+					pipex = last_child(pipex, cmd, mini, i);
+				else
+					pipex = middle_child(pipex, cmd, mini, i);
+				i++;
+				close(pipex.pipes[i][0]);
+				close(pipex.pipes[i][1]);
+				cmd = cmd->next;
+			}
+		}
+	}
+	wait_for_child(pipex, count);
+//	waitpid(pipex.child_id[0], NULL, 0);
+//	waitpid(pipex.child_id[1], NULL, 0);
 //	waitpid(-1, NULL, 0);
 }

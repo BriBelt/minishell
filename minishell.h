@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:32:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:11:53 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ void	create_pipes(t_command **commands, t_pipex pipex);
 /*		children		*/
 void	only_child(t_pipex pipex, t_command *command, t_shell *mini);
 t_pipex	first_child(t_pipex pipex, t_command *commands, t_shell *mini);
-t_pipex	last_child(t_pipex pipex, t_command *commands, t_shell *mini);
+t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i);
+t_pipex	last_child(t_pipex pipex, t_command *commands, t_shell *mini, int i);
 #endif
