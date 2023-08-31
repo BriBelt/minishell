@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:57:08 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:02:52 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,19 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 		else
 			dup2(pipex.pipes[0][1], STDOUT);
 		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
-			printf("Execve: Error\n");
+			printf("Execve first: Error\n");
 	}
 	return (pipex);
 }
 
 t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
+	int i = 0;
+	while (command->args[i])
+	{
+		printf("arg[%i] = %s\n", i, command->args[i]);
+		i++;
+	}
 	pipex.child_id[1] = fork();
 	if (!pipex.child_id[1])
 	{
@@ -63,7 +69,7 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini)
 		if (pipex.out_fd != -1)
 			dup2(pipex.out_fd, STDOUT);
 		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
-			printf("Execve: Error\n");
+			printf("Execve last: Error\n");
 	}
 	return (pipex);
 }
