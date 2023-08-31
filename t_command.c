@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/30 16:41:14 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:50:21 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	args_size(t_lexer *curr)
 		{
 			ptr = ptr->next;
 			redir = 0;
+			if (ptr->type == PIPE)
+				break;
 		}
 		if ((ptr->type == FIL && !redir)
 				|| (ptr->type != REDIR && ptr->type != FIL))
@@ -61,6 +63,8 @@ char	**get_args(t_lexer *curr)
 		{
 			ptr = ptr->next;
 			redir = 0;
+			if (ptr->type == PIPE)
+				break;
 		}
 		if ((ptr->type == FIL && !redir)
 				|| (ptr->type != REDIR && ptr->type != FIL))
