@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 13:24:23 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:59:05 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 			if (pipex.out_fd != -1)
 				dup2(pipex.out_fd, STDOUT);
 			else
+			{
 				dup2(pipex.pipes[0][1], STDOUT);
+				close(pipex.pipes[0][1]);
+			}
 			if (!call_builtins(command, mini)
 					&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 				printf("Execve: %s: command not found\n", command->args[0]);
