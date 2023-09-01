@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 14:11:53 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 12:41:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_lexer	**create_lexer(t_basic **basic);
 t_lexer	*ft_lexernew(char *content, int i, size_t join);
 void	ft_lexer_insert(t_lexer	**lst, char *content, int i, size_t join);
 /*		typesort		*/
+int		is_builtin(char *content);
+int		is_command(char *content);
 int		redirect_or_pipe(char *content);
 void	def_type(t_lexer **lst);
 /*		typesort_utils		*/
