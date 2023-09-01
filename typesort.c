@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 13:01:06 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:30:33 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	is_command(char *content)
 		com_path = ft_strjoin(tmp, content);
 		free(tmp);
 		if (!access(com_path, F_OK | X_OK))
-			return (free_2D_array(paths), COMMAND);
+			return (free_2d_array(paths), COMMAND);
 		free(com_path);
 		i++;
 	}

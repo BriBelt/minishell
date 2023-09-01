@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:12:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:30:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*find_comm_path(char *data)
 		com_path = ft_strjoin(tmp, data);
 		free(tmp);
 		if (!access(com_path, F_OK | X_OK))
-			return (free_2D_array(paths), com_path);
+			return (free_2d_array(paths), com_path);
 		free(com_path);
 		i++;
 	}

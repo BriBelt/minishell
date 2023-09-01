@@ -6,12 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 15:13:22 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:21:08 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Initializes and returns a t_pipex variable for later use during the child
+ * processes.*/
 t_pipex	pipex_init(void)
 {
 	t_pipex	pipex;
@@ -32,6 +34,8 @@ t_pipex	pipex_init(void)
 	}
 
 }*/
+/* While loop that will iterate through the children_id array to make the
+ * parent process wait until all the children processes are done. */
 void	wait_for_child(t_pipex pipex, int count)
 {
 	int	i;

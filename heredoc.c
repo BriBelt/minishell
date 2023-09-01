@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/22 15:40:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:22:01 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_lexer	*check_for_heredoc(t_lexer **lexer)
  * checks if the next node exists and sets it as a delimiter. */
 char	*find_delimiter(t_lexer **lexer)
 {
-	t_lexer *here_doc;
+	t_lexer	*here_doc;
 	char	*del;
 
 	here_doc = check_for_heredoc(lexer);
