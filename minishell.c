@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 12:28:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:23:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_shell	*mini;
+
 	(void)argc;
 	(void)argv;
-	t_shell *mini;
-
 	mini = malloc(sizeof(t_shell));
 	if (!mini)
 		/*should return an error, create a new exit function for errors*/

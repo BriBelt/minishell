@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:48:38 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 13:59:55 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@ t_red	*last_redirect(t_red **redirect, int in_or_out)
 	return (NULL);
 }
 
+int	output_check(t_lexer *node)
+{
+	int	new;
+
+	new = 0;
+	if (redirect_type(node->data) == 2 && node->next)
+	{
+		if (access(node->next->data, F_OK) == -1)
+		{
+			new = open(node->next->data, O_CREAT, 0644);
+			if (new < 0)
+				return (0);
+			close(new);
+		}
+		return (1);
+	}
+	return (0);
+}
+
 /* Iterates through the lexer, if it finds a redirect node type, checks if 
 there is a following node and if it is an accessible file. If it has found 
 a input redirect it will check for existance and reading permissions, if 
@@ -45,32 +64,20 @@ it's a output redirect only for writing permissions*/
 int	check_redir_access(t_lexer **lexer)
 {
 	t_lexer	*curr;
-	int		new;
 
 	curr = *lexer;
-	new = 0;
 	while (curr)
 	{
 		if (curr->type == REDIR)
 		{
 			if (redirect_type(curr->data) == 1 && curr->next
 				&& access(curr->next->data, F_OK | R_OK) == -1)
+				return (printf("%s: No such file or directory\n", \
+							curr->next->data), 0);
+			else if (redirect_type(curr->data) == 2)
 			{
-				printf("%s: No such file or directory\n", curr->next->data);
-				return (0);
-			}
-			else if (redirect_type(curr->data) == 2 && curr->next)
-			{
-				if (access(curr->next->data, F_OK) == -1)
-				{
-					new = open(curr->next->data, O_CREAT, 0644);
-					if (new < 0)
-					{
-						printf("Error creating file or directory\n");
-						return (0);
-					}
-					close(new);
-				}
+				if (!output_check(curr))
+					return (printf("Error creating file or directory\n"), 0);
 			}
 		}
 		curr = curr->next;

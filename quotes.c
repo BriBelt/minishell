@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:17:50 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:31:48 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	clean_quotes(t_basic **pipes)
 			new_data = ft_strdup(no_quotes[0]);
 		else if (!no_quotes[0])
 			new_data = ft_strdup("");
-		free_2D_array(no_quotes);
+		free_2d_array(no_quotes);
 		ptr->data = new_data;
 		ptr = ptr->next;
 	}

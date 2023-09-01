@@ -6,14 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:36:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:14:14 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:21:12 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Frees a 2D array. */
-void	free_2D_array(char **array)
+void	free_2d_array(char **array)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:48:55 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 12:57:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:31:10 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**ft_unset(char **envp, t_command *node)
 			{
 				aux = new_envp;
 				new_envp = get_new_envp(aux, curr->args[i]);
-				free_2D_array(aux);
+				free_2d_array(aux);
 			}
 			i++;
 		}

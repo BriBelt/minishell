@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 13:00:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 13:37:48 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	only_n(char	*data)
 int	check_for_flag(char	**args)
 {
 	int	i;
-	int count;
+	int	count;
 
-	count = 1; 
+	count = 1;
 	i = 0;
 	while (args[++i])
 	{
