@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 12:41:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:16:01 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,11 @@ int		check_redir_access(t_lexer **lexer);
 
 /*		execution		*/
 //void	builtin_executor(t_shell *mini);
-t_pipex	pipex_init(void);
 void	command_executor(t_shell *mini, t_command **commands);
 void	executor(t_shell *mini);
+/*		execution_utils		*/
+t_pipex	pipex_init(void);
+void	wait_for_child(t_pipex pipex, int count);
 /*		children_utils	*/
 int		command_counter(t_command **commands);
 char	*find_comm_path(char *data);
