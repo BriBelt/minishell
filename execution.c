@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 12:03:22 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:00:43 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,6 @@
 
 /* First case for execution(); Checks if the only node from the mini->cmds is
  * a builtin, if not, calls the only_child(); function. */
-t_pipex pipex_init(void)
-{
-	t_pipex pipex;
-
-	pipex.in_fd = -1;
-	pipex.out_fd = -1;
-	return (pipex);
-}
-
-/*void	close_pipes(t_pipex pipex, int count)
-{
-	int i;
-	i = 0;
-	while (i < count)
-	{
-		close(pipex.pipes[i][0]);
-		close(pipex.pipes[i][1]);
-	}
-
-}*/
-void wait_for_child(t_pipex pipex, int count)
-{
-	int i;
-
-	i = 0;
-	while (pipex.child_id[i] && i < count)
-	{
-		waitpid(pipex.child_id[i], NULL, 0);
-		i++;
-	}
-}
-
 t_pipex execute_one(t_shell *mini, t_pipex pipex)
 {
 	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
@@ -61,8 +29,9 @@ t_pipex	execute_two(t_shell *mini, t_pipex pipex)
 	{
 		pipe(pipex.pipes[0]);
 		pipex = first_child(pipex, *mini->cmds, mini);
+		close(pipex.pipes[0][1]);
 		pipex = last_child(pipex, (*mini->cmds)->next, mini, 1);
-		(close(pipex.pipes[0][0]), close(pipex.pipes[0][1]));
+		close(pipex.pipes[0][0]);
 	}
 	return (pipex);
 }
@@ -175,10 +144,10 @@ void executor(t_shell *mini)
 //		execute_three(mini, pipex);
 	else
 		pipex = execute_all(mini, pipex, count);
-	//	wait_for_child(pipex, count);
-	waitpid(pipex.child_id[0], NULL, 0);
-	waitpid(pipex.child_id[1], NULL, 0);
-	waitpid(pipex.child_id[2], NULL, 0);
-	waitpid(pipex.child_id[3], NULL, 0);
+	wait_for_child(pipex, count);
+//	waitpid(pipex.child_id[0], NULL, 0);
+//	waitpid(pipex.child_id[1], NULL, 0);
+//	waitpid(pipex.child_id[2], NULL, 0);
+//	waitpid(pipex.child_id[3], NULL, 0);
 	//	waitpid(-1, NULL, 0);
 }

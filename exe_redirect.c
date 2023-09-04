@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 13:59:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:36:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ it's a output redirect only for writing permissions*/
 int	check_redir_access(t_lexer **lexer)
 {
 	t_lexer	*curr;
+	int		new;
 
 	curr = *lexer;
+	new = 0;
 	while (curr)
 	{
 		if (curr->type == REDIR)
@@ -76,8 +78,12 @@ int	check_redir_access(t_lexer **lexer)
 							curr->next->data), 0);
 			else if (redirect_type(curr->data) == 2)
 			{
-				if (!output_check(curr))
-					return (printf("Error creating file or directory\n"), 0);
+				new = open(curr->next->data, O_CREAT, 0644);
+				if (new < 0)
+					return (0);
+				close(new);
+//				if (!output_check(curr))
+//					return (printf("Error creating file or directory\n"), 0);
 			}
 		}
 		curr = curr->next;
