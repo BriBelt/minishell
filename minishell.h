@@ -6,11 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/01 15:38:12 by bbeltran         ###   ########.fr       */
-=======
-/*   Updated: 2023/09/01 14:30:11 by bbeltran         ###   ########.fr       */
->>>>>>> b0533ab
+/*   Updated: 2023/09/04 11:39:30 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +64,7 @@ t_red		**create_redir_list(t_lexer	*curr);
 /*		t_command - execution_utils			*/
 t_command	**create_command_list(t_lexer **lexer);
 /*		pwd				*/
-void		ft_pwd(t_command *node);
+void	ft_pwd(/*t_command *node*/);
 /*		echo			*/
 void		ft_echo(t_command *node);
 /*		cd				*/
@@ -111,11 +107,7 @@ void		here_doc_exe(char *del);
 t_red		*last_redirect(t_red **redirect, int in_or_out);
 int			check_redir_access(t_lexer **lexer);
 /*		execution		*/
-<<<<<<< HEAD
-//void	builtin_executor(t_shell *mini);
-=======
 t_pipex		pipex_init(void);
->>>>>>> b0533ab
 void		command_executor(t_shell *mini, t_command **commands);
 void		executor(t_shell *mini);
 /*		execution_utils		*/

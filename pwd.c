@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:51:02 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 13:00:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:11:13 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 /* Function for the BUILTIN pwd, which, using getcwd(); gives you the current
  * working directory and prints it on the terminal(shell). */
-void	ft_pwd(t_command *node)
+void	ft_pwd(/*t_command *node*/)
 {
 	char		*dir;
-	t_command	*curr;
+//	t_command	*curr;
 
-	curr = node;
+//	curr = node;
 	dir = getcwd(NULL, 0);
 	printf("%s\n", dir);
 	free(dir);
