@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/28 13:10:37 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:46:48 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ int	call_builtins(t_command *node, t_shell *mini)
 		return (1);
 	}
 	else if (!ft_strcmp(node->args[0], "exit"))
-	{
-		printf("exit\n");
-		exit(0);
-	}
+		ft_exit(mini);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 11:39:30 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:45:46 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,11 @@ t_red		**create_redir_list(t_lexer	*curr);
 /*		t_command - execution_utils			*/
 t_command	**create_command_list(t_lexer **lexer);
 /*		pwd				*/
-void	ft_pwd(/*t_command *node*/);
+void		ft_pwd(/*t_command *node*/);
 /*		echo			*/
 void		ft_echo(t_command *node);
+/*		exit			*/
+void		ft_exit(t_shell *mini);
 /*		cd				*/
 void		ft_cd(t_command *node);
 /*		env				*/

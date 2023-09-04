@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 13:00:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:14:06 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* First case for execution(); Checks if the only node from the mini->cmds is
  * a builtin, if not, calls the only_child(); function. */
-t_pipex execute_one(t_shell *mini, t_pipex pipex)
+t_pipex	execute_one(t_shell *mini, t_pipex pipex)
 {
 	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
 		only_child(pipex, *mini->cmds, mini);
@@ -42,7 +42,63 @@ t_pipex	execute_two(t_shell *mini, t_pipex pipex)
  * is the either the first or last, or not. If it's the first node (0),
  * it will call first_child();, if it's the last, it will call last_child();
  * else, it will call middle_child();. */
-void	execute_three(t_shell *mini, t_pipex pipex)
+t_pipex	execute_all(t_shell *mini, t_pipex pipex, int count)
+{
+	t_command	*cmd;
+	int			i;
+
+	if (check_redir_access(mini->lex))
+	{
+		cmd = *mini->cmds;
+		i = -1;
+		while (++i < count && cmd)
+		{
+			if (i != count - 1)
+				pipe(pipex.pipes[i]);
+			if (i == 0)
+			{
+				pipex = first_child(pipex, cmd, mini);
+				close(pipex.pipes[i][1]);
+			}
+			else if (i == count - 1)
+			{
+				pipex = last_child(pipex, cmd, mini, i);
+				close(pipex.pipes[i - 1][0]);
+			}
+			else if (i > 0 && i < count - 1)
+			{
+				pipex = middle_child(pipex, cmd, mini, i);
+				(close(pipex.pipes[i - 1][0]), close(pipex.pipes[i][1]));
+			}
+			cmd = cmd->next;
+		}
+	}
+	return (pipex);
+}
+
+/* Command and builtin executor, in charge of creating the pipes
+ * and child processes that are needed for each command received
+ * from the mini->cmds. Counts the amount of commands that the
+ * list has, and depending on the result calls one of the three
+ * different cases. For one command = execute_one();, for two
+ * execute_two();, and for command lists greater than two, calls
+ * execute_all(); */
+void	executor(t_shell *mini)
+{
+	t_pipex	pipex;
+	int		count;
+
+	pipex = pipex_init();
+	count = command_counter(mini->cmds);
+	if (count == 1)
+		pipex = execute_one(mini, pipex);
+	else if (count == 2)
+		pipex = execute_two(mini, pipex);
+	else
+		pipex = execute_all(mini, pipex, count);
+	wait_for_child(pipex, count);
+}
+/*void	execute_three(t_shell *mini, t_pipex pipex)
 {
 	pipe(pipex.pipes[0]);
 	pipex.child_id[0] = fork();
@@ -84,70 +140,4 @@ void	execute_three(t_shell *mini, t_pipex pipex)
 		}
 	}
 	close(pipex.pipes[1][0]);
-}
-
-t_pipex execute_all(t_shell *mini, t_pipex pipex, int count)
-{
-	t_command *cmd;
-	int i;
-
-	if (check_redir_access(mini->lex))
-	{
-		cmd = *mini->cmds;
-		i = 0;
-		while (i < count && cmd)
-		{
-			if (i != count - 1)
-				pipe(pipex.pipes[i]);
-			if (i == 0)
-			{
-				pipex = first_child(pipex, cmd, mini);
-				close(pipex.pipes[i][1]);
-			}
-			else if (i == count - 1)
-			{
-				pipex = last_child(pipex, cmd, mini, i);
-				close(pipex.pipes[i - 1][0]);
-			}
-			else if (i > 0 && i < count - 1)
-			{
-				pipex = middle_child(pipex, cmd, mini, i);
-				close(pipex.pipes[i - 1][0]);
-				close(pipex.pipes[i][1]);
-			}
-			i++;
-			cmd = cmd->next;
-		}
-	}
-	return (pipex);
-}
-
-/* Command and builtin executor, in charge of creating the pipes
- * and child processes that are needed for each command received
- * from the mini->cmds. Counts the amount of commands that the
- * list has, and depending on the result calls one of the three
- * different cases. For one command = execute_one();, for two
- * execute_two();, and for command lists greater than two, calls
- * execute_all(); */
-void executor(t_shell *mini)
-{
-	t_pipex	pipex;
-	int		count;
-
-	pipex = pipex_init();
-	count = command_counter(mini->cmds);
-	if (count == 1)
-		pipex = execute_one(mini, pipex);
-	else if (count == 2)
-		pipex = execute_two(mini, pipex);
-//	else if (count == 3)
-//		execute_three(mini, pipex);
-	else
-		pipex = execute_all(mini, pipex, count);
-	wait_for_child(pipex, count);
-//	waitpid(pipex.child_id[0], NULL, 0);
-//	waitpid(pipex.child_id[1], NULL, 0);
-//	waitpid(pipex.child_id[2], NULL, 0);
-//	waitpid(pipex.child_id[3], NULL, 0);
-	//	waitpid(-1, NULL, 0);
-}
+}*/

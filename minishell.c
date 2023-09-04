@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:23:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:55:33 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(int argc, char **argv, char **envp)
 		/*should return an error, create a new exit function for errors*/
 		return (0);
 	mini->envp = copy_envp(envp);
+	mini->exit_status = 0;
 	minishell_exe(mini);
 	/* Check if the new envp is not empty, if it is then the program was
 	 * launched with env -i */
@@ -36,12 +37,16 @@ void	minishell_exe(t_shell *mini)
 	while (1)
 	{
 		rd = readline("minishell>");
-		if (ft_strlen(rd) > 0)
+		if (!rd)
+			ft_exit(NULL);
+		if (rd && ft_strlen(rd) > 0)
 		{
 			add_history(rd);
 			mini->lex = ft_parser(mini, rd);
 			mini->cmds = create_command_list(mini->lex);
 			executor(mini);
 		}
+//		else
+//			ft_exit(NULL);
 	}
 }

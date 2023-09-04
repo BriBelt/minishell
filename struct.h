@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:09:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:53:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_shell
 	char		**envp;
 	t_lexer		**lex;
 	t_command	**cmds;
+	int			exit_status;
 }				t_shell;
 
 typedef struct s_quote

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 13:00:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:16:35 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 			if (pipex.in_fd != -1)
 				(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
 			else
-				(dup2(pipex.pipes[i - 1][0], STDIN), close(pipex.pipes[i - 1][0]));
+			{
+				dup2(pipex.pipes[i - 1][0], STDIN);
+				close(pipex.pipes[i - 1][0]);
+			}
 			if (pipex.out_fd != -1)
 				(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 			else
