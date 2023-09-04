@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 16:36:34 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/09/04 11:57:03 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,19 @@ t_pipex execute_all(t_shell *mini, t_pipex pipex, int count)
 				pipe(pipex.pipes[i]);
 			if (i == 0)
 			{
-
 				pipex = first_child(pipex, cmd, mini);
+				close(pipex.pipes[i][1]);
 			}
 			else if (i == count - 1)
 			{
-//				close(pipex.pipes[i - 1][1]);
 				pipex = last_child(pipex, cmd, mini, i);
+				close(pipex.pipes[i - 1][0]);
 			}
-			else if (i < 0 && i < count - 1)
+			else if (i > 0 && i < count - 1)
 			{
-				
 				pipex = middle_child(pipex, cmd, mini, i);
+				close(pipex.pipes[i - 1][0]);
+				close(pipex.pipes[i][1]);
 			}
 			i++;
 			cmd = cmd->next;
@@ -144,8 +145,8 @@ t_pipex execute_all(t_shell *mini, t_pipex pipex, int count)
 
 void executor(t_shell *mini)
 {
-	t_pipex pipex;
-	int count;
+	t_pipex	pipex;
+	int		count;
 
 	pipex = pipex_init();
 	count = command_counter(mini->cmds);
@@ -153,13 +154,14 @@ void executor(t_shell *mini)
 		pipex = execute_one(mini, pipex);
 	else if (count == 2)
 		pipex = execute_two(mini, pipex);
-	else if (count == 3)
-		execute_three(mini, pipex);
+//	else if (count == 3)
+//		execute_three(mini, pipex);
 	else
 		pipex = execute_all(mini, pipex, count);
 	//	wait_for_child(pipex, count);
 	waitpid(pipex.child_id[0], NULL, 0);
 	waitpid(pipex.child_id[1], NULL, 0);
 	waitpid(pipex.child_id[2], NULL, 0);
+	waitpid(pipex.child_id[3], NULL, 0);
 	//	waitpid(-1, NULL, 0);
 }
