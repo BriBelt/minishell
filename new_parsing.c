@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:16:05 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:46:24 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,38 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	t_basic	**redirects;
 	t_basic	**pipes;
 	t_lexer	**lexer;
-	(void)mini;
 
 	space_sep = create_space_sep(rd);
+//	printf("Space separated\n");
 	if (!quote_list_checker(space_sep))
 		return (NULL);
+//	else
+//		printf("Quote check passed\n");
 	quote_sep = create_quote_sep(space_sep);
+//	printf("Quote separated\n");
 	if (!quote_list_checker(quote_sep))
 		return (NULL);
+//	else
+//		printf("Quote list check passed\n");
 	redirects = redirect_separate(quote_sep);
+//	if (!redirects)
+//		printf("No redirect list\n");
 	pipes = pipe_separate(redirects);
+//	if (!pipes)
+//		printf("No pipes list\n");
 	clean_false_joins(pipes);
+//	printf("Cleaned false joins\n");
 	change_node_var(pipes, mini);
+//	printf("Changed node variables\n");
 	clean_quotes(pipes);
+//	printf("Cleaned quotes\n");
 	lexer = final_lexer(pipes);
+//	if (!lexer)
+//		printf("No lexer\n");
+//	else
+//		printf("Lexer created\n");
 	def_type(lexer);
+//	printf("Defined types of lexer\n");
 	if (!check_redirects(lexer))
 		return (NULL);
 	if (!check_pipes(lexer))

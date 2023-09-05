@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 11:19:47 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:08:58 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	**get_paths(char *pathname)
 	char	*whole;
 
 	whole = getenv(pathname);
+	if (!whole)
+		return (NULL);
 	paths = ft_split(whole, ':');
 	return (paths);
 }

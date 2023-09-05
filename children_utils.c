@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:30:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:12:18 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ char	*find_comm_path(char *data)
 	int		i;
 
 	i = 0;
+	printf("Before get_paths\n");
 	paths = get_paths("PATH");
+	if (!paths)
+		printf("Path not found\n");
+	else
+		printf("Path found\n");
 	com_path = NULL;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		if (ft_strnstr(paths[i], "munki", ft_strlen(paths[i])))

@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 16:45:46 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:35:26 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include "libft/libft.h"
 
-void		minishell_exe(t_shell *mini);
+void		minishell_exe(t_shell *mini, int in, int out);
 /*		parser			*/
 t_lexer		**ft_parser(t_shell *mini, char *rd);
 /*		space_split		*/
@@ -55,6 +55,7 @@ int			flag_or_envar(char *content);
 int			is_file(char *content);
 void		is_file_type(t_lexer **lexer);
 /*		free_utils		*/
+void		exit_mode(t_shell *mini, char *strerror, int errornum);
 void		free_2d_array(char **array);
 void		free_t_lexer(t_lexer **lst);
 void		free_t_basic(t_basic **lst);

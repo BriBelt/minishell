@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 15:08:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:34:23 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,10 @@ int	check_redirects(t_lexer **lex)
 				&& curr->type == STR && curr->join == 0)
 		{
 			if (!valid_redirects(curr->data))
-				return (printf(REDIR_ERR), 0);
+				return (ft_putstr_fd(REDIR_ERR, 2), 0);
 		}
 		if (curr->type == REDIR && curr->next && curr->next->type == REDIR)
-			return (printf(REDIR_ERR), 0);
+			return (ft_putstr_fd(REDIR_ERR, 2), 0);
 		curr = curr->next;
 	}
 	return (1);

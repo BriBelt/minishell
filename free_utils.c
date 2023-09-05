@@ -6,11 +6,18 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:36:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:21:12 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:32:57 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	exit_mode(t_shell *mini, char *strerror, int errornum)
+{
+	mini->exit_status = errornum;
+	printf("Errno: %i\n", mini->exit_status);
+	ft_putstr_fd(strerror, 2);
+}
 
 /* Frees a 2D array. */
 void	free_2d_array(char **array)
