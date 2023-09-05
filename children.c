@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 13:03:15 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:12:12 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 			if (pipex.out_fd != -1)
 				(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 			else
-				dup2(pipex.pipes[i][1], STDOUT), close(pipex.pipes[i][1]);
+				(dup2(pipex.pipes[i][1], STDOUT), close(pipex.pipes[i][1]));
 			if (!call_builtins(command, mini)
 				&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 				printf("Execve: %s: command not found\n", command->args[0]);
