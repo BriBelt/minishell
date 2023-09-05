@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:01:20 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 11:23:27 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:03:17 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ enum	e_type
 	REDIR,
 	PIPE,
 	BUILTIN,
-	COMMAND,
 	FIL,
 	FLAG,
 	VAR,

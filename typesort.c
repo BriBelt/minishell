@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:30:33 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:03:55 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	is_builtin(char *content)
 
 /* Differentiates between a possible COMMAND or a STR by checking for access();
  * of each possible path for *content. */
-int	is_command(char *content)
+/*int	is_command(char *content)
 {
 	char	*com_path;
 	char	*tmp;
@@ -79,7 +79,7 @@ int	is_command(char *content)
 		i++;
 	}
 	return (STR);
-}
+}*/
 
 /* Just like what_type();, changes the lexer->type(STR) value by calling the
  * is_command();, flag_or_envar(); or is_file(); */
@@ -92,7 +92,7 @@ void	str_type(t_lexer **lst)
 	{
 		if (curr->type == STR)
 		{
-			curr->type = is_command(curr->data);
+//			curr->type = is_command(curr->data);
 			if (curr->type == STR)
 				curr->type = flag_or_envar(curr->data);
 			if (curr->type == STR)
