@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 16:55:33 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:23:33 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	mini = malloc(sizeof(t_shell));
 	if (!mini)
-		/*should return an error, create a new exit function for errors*/
-		return (0);
+		(ft_putstr_fd(MEM_ERR, 2) , exit(errno));
+	if (!envp[0])
+		(ft_putstr_fd("Error: No environment variables\n", 2) , exit(errno));
 	mini->envp = copy_envp(envp);
 	mini->exit_status = 0;
 	minishell_exe(mini);
-	/* Check if the new envp is not empty, if it is then the program was
+	/* Check if the new envp isnot empty, if it is then the program was
 	 * launched with env -i */
 	return (0);
 }
@@ -46,7 +47,5 @@ void	minishell_exe(t_shell *mini)
 			mini->cmds = create_command_list(mini->lex);
 			executor(mini);
 		}
-//		else
-//			ft_exit(NULL);
 	}
 }

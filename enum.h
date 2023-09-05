@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:01:20 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:42:53 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:23:27 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define PIPE_ERR "Syntax error near unexpected token \'|\'\n"
 # define REDIR_ERR "Syntax error near unexpected redirect token\n"
 # define QUOTE_ERR "Syntax error: Unclosed quotes\n"
+# define MEM_ERR "Error: Could not allocate memory\n"
 
 enum	e_redir
 {
