@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:35:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:53:51 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,17 @@ int	main(int argc, char **argv, char **envp)
 void	minishell_exe(t_shell *mini, int in, int out)
 {
 	char	*rd;
+	char	*aux;
 
 	while (1)
 	{
 		dup2(in, STDIN_FILENO);
 		dup2(out, STDOUT_FILENO);
-		rd = readline("minishell>");
-		if (!rd)
+		aux = readline("minishell>");
+		if (!aux)
 			ft_exit(NULL);
+		rd = ft_strtrim(aux, " \t\n\r\v\f");
+		free(aux);
 		if (rd && ft_strlen(rd) > 0)
 		{
 			add_history(rd);

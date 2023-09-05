@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:25:15 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:57:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,8 @@
  * a builtin, if not, calls the only_child(); function. */
 t_pipex	execute_one(t_shell *mini, t_pipex pipex)
 {
-	printf("Inside execute_one()\n");
 	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
-	{
-		printf("before only child\n");
 		only_child(pipex, *mini->cmds, mini);
-	}
 	return (pipex);
 }
 

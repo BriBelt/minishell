@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:12:18 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:57:56 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,7 @@ char	*find_comm_path(char *data)
 	int		i;
 
 	i = 0;
-	printf("Before get_paths\n");
 	paths = get_paths("PATH");
-	if (!paths)
-		printf("Path not found\n");
-	else
-		printf("Path found\n");
 	com_path = NULL;
 	while (paths && paths[i])
 	{
@@ -102,21 +97,3 @@ void	get_file_des(t_pipex *pipex, t_red **redirect)
 		(*pipex).out_fd = open(out->data, O_WRONLY);
 	}
 }
-
-/*void	create_pipes(t_command **commands, t_pipex pipex)
-{
-	int	i;
-	int	command_count;
-	
-
-	i = 0;
-	command_count = command_counter(commands) - 1;
-	printf("Before while\n");
-	while (i < command_count)
-	{
-		pipe(pipex.pipes + 2 * i);
-		printf("created pipe %i\n", i);
-//		we will need to free if the result is less than 0
-		i++;
-	}
-}*/
