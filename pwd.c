@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:51:02 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:11:13 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/09/06 12:05:44 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
  * working directory and prints it on the terminal(shell). */
 void	ft_pwd(/*t_command *node*/)
 {
-	char		*dir;
+//	char		*dir;
 //	t_command	*curr;
 
 //	curr = node;
-	dir = getcwd(NULL, 0);
-	printf("%s\n", dir);
-	free(dir);
+//	dir = getcwd(NULL, 0);
+	printf("%s\n", global.pwd);
+//	free(dir);
 }

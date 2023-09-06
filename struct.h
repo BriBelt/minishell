@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 15:53:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 12:07:15 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include "enum.h"
+
+typedef struct s_global
+{
+	char		*pwd;
+}				t_global;
+
 
 typedef struct s_basic
 {

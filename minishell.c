@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:53:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 12:00:35 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	mini->exit_status = 0;
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
+	global.pwd = getcwd(NULL, 0);
 	minishell_exe(mini, in, out);
 	return (0);
 }
