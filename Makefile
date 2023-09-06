@@ -6,7 +6,7 @@
 #    By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/09/04 16:47:08 by bbeltran         ###   ########.fr        #
+#    Updated: 2023/09/06 14:52:21 by bbeltran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 CC = gcc
 #  -g3 -fsanitize=address
 FLAGS = -Wall -Wextra -Werror
+EXTRAFLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 RM = rm -rf
 
 LIBFT_A = libft.a
@@ -34,7 +35,7 @@ MINI_OBJ = $(MINI_SRC:.c=.o)
 $(NAME):	$(MINI_OBJ)
 				@echo  "     - Making libft..."
 				@make -C $(LIBF_DIR)
-				@${CC} ${FLAGS} ${MINI_OBJ} ${LIBFT} -lreadline -o ${NAME}
+				@${CC} ${FLAGS} ${EXTRAFLAGS} ${MINI_OBJ} ${LIBFT} -o ${NAME}
 				@echo "$(NAME) created."
 
 $(MINI_OBJ): 	$(MINI_SRC)

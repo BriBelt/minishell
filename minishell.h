@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 12:00:12 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:52:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # include "libft/libft.h"
 
 t_global    global;
-
+/*		readline		*/
+void		rl_replace_line(const char *text, int clear_undo);
 void		minishell_exe(t_shell *mini, int in, int out);
 /*		parser			*/
 t_lexer		**ft_parser(t_shell *mini, char *rd);
