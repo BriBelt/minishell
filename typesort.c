@@ -6,12 +6,11 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 13:06:09 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:58:56 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /* Returns the value of REDIR if the *content is the same as a redirection char,
  * if the *content is a pipe, returns PIPE value, else returns a 0. */
@@ -20,15 +19,15 @@ int	redirect_or_pipe(char *content)
 	int	len;
 
 	len = ft_strlen(content);
-	if (!ft_strncmp(content, "<<", len)) 
+	if (!ft_strncmp(content, "<<", len))
 		return (REDIR);
-	if (!ft_strncmp(content, ">>", len)) 
+	if (!ft_strncmp(content, ">>", len))
 		return (REDIR);
-	if (!ft_strncmp(content, "<", len)) 
+	if (!ft_strncmp(content, "<", len))
 		return (REDIR);
-	if (!ft_strncmp(content, ">", len)) 
+	if (!ft_strncmp(content, ">", len))
 		return (REDIR);
-	if (!ft_strncmp(content, "|", len)) 
+	if (!ft_strncmp(content, "|", len))
 		return (PIPE);
 	return (0);
 }
@@ -110,7 +109,7 @@ void	def_type(t_lexer **lst)
 	while (curr)
 	{
 		if (redirect_or_pipe(curr->data) && curr->join == 0)
-			curr->type = redirect_or_pipe(curr->data);		
+			curr->type = redirect_or_pipe(curr->data);
 		else
 			curr->type = is_builtin(curr->data);
 		curr = curr->next;

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 12:50:21 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:01:44 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	args_size(t_lexer *curr)
 			ptr = ptr->next;
 			redir = 0;
 			if (ptr->type == PIPE)
-				break;
+				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-				|| (ptr->type != REDIR && ptr->type != FIL))
+			|| (ptr->type != REDIR && ptr->type != FIL))
 			size++;
 		ptr = ptr->next;
 	}
@@ -64,10 +64,10 @@ char	**get_args(t_lexer *curr)
 			ptr = ptr->next;
 			redir = 0;
 			if (ptr->type == PIPE)
-				break;
+				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-				|| (ptr->type != REDIR && ptr->type != FIL))
+			|| (ptr->type != REDIR && ptr->type != FIL))
 		{
 			args[i] = ft_strdup(ptr->data);
 			i++;
@@ -95,7 +95,7 @@ void	ft_cmd_insert(t_command **lst, t_lexer *node, t_red **redirects)
 {
 	t_command	*new;
 	t_command	*ptr;
-	
+
 	new = ft_cmd_new(node, redirects);
 	if (!*lst)
 		*lst = new;
@@ -113,7 +113,7 @@ t_command	**create_command_list(t_lexer **lexer)
 	t_red		**red;
 	t_command	**commands;
 	t_lexer		*curr;
-	
+
 	curr = *lexer;
 	commands = malloc(sizeof(t_command *));
 	if (!commands)

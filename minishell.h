@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 14:52:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:14:27 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include "libft/libft.h"
 
-t_global    global;
+g_global    global;
 /*		readline		*/
 void		rl_replace_line(const char *text, int clear_undo);
 void		minishell_exe(t_shell *mini, int in, int out);
@@ -130,4 +130,6 @@ void		only_child(t_pipex pipex, t_command *cmd, t_shell *mini);
 t_pipex		first_child(t_pipex pipex, t_command *cmd, t_shell *mini);
 t_pipex		middle_child(t_pipex pipex, t_command *cmd, t_shell *mini, int i);
 t_pipex		last_child(t_pipex pipex, t_command *cmd, t_shell *mini, int i);
+/*		signals			*/
+void	signal_handler(int sig);
 #endif

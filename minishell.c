@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 14:50:52 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:13:49 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	minishell_exe(t_shell *mini, int in, int out)
 	char	*rd;
 	char	*aux;
 
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		dup2(in, STDIN_FILENO);

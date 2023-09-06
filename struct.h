@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 14:43:41 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:57:21 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 typedef struct s_global
 {
 	char	*pwd;
-}				t_global;
+}				g_global;
 
 
 typedef struct s_basic
