@@ -6,16 +6,16 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:36:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 16:32:57 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:05:44 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_mode(t_shell *mini, char *strerror, int errornum)
+void	exit_mode(char *strerror, int errornum)
 {
-	mini->exit_status = errornum;
-	printf("Errno: %i\n", mini->exit_status);
+	global.exit_stat = errornum;
+	printf("Errno: %i\n", global.exit_stat);
 	ft_putstr_fd(strerror, 2);
 }
 

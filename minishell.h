@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 15:14:27 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:20:06 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int			flag_or_envar(char *content);
 int			is_file(char *content);
 void		is_file_type(t_lexer **lexer);
 /*		free_utils		*/
-void		exit_mode(t_shell *mini, char *strerror, int errornum);
+void		exit_mode(char *strerror, int errornum);
 void		free_2d_array(char **array);
 void		free_t_lexer(t_lexer **lst);
 void		free_t_basic(t_basic **lst);

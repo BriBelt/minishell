@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:19:58 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:23:50 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ char	*found_symbol(char *data, t_shell *mini)
 			new = expand_envar(new, mini);
 		if (new)
 			final = ft_strjoin(final, new);
+		else
+			final = NULL;
 	}
 	return (final);
 }
@@ -152,7 +154,8 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 			{
 				new_node = found_symbol(curr->data, mini);
 				free(curr->data);
-				curr->data = new_node;
+				if (new_node)
+					curr->data = new_node;
 			}
 		}
 		curr = curr->next;

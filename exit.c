@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:55:36 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 17:04:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:02:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ void	ft_exit(t_shell *mini)
 //	printf("exit\n");
 	if (!mini)
 		exit(0);
-	mini->exit_status = get_exit_code((*mini->cmds)->args);
-	exit(mini->exit_status);
+	global.exit_stat = get_exit_code((*mini->cmds)->args);
+	exit(global.exit_stat);
 }
