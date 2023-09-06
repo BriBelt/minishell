@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 16:34:23 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:08:21 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	check_redirects(t_lexer **lex)
 	t_lexer	*curr;
 
 	curr = *lex;
+	if (!curr)
+		return (0);
 	while (curr)
 	{
 		if (curr->type == REDIR && (!curr->next || curr->next->type == PIPE))

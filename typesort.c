@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 16:46:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:06:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ void	str_type(t_lexer **lst)
 	{
 		if (curr->type == STR)
 		{
-//			curr->type = is_command(curr->data);
-//			if (curr->type == STR)
 			curr->type = flag_or_envar(curr->data);
 			if (curr->type == STR)
 				curr->type = is_file(curr->data);

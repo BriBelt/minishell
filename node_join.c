@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:16:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:36:52 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 12:20:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_lexer	**final_lexer(t_basic **lst)
 	if (!lexer)
 		return (NULL);
 	*lexer = NULL;
-	h = initialize_t_quote();	
+	h = initialize_t_quote();
 	curr = *lst;
 	while (curr)
 	{

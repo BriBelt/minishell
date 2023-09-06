@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:54:09 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:13:35 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * to 0. */
 void	clean_false_joins(t_basic **pipes)
 {
-	t_basic *curr;
+	t_basic	*curr;
 
 	curr = *pipes;
 	while (curr)
@@ -49,10 +49,11 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	t_lexer	**lexer;
 
 	space_sep = create_space_sep(rd);
-	if (!quote_list_checker(space_sep))
+	lexer = NULL;
+	if ((space_sep && !quote_list_checker(space_sep)) || !space_sep)
 		return (NULL);
 	quote_sep = create_quote_sep(space_sep);
-	if (!quote_list_checker(quote_sep))
+	if ((quote_sep && !quote_list_checker(quote_sep)) || !quote_sep)
 		return (NULL);
 	redirects = redirect_separate(quote_sep);
 	pipes = pipe_separate(redirects);
@@ -61,9 +62,9 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	clean_quotes(pipes);
 	lexer = final_lexer(pipes);
 	def_type(lexer);
-	if (!check_redirects(lexer))
+	if ((lexer && !check_redirects(lexer)) || !lexer)
 		return (NULL);
-	if (!check_pipes(lexer))
+	if ((lexer && !check_pipes(lexer)) || !lexer)
 		return (NULL);
 	return (lexer);
 }

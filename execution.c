@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:57:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 12:06:49 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ t_pipex	execute_two(t_shell *mini, t_pipex pipex)
 	return (pipex);
 }
 
+t_pipex	last_and_middle(t_shell *mini, t_pipex pipex, t_command *cmd, int i)
+{
+	int	count;
+
+	count = command_counter(mini->cmds);
+	if (i == count - 1)
+	{
+		pipex = last_child(pipex, cmd, mini, i);
+		close(pipex.pipes[i - 1][0]);
+	}
+	else if (i > 0 && i < count - 1)
+	{
+		pipex = middle_child(pipex, cmd, mini, i);
+		(close(pipex.pipes[i - 1][0]), close(pipex.pipes[i][1]));
+	}
+	return (pipex);
+}
+
 /* Function for the final case (count > 2) of execution();.
  * Iterates through the mini->cmds list, creates pipes and executes a
  * different function depending if the node that is about to be executed
@@ -60,16 +78,8 @@ t_pipex	execute_all(t_shell *mini, t_pipex pipex, int count)
 				pipex = first_child(pipex, cmd, mini);
 				close(pipex.pipes[i][1]);
 			}
-			else if (i == count - 1)
-			{
-				pipex = last_child(pipex, cmd, mini, i);
-				close(pipex.pipes[i - 1][0]);
-			}
-			else if (i > 0 && i < count - 1)
-			{
-				pipex = middle_child(pipex, cmd, mini, i);
-				(close(pipex.pipes[i - 1][0]), close(pipex.pipes[i][1]));
-			}
+			else
+				pipex = last_and_middle(mini, pipex, cmd, i);
 			cmd = cmd->next;
 		}
 	}

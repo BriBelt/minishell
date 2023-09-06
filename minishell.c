@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/05 17:53:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:11:26 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,13 @@ void	minishell_exe(t_shell *mini, int in, int out)
 		{
 			add_history(rd);
 			mini->lex = ft_parser(mini, rd);
-			mini->cmds = create_command_list(mini->lex);
-			executor(mini);
+			if (mini->lex)
+			{
+				mini->cmds = create_command_list(mini->lex);
+				executor(mini);
+			}
+			else
+				free(rd);
 		}
 	}
 }

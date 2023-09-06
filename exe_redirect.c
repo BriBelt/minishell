@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/04 12:36:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:57:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ int	check_redir_access(t_lexer **lexer)
 				if (new < 0)
 					return (0);
 				close(new);
-//				if (!output_check(curr))
-//					return (printf("Error creating file or directory\n"), 0);
 			}
 		}
 		curr = curr->next;

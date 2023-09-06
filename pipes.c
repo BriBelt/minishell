@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:05:34 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:15:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:08:10 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,11 @@ int	first_pipe(char *data)
 	i = -1;
 	quote = -2;
 	pipe = 0;
-	while (data[++i])
-	{
-		if (data[i] == '|')
-		{
-			pipe = i;
-			break ;
-		}
-	}
+	while (data[++i] && data[i] != '|')
+		pipe = i;
 	i = -1;
-	while (data[++i])
-	{
-		if (quote_type(data[i]))
-		{
-			quote = i;
-			break ;
-		}
-	}
+	while (data[++i] && !quote_type(data[i]))
+		quote = i;
 	if (pipe < quote || quote == -2)
 		return (quote);
 	return (-1);
@@ -80,6 +68,8 @@ t_basic	**pipe_separate(t_basic **r_basic)
 	size_t	join;
 
 	p_basic = malloc(sizeof(t_basic *));
+	if (!p_basic)
+		return (NULL);
 	*p_basic = NULL;
 	r_curr = *r_basic;
 	while (r_curr)
@@ -91,7 +81,8 @@ t_basic	**pipe_separate(t_basic **r_basic)
 			if (first_pipe(r_curr->data) != -1)
 				ft_basic_insert(p_basic, pipe_split(r_curr->data, &i), join);
 			else
-				ft_basic_insert(p_basic, split_quote_sens(r_curr->data, &i), join);
+				ft_basic_insert(p_basic,
+					split_quote_sens(r_curr->data, &i), join);
 		}
 		r_curr = r_curr->next;
 	}
@@ -103,6 +94,8 @@ int	check_pipes(t_lexer **lex)
 	t_lexer	*curr;
 
 	curr = *lex;
+	if (!curr)
+		return (0);
 	if (curr->type == PIPE && !curr->index)
 		return (printf(PIPE_ERR), 0);
 	while (curr)

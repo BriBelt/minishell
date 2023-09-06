@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:12:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:16:59 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:11:45 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_for_closed_quotes(char *data)
 	int	i;
 	int	first;
 	int	count;
-	
+
 	i = -1;
 	count = 0;
 	first = 0;
@@ -106,8 +106,8 @@ int	quote_inside_node(char *data)
  * the node->data, it does a simple ft_basic_insert(); of the node.*/
 t_basic	**create_quote_sep(t_basic **space_sep)
 {
-	t_basic **quote_sep;
-	t_basic *curr_space;
+	t_basic	**quote_sep;
+	t_basic	*curr_space;
 	size_t	join;
 	int		i;
 
@@ -123,7 +123,8 @@ t_basic	**create_quote_sep(t_basic **space_sep)
 		if (quote_inside_node(curr_space->data))
 		{
 			while (i < (int)ft_strlen(curr_space->data))
-				ft_basic_insert(quote_sep, quote_split(curr_space->data, &i), ++join);
+				ft_basic_insert(quote_sep, quote_split(curr_space->data, &i),
+					++join);
 		}
 		else if (!quote_inside_node(curr_space->data))
 			ft_basic_insert(quote_sep, curr_space->data, 0);
