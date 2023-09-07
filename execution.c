@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/07 11:55:59 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:08:55 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,46 +108,3 @@ void	executor(t_shell *mini)
 		pipex = execute_all(mini, pipex, count);
 	wait_for_child(pipex, count);
 }
-/*void	execute_three(t_shell *mini, t_pipex pipex)
-{
-	pipe(pipex.pipes[0]);
-	pipex.child_id[0] = fork();
-	if (pipex.child_id[0] == 0)
-	{
-		close(pipex.pipes[0][0]);
-		pipex.cmd_path = find_comm_path((*mini->cmds)->args[0]);
-		dup2(pipex.pipes[0][1], STDOUT);
-		close(pipex.pipes[0][1]);
-		execve(pipex.cmd_path, (*mini->cmds)->args, mini->envp);
-	}
-	else
-	{
-		close(pipex.pipes[0][1]);
-		pipe(pipex.pipes[1]);
-		pipex.child_id[1] = fork();
-		if (pipex.child_id[1] == 0)
-		{
-			close(pipex.pipes[1][0]);
-			pipex.cmd_path = find_comm_path((*mini->cmds)->next->args[0]);
-			dup2(pipex.pipes[0][0], STDIN);
-			close(pipex.pipes[0][0]);
-			dup2(pipex.pipes[1][1], STDOUT);
-			close(pipex.pipes[1][1]);
-			execve(pipex.cmd_path, (*mini->cmds)->next->args, mini->envp);
-		}
-		else
-		{
-			close(pipex.pipes[0][0]);
-			close(pipex.pipes[1][1]);
-			pipex.child_id[2] = fork();
-			if (pipex.child_id[2] == 0)
-			{
-				pipex.cmd_path = find_comm_path((*mini->cmds)->next->next->args[0]);
-				dup2(pipex.pipes[1][0], STDIN);
-				close(pipex.pipes[1][0]);
-				execve(pipex.cmd_path, (*mini->cmds)->next->next->args, mini->envp);
-			}
-		}
-	}
-	close(pipex.pipes[1][0]);
-}*/
