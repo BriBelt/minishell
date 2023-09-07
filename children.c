@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 17:57:02 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:01:25 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: %s: command not found\n", command->args[0]);
+		exit(errno);
 	}
 	return (pipex);
 }
@@ -91,6 +92,7 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: %s: command not found\n", command->args[0]);
+		exit(errno);
 	}
 	return (pipex);
 }
@@ -115,6 +117,7 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: %s: command not found\n", command->args[0]);
+		exit(errno);
 	}
 	return (pipex);
 }
