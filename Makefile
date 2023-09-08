@@ -6,14 +6,14 @@
 #    By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/09/07 11:23:48 by bbeltran         ###   ########.fr        #
+#    Updated: 2023/09/08 13:06:49 by bbeltran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
 #  -g3 -fsanitize=address
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror 
 EXTRAFLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 RM = rm -rf
 

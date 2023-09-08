@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/07 12:08:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 12:53:45 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	executor(t_shell *mini)
 	t_pipex	pipex;
 	int		count;
 
+	if (here_counter(mini->cmds))
+		here_doc_exe(mini->cmds);
 	pipex = pipex_init();
 	count = command_counter(mini->cmds);
 	if (count == 1)

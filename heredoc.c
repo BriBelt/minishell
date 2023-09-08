@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/07 17:07:16 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 12:39:35 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,36 +44,6 @@ char	*find_delimiter(t_lexer **lexer)
 	return (del);
 }
 
-/* This function is only called when a here_doc symbol (<<) is found.
- * First, deletes the temporal file (.hd_file) if it already exists. After
- * that creates a new .hd_file and checks for errors occurred during the
- * opening of the file. Finally, replicates the here doc behavior in bash,
- * saving the *here_line into the .hd_file. */
-/*void	here_doc_exe(char *del, int h_num)
-{
-	char	*here_line;
-	char	*temp_name;
-	int		temp_file;
-
-	temp_name = ft_strjoin("/tmp/.tmp_", ft_itoa(h_num));
-	unlink(temp_name);
-	temp_file = open(temp_name, O_CREAT | O_APPEND | O_RDWR, 777);
-	if (temp_file < 0)
-	{
-		perror("Error creating the temp file");
-		return ;
-	}
-	while (1)
-	{
-		here_line = readline(">");
-		if (!ft_strcmp(here_line, del))
-			break ;
-		write(temp_file, here_line, ft_strlen(here_line));
-		write(temp_file, "\n", 1);
-		free(here_line);
-	}
-	close(temp_file);
-}*/
 /* This function returns the number*/
 int	heredoc_or_input(t_red **redirects)
 {
@@ -100,6 +70,27 @@ int	heredoc_or_input(t_red **redirects)
 	return (0);
 }
 
+int	open_heredoc_file(t_red **redirects)
+{
+	int		heredoc_num;
+	char	*name;
+	int		fd;
+
+	heredoc_num = heredoc_or_input(redirects) - 1;
+	fd = 0;
+	if (heredoc_num > -1)
+	{
+		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(heredoc_num));
+		fd = open(name, O_APPEND | O_RDWR, 0644);
+		if (fd < 0)
+		{
+			perror("Error creating the temp file");
+			return (0);
+		}
+	}
+	return (fd);
+}
+
 int	here_counter(t_command **commands)
 {
 	t_command	*curr;
@@ -110,7 +101,7 @@ int	here_counter(t_command **commands)
 	size = 0;
 	while (curr)
 	{
-		red_curr = *curr->redirects;
+		red_curr = *curr->redirect;
 		while (red_curr)
 		{
 			if (red_curr->type == HEREDOC)
@@ -125,6 +116,7 @@ int	here_counter(t_command **commands)
 char	**find_all_del(t_command **commands)
 {
 	t_command	*curr;
+	t_red		*red_curr;
 	char		**dels;
 	int			i;
 
@@ -135,7 +127,7 @@ char	**find_all_del(t_command **commands)
 	i = 0;
 	while (curr)
 	{
-		red_curr = *curr->redirects;
+		red_curr = *curr->redirect;
 		while (red_curr)
 		{
 			if (red_curr->type == HEREDOC)
@@ -159,7 +151,7 @@ int	count_input_heredocs(t_command **commands)
 	count = 0;
 	while (curr)
 	{
-		if (heredoc_or_input(curr->redirects))
+		if (heredoc_or_input(curr->redirect))
 			count++;
 		curr = curr->next;
 	}
@@ -183,9 +175,9 @@ int	*input_heredocs(t_command **commands)
 	i = 0;
 	while (curr)
 	{
-		if (heredoc_or_input(curr->redirects))
+		if (heredoc_or_input(curr->redirect))
 		{
-			pos += heredoc_or_input(curr->redirects);
+			pos += heredoc_or_input(curr->redirect);
 			in_here[i] = pos;
 			i++;
 		}
@@ -212,13 +204,14 @@ void	here_doc_exe(t_command **commands)
 	while (1)
 	{
 		rd = readline("> ");
+		printf("%i\n", input_here[0]);
 		j = -1;
 		while (++j < count_input_heredocs(commands))
 		{
 			if (i == input_here[j] - 1 && !created)
 			{
 				tmp_name = ft_strjoin("/tmp/.heredoc_", ft_itoa(j));
-				tmp_file = open(tmp_name, O_CREAT | O_APPEND | O_RDWR, 777);
+				tmp_file = open(tmp_name, O_CREAT | O_APPEND | O_RDWR, 0644);
 				if (tmp_file < 0)
 				{
 					perror("Error creating the temp file");
@@ -230,16 +223,19 @@ void	here_doc_exe(t_command **commands)
 		}
 		if (!ft_strcmp(rd, dels[i]))
 		{
-			i++;
-			if (i == input_here[j] - 1)
+			printf("dels[%i] = %s\n", i, dels[i]);
+			printf("input_here[%i] = %i", j, input_here[j - 1] - 1);
+			if (i == input_here[j - 1] - 1)
 			{
+				printf("closed\n");
 				created = 0;
 				close(tmp_file);
 			}
+			i++;
 			if (!dels[i])
 				break ;
 		}
-		if (tmp_file > 0 && i == input_here[j] - 1)
-			write(tmp_file, rd);
+		if (tmp_file > 0 && i == input_here[j - 1] - 1)
+			(write(tmp_file, rd, ft_strlen(rd)), write(tmp_file, "\n", 1));
 	}
 }

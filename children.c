@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/07 12:01:25 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:03:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	is_path(char *arg)
 
 void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
+	int	heredoc_fd;
+
 	pipex.child_id[0] = fork();
 	if (!pipex.child_id[0])
 	{
@@ -33,7 +35,10 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 			pipex.cmd_path = command->args[0];
 		else
 			pipex.cmd_path = find_comm_path(command->args[0]);
-		if (pipex.in_fd != -1)
+		heredoc_fd = open_heredoc_file(command->redirect);
+		if (heredoc_fd)
+			(dup2(heredoc_fd, STDIN), close(heredoc_fd));
+		else if (pipex.in_fd != -1)
 			(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
 		if (pipex.out_fd != -1)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
