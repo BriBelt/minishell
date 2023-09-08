@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 17:10:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:13:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	redirect_or_pipe(char *content)
 
 	len = ft_strlen(content);
 	if (!ft_strncmp(content, "<<", len))
-		return (REDIR);
+		return (HERE);
 	if (!ft_strncmp(content, ">>", len))
 		return (REDIR);
 	if (!ft_strncmp(content, "<", len))

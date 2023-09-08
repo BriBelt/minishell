@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/07 11:18:29 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:03:47 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,17 @@ void	minishell_exe(t_shell *mini, int in, int out)
 			if (mini->lex)
 			{
 				mini->cmds = create_command_list(mini->lex);
+				t_command *curr = *mini->cmds;
+				int i = 0;
+				while (curr)
+				{
+					while (curr->args[i])
+					{
+						printf("Command[%i]: %s\n", i, curr->args[i]);
+						i++;
+					} 
+					curr = curr->next;
+				}
 				executor(mini);
 			}
 			else

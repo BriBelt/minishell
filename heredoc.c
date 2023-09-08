@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 12:39:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:57:36 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,14 +204,14 @@ void	here_doc_exe(t_command **commands)
 	while (1)
 	{
 		rd = readline("> ");
-		printf("%i\n", input_here[0]);
 		j = -1;
 		while (++j < count_input_heredocs(commands))
 		{
 			if (i == input_here[j] - 1 && !created)
 			{
 				tmp_name = ft_strjoin("/tmp/.heredoc_", ft_itoa(j));
-				tmp_file = open(tmp_name, O_CREAT | O_APPEND | O_RDWR, 0644);
+				printf("Before creating file = %s\n", tmp_name);
+				tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
 				if (tmp_file < 0)
 				{
 					perror("Error creating the temp file");
@@ -223,8 +223,6 @@ void	here_doc_exe(t_command **commands)
 		}
 		if (!ft_strcmp(rd, dels[i]))
 		{
-			printf("dels[%i] = %s\n", i, dels[i]);
-			printf("input_here[%i] = %i", j, input_here[j - 1] - 1);
 			if (i == input_here[j - 1] - 1)
 			{
 				printf("closed\n");

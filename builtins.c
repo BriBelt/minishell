@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 16:51:47 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:25:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*str_tolow(char *str)
  * executes the corresponding command for the builtin. */
 int	call_builtins(t_command *node, t_shell *mini)
 {
+	if (!node->args[0])
+		return (0);
 	if (!ft_strcmp(node->args[0], "pwd"))
 		return (ft_pwd(node), 1);
 	else if (!ft_strcmp(node->args[0], "cd"))
