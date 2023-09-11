@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 13:08:21 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:51:10 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	first_redirect(char *data)
 	redirect = 0;
 	while (data[++i])
 	{
-		if (data[i] == '<' ||data[i] == '>')
+		if (data[i] == '<' || data[i] == '>')
 		{
 			redirect = i;
 			break ;
@@ -60,7 +60,7 @@ char	*redirect_split(char *data, size_t *i)
 		loop = 1;
 		(*i)++;
 	}
-	while (data[*i] && (data[*i] == '>' ||data[*i] == '<') && !loop) 
+	while (data[*i] && (data[*i] == '>' || data[*i] == '<') && !loop)
 		(*i)++;
 	if (*i > (size_t)first_redirect(data))
 		*i = ft_strlen(data);
@@ -92,14 +92,13 @@ t_basic	**redirect_separate(t_basic **closed_q)
 				ft_basic_insert(red_basic, redirect_split(curr_c->data, &i), join);
 			else
 				ft_basic_insert(red_basic, split_quote_sens(curr_c->data, &i), join);
-
 		}
 		curr_c = curr_c->next;
 	}
 	return (red_basic);
 }
 
-int valid_redirects(char *data)
+int	valid_redirects(char *data)
 {
 	if (!ft_strcmp("<", data) || !ft_strcmp(">", data))
 		return (1);
@@ -120,7 +119,7 @@ int	check_redirects(t_lexer **lex)
 		if (curr->type == REDIR && (!curr->next || curr->next->type == PIPE))
 			return (printf(REDIR_ERR), 0);
 		if ((ft_strchr(curr->data, '>') || ft_strchr(curr->data, '<'))
-				&& curr->type == STR && curr->join == 0)
+			&& curr->type == STR && curr->join == 0)
 		{
 			if (!valid_redirects(curr->data))
 				return (ft_putstr_fd(REDIR_ERR, 2), 0);

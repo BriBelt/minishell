@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   typesort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 16:13:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:35:23 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_builtin(char *content)
 
 /* Differentiates between a possible COMMAND or a STR by checking for access();
  * of each possible path for *content. */
-int	is_command(char *content)
+/*int	is_command(char *content)
 {
 	char	*com_path;
 	char	*tmp;
@@ -78,7 +78,7 @@ int	is_command(char *content)
 		i++;
 	}
 	return (STR);
-}
+}*/
 
 /* Just like what_type();, changes the lexer->type(STR) value by calling the
  * is_command();, flag_or_envar(); or is_file(); */

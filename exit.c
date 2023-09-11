@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:55:36 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 16:02:59 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:44:49 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ long long	ft_atoll(const char *str)
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i] && ft_isdigit(str[i]) == 1)
-	{		
+	{
 		res = res * 10 + str[i] - '0';
 		i++;
 	}
 	nbr = res * sig;
 	return (nbr);
-}	
+}
 
 int	is_numeric(char *str)
 {

@@ -6,7 +6,7 @@
 #    By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/09/08 13:06:49 by bbeltran         ###   ########.fr        #
+#    Updated: 2023/09/11 13:16:23 by jaimmart32       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC = gcc
 #  -g3 -fsanitize=address
 FLAGS = -Wall -Wextra -Werror 
 EXTRAFLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+# EXTRAFLAGS = -L/usr/lib/x86_64-linux-gnu -lreadline
 RM = rm -rf
 
 LIBFT_A = libft.a

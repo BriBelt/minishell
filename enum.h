@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enum.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:01:20 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/31 11:42:53 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:33:46 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ enum	e_type
 	NON_VALID,
 	STR,
 	REDIR,
+	HERE,
 	PIPE,
 	BUILTIN,
-	COMMAND,
+	DEL,
 	FIL,
 	FLAG,
 	VAR,

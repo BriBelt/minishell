@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 12:14:50 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:41:00 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include "libft/libft.h"
 
-g_global    global;
+g_global	global;
 /*		readline		*/
 void		rl_replace_line(const char *text, int clear_undo);
 void		minishell_exe(t_shell *mini, int in, int out);
@@ -68,7 +68,7 @@ t_red		**create_redir_list(t_lexer	*curr);
 /*		t_command - execution_utils			*/
 t_command	**create_command_list(t_lexer **lexer);
 /*		pwd				*/
-void		ft_pwd(/*t_command *node*/);
+void		ft_pwd(void);
 /*		echo			*/
 void		ft_echo(t_command *node);
 /*		exit			*/
@@ -132,5 +132,5 @@ t_pipex		first_child(t_pipex pipex, t_command *cmd, t_shell *mini);
 t_pipex		middle_child(t_pipex pipex, t_command *cmd, t_shell *mini, int i);
 t_pipex		last_child(t_pipex pipex, t_command *cmd, t_shell *mini, int i);
 /*		signals			*/
-void	signal_handler(int sig);
+void		signal_handler(int sig);
 #endif

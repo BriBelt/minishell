@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   typesort_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:23:56 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 16:14:47 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:36:22 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	is_file(char *content)
 		return (FIL);
 	return (STR);
 }
+
 void	is_file_type(t_lexer **lexer)
 {
 	t_lexer	*curr;
