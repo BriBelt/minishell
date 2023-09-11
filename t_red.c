@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_red.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:36:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 13:03:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:05:07 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_red	**create_redir_list(t_lexer	*curr)
 	*red = NULL;
 	while (curr && curr->type != PIPE)
 	{
-		if (curr->type == REDIR)
+		if (curr->type == REDIR || curr->type == HERE)
 			ft_red_insert(red, redirect_type(curr->data), curr->next->data);
 		curr = curr->next;
 	}

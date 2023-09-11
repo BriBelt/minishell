@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_command.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 16:15:29 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:58:39 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@ int	args_size(t_lexer *curr)
 	redir = 0;
 	while (ptr && ptr->type != PIPE)
 	{
-		if (ptr->type == REDIR)
+		if (ptr->type == REDIR || ptr->type == HERE)
 			redir = 1;
-		if (ptr->type == FIL && redir && ptr->next)
+		if ((ptr->type == FIL || ptr->type == DEL) && redir && ptr->next)
 		{
 			ptr = ptr->next;
-			redir = 0;
+			if (ptr->type != REDIR && ptr->type != HERE)
+				redir = 0;
 			if (ptr->type == PIPE)
 				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-			|| (ptr->type != REDIR && ptr->type != FIL))
+			|| (ptr->type == STR))
 			size++;
 		ptr = ptr->next;
 	}
@@ -57,17 +58,20 @@ char	**get_args(t_lexer *curr)
 		return (NULL);
 	while (ptr && ptr->type != PIPE)
 	{
+		printf("type=%i\n", ptr->type);
 		if (ptr->type == REDIR || ptr->type == HERE)
 			redir = 1;
 		if ((ptr->type == DEL || ptr->type == FIL) && redir && ptr->next)
 		{
 			ptr = ptr->next;
-			redir = 0;
+			printf("type = %i\n", ptr->type);
+			if (ptr->type != REDIR && ptr->type != HERE)
+				redir = 0;
 			if (ptr->type == PIPE)
 				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-			|| (ptr->type != REDIR && ptr->type != FIL))
+			|| (ptr->type == STR))
 		{
 			args[i] = ft_strdup(ptr->data);
 			i++;
