@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 16:03:47 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:26:51 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	main(int argc, char **argv, char **envp)
 		mini->envp = copy_envp(envp);
 	else
 		mini->envp = NULL;
-	global.exit_stat = 0;
+	g_global.exit_stat = 0;
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
-	global.pwd = getcwd(NULL, 0);
+	g_global.pwd = getcwd(NULL, 0);
 	minishell_exe(mini, in, out);
-	return (global.exit_stat);
+	return (g_global.exit_stat);
 }
 
 void	minishell_exe(t_shell *mini, int in, int out)

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 17:25:06 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:27:14 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*expand_envar(char *data, t_shell *mini)
 	clean_data = ft_substr(data, 1, len);
 	if (!ft_strncmp(clean_data, "?", 1))
 	{
-		aux = ft_itoa(global.exit_stat);
+		aux = ft_itoa(g_global.exit_stat);
 		expanded = ft_strjoin(aux, clean_data + 1);
 	}
 	else if (search_in_envar(clean_data, mini->envp))

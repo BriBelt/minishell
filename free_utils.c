@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:36:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 16:05:44 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:26:32 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	exit_mode(char *strerror, int errornum)
 {
-	global.exit_stat = errornum;
-	printf("Errno: %i\n", global.exit_stat);
+	g_global.exit_stat = errornum;
+	printf("Errno: %i\n", g_global.exit_stat);
 	ft_putstr_fd(strerror, 2);
 }
 

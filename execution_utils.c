@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 16:19:46 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:25:47 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	wait_for_child(t_pipex pipex, int count)
 		i++;
 	}
 	if (WIFEXITED(status))
-		global.exit_stat = WEXITSTATUS(status);
+		g_global.exit_stat = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		global.exit_stat = WTERMSIG(status) + 128;
+		g_global.exit_stat = WTERMSIG(status) + 128;
 	else
-		global.exit_stat = 1;
+		g_global.exit_stat = 1;
 	signal(SIGINT, signal_handler);
 }

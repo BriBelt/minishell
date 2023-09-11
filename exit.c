@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:55:36 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 13:44:49 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/09/11 17:26:08 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ void	ft_exit(t_shell *mini)
 //	printf("exit\n");
 	if (!mini)
 		exit(0);
-	global.exit_stat = get_exit_code((*mini->cmds)->args);
-	exit(global.exit_stat);
+	g_global.exit_stat = get_exit_code((*mini->cmds)->args);
+	exit(g_global.exit_stat);
 }

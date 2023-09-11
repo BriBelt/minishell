@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 13:41:00 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/09/11 17:22:38 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include "libft/libft.h"
 
-g_global	global;
+t_global	g_global;
 /*		readline		*/
 void		rl_replace_line(const char *text, int clear_undo);
 void		minishell_exe(t_shell *mini, int in, int out);
