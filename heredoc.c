@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 15:57:36 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/12 11:15:05 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,17 @@ int	open_heredoc_file(t_red **redirects)
 	int		fd;
 
 	heredoc_num = heredoc_or_input(redirects) - 1;
+	printf("heredoc_num = %i\n", heredoc_num);
 	fd = 0;
 	if (heredoc_num > -1)
 	{
 		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(heredoc_num));
+		printf("--h_file name = %s\n", name);
 		fd = open(name, O_APPEND | O_RDWR, 0644);
+		printf("open_heredoc_file fd = %i", fd);
 		if (fd < 0)
 		{
-			perror("Error creating the temp file");
+			perror("Error opening the temp file");
 			return (0);
 		}
 	}
@@ -207,20 +210,26 @@ void	here_doc_exe(t_command **commands)
 		j = -1;
 		while (++j < count_input_heredocs(commands))
 		{
+			printf("j = %i\n", j);
 			if (i == input_here[j] - 1 && !created)
 			{
 				tmp_name = ft_strjoin("/tmp/.heredoc_", ft_itoa(j));
+				printf("tmp_name = %s\n", tmp_name);
 				printf("Before creating file = %s\n", tmp_name);
 				tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
+				printf("tmp_fd %i\n", tmp_file);
 				if (tmp_file < 0)
 				{
 					perror("Error creating the temp file");
 					return ;
 				}
 				created = 1;
+				j++;
 				break ;
 			}
 		}
+		printf("j=%i\n", j);
+		printf("dels[%i]=%s\n", i, dels[i]);
 		if (!ft_strcmp(rd, dels[i]))
 		{
 			if (i == input_here[j - 1] - 1)
@@ -230,6 +239,7 @@ void	here_doc_exe(t_command **commands)
 				close(tmp_file);
 			}
 			i++;
+			printf("dels[%i] = %s\n", i, dels[i]);
 			if (!dels[i])
 				break ;
 		}
