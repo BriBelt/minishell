@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 17:22:38 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:32:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,10 @@ int			check_redirects(t_lexer **lex);
 t_basic		**pipe_separate(t_basic **r_basic);
 int			check_pipes(t_lexer **lex);
 /*		heredoc			*/
-int			open_heredoc_file(t_red **redirects);
-void		here_doc_exe(t_command **commands);
+int			open_heredoc_file(t_shell *mini);
+int			here_doc_exe(t_command **commands);
 int			here_counter(t_command **commands);
+int			count_input_heredocs(t_command **commands);
 /*		check_execution		*/
 /*		exe_redirect		*/
 t_red		*last_redirect(t_red **redirect, int in_or_out);

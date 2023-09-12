@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 13:26:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:32:35 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
  * a builtin, if not, calls the only_child(); function. */
 t_pipex	execute_one(t_shell *mini, t_pipex pipex)
 {
+	mini->curr_heredoc = 0;
 	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))
 		only_child(pipex, *mini->cmds, mini);
 	return (pipex);
@@ -25,10 +26,12 @@ t_pipex	execute_one(t_shell *mini, t_pipex pipex)
  * and last_child();. */
 t_pipex	execute_two(t_shell *mini, t_pipex pipex)
 {
+	mini->curr_heredoc = 0;
 	if (check_redir_access(mini->lex))
 	{
 		pipe(pipex.pipes[0]);
 		pipex = first_child(pipex, *mini->cmds, mini);
+		mini->curr_heredoc++;
 		close(pipex.pipes[0][1]);
 		pipex = last_child(pipex, (*mini->cmds)->next, mini, 1);
 		close(pipex.pipes[0][0]);
@@ -65,6 +68,7 @@ t_pipex	execute_all(t_shell *mini, t_pipex pipex, int count)
 	t_command	*cmd;
 	int			i;
 
+	mini->curr_heredoc = 0;
 	if (check_redir_access(mini->lex))
 	{
 		cmd = *mini->cmds;
@@ -81,9 +85,24 @@ t_pipex	execute_all(t_shell *mini, t_pipex pipex, int count)
 			else
 				pipex = last_and_middle(mini, pipex, cmd, i);
 			cmd = cmd->next;
+			mini->curr_heredoc++;
 		}
 	}
 	return (pipex);
+}
+
+void	delete_all_files(int in_heredocs)
+{
+	int		i;
+	char	*name;
+
+	i = -1;
+	while (++i < in_heredocs)
+	{
+		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(i));
+		unlink(name);
+		free(name);
+	}
 }
 
 /* Command and builtin executor, in charge of creating the pipes
@@ -97,16 +116,19 @@ void	executor(t_shell *mini)
 {
 	t_pipex	pipex;
 	int		count;
+	int		exited;
 
+	mini->in_heredocs = count_input_heredocs(mini->cmds);
 	if (here_counter(mini->cmds))
-		here_doc_exe(mini->cmds);
+		exited = here_doc_exe(mini->cmds);
 	pipex = pipex_init();
 	count = command_counter(mini->cmds);
-	if (count == 1)
+	if (count == 1 && exited != 1)
 		pipex = execute_one(mini, pipex);
-	else if (count == 2)
+	else if (count == 2 && exited != 1)
 		pipex = execute_two(mini, pipex);
-	else
+	else if (count > 2 && exited != 1)
 		pipex = execute_all(mini, pipex, count);
 	wait_for_child(pipex, count);
+	delete_all_files(mini->in_heredocs);
 }

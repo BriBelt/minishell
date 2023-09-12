@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 14:02:52 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:29:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
 	int	heredoc_fd;
 
+	heredoc_fd = -1;
 	pipex.child_id[0] = fork();
 	if (!pipex.child_id[0])
 	{
@@ -35,8 +36,9 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 			pipex.cmd_path = command->args[0];
 		else
 			pipex.cmd_path = find_comm_path(command->args[0]);
-		heredoc_fd = open_heredoc_file(command->redirect);
-		if (heredoc_fd)
+		if (mini->curr_heredoc < mini->in_heredocs)
+			heredoc_fd = open_heredoc_file(mini);
+		if (heredoc_fd != -1)
 			(dup2(heredoc_fd, STDIN), close(heredoc_fd));
 		else if (pipex.in_fd != -1)
 			(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
@@ -52,6 +54,9 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 
 t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
+	int	heredoc_fd;
+
+	heredoc_fd = -1;
 	pipex.child_id[0] = fork();
 	if (!pipex.child_id[0])
 	{
@@ -62,7 +67,11 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 		else
 			pipex.cmd_path = find_comm_path(command->args[0]);
 		close(pipex.pipes[0][0]);
-		if (pipex.in_fd != -1)
+		if (mini->curr_heredoc < mini->in_heredocs)
+			heredoc_fd = open_heredoc_file(mini);
+		if (heredoc_fd != -1)
+			(dup2(heredoc_fd, STDIN), close(heredoc_fd));
+		else if (pipex.in_fd != -1)
 			(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
 		if (pipex.out_fd != -1)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
@@ -78,6 +87,9 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 
 t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 {
+	int	heredoc_fd;
+
+	heredoc_fd = -1;
 	pipex.child_id[i] = fork();
 	if (!pipex.child_id[i])
 	{
@@ -88,7 +100,11 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		else
 			pipex.cmd_path = find_comm_path(command->args[0]);
 		close(pipex.pipes[i][0]);
-		if (pipex.in_fd != -1)
+		if (mini->curr_heredoc < mini->in_heredocs)
+			heredoc_fd = open_heredoc_file(mini);
+		if (heredoc_fd != -1)
+			(dup2(heredoc_fd, STDIN), close(heredoc_fd));
+		else if (pipex.in_fd != -1)
 			(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
 		else
 			(dup2(pipex.pipes[i - 1][0], STDIN),
@@ -107,6 +123,9 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 
 t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 {
+	int	heredoc_fd;
+
+	heredoc_fd = -1;
 	pipex.child_id[i] = fork();
 	if (!pipex.child_id[i])
 	{
@@ -116,7 +135,11 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 			pipex.cmd_path = command->args[0];
 		else
 			pipex.cmd_path = find_comm_path(command->args[0]);
-		if (pipex.in_fd != -1)
+		if (mini->curr_heredoc < mini->in_heredocs)
+			heredoc_fd = open_heredoc_file(mini);
+		if (heredoc_fd != -1)
+			(dup2(heredoc_fd, STDIN), close(heredoc_fd));
+		else if (pipex.in_fd != -1)
 			(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
 		else
 			(dup2(pipex.pipes[i - 1][0], STDIN), close(pipex.pipes[i - 1][0]));

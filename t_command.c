@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 18:58:39 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:55:26 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	args_size(t_lexer *curr)
 				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-			|| (ptr->type == STR))
+		   || (ptr->type == STR || ptr->type == BUILTIN))
 			size++;
 		ptr = ptr->next;
 	}
@@ -58,20 +58,18 @@ char	**get_args(t_lexer *curr)
 		return (NULL);
 	while (ptr && ptr->type != PIPE)
 	{
-		printf("type=%i\n", ptr->type);
 		if (ptr->type == REDIR || ptr->type == HERE)
 			redir = 1;
 		if ((ptr->type == DEL || ptr->type == FIL) && redir && ptr->next)
 		{
 			ptr = ptr->next;
-			printf("type = %i\n", ptr->type);
 			if (ptr->type != REDIR && ptr->type != HERE)
 				redir = 0;
 			if (ptr->type == PIPE)
 				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-			|| (ptr->type == STR))
+			|| (ptr->type == STR || ptr->type == BUILTIN))
 		{
 			args[i] = ft_strdup(ptr->data);
 			i++;

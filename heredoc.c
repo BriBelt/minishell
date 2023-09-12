@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/12 11:15:05 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:56:06 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,20 @@ int	heredoc_or_input(t_red **redirects)
 	return (0);
 }
 
-int	open_heredoc_file(t_red **redirects)
+int	open_heredoc_file(t_shell *mini)
 {
 	int		heredoc_num;
 	char	*name;
 	int		fd;
 
-	heredoc_num = heredoc_or_input(redirects) - 1;
-	printf("heredoc_num = %i\n", heredoc_num);
+	heredoc_num = mini->curr_heredoc;
 	fd = 0;
 	if (heredoc_num > -1)
 	{
 		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(heredoc_num));
-		printf("--h_file name = %s\n", name);
-		fd = open(name, O_APPEND | O_RDWR, 0644);
-		printf("open_heredoc_file fd = %i", fd);
+		fd = open(name, O_RDWR, 0644);
 		if (fd < 0)
-		{
-			perror("Error opening the temp file");
-			return (0);
-		}
+			return (perror("open_heredoc_file"), 0);
 	}
 	return (fd);
 }
@@ -189,7 +183,7 @@ int	*input_heredocs(t_command **commands)
 	return (in_here);
 }
 
-void	here_doc_exe(t_command **commands)
+int	here_doc_exe(t_command **commands)
 {
 	char		**dels;
 	char		*rd;
@@ -199,51 +193,67 @@ void	here_doc_exe(t_command **commands)
 	int			*input_here;
 	int			j;
 	int			tmp_file;
+	int			here_child;
+	int			status;
+	int			exited;
 
-	i = 0;
-	created = 0;
-	dels = find_all_del(commands);
-	input_here = input_heredocs(commands);
-	while (1)
+	here_child = fork();
+	exited = 0;
+	if (!here_child)
 	{
-		rd = readline("> ");
-		j = -1;
-		while (++j < count_input_heredocs(commands))
+		signal(SIGINT, SIG_DFL);
+		i = 0;
+		created = 0;
+		dels = find_all_del(commands);
+		input_here = input_heredocs(commands);
+		while (1)
 		{
-			printf("j = %i\n", j);
-			if (i == input_here[j] - 1 && !created)
+			rd = readline("> ");
+			j = -1;
+			while (++j < count_input_heredocs(commands))
 			{
-				tmp_name = ft_strjoin("/tmp/.heredoc_", ft_itoa(j));
-				printf("tmp_name = %s\n", tmp_name);
-				printf("Before creating file = %s\n", tmp_name);
-				tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
-				printf("tmp_fd %i\n", tmp_file);
-				if (tmp_file < 0)
+				if (i == input_here[j] - 1 && !created)
 				{
-					perror("Error creating the temp file");
-					return ;
+					tmp_name = ft_strjoin("/tmp/.heredoc_", ft_itoa(j));
+					tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
+					if (tmp_file < 0)
+					{
+						perror("Error creating the temp file");
+						return (-1);
+					}
+					created = 1;
+					j++;
+					break ;
 				}
-				created = 1;
-				j++;
-				break ;
 			}
-		}
-		printf("j=%i\n", j);
-		printf("dels[%i]=%s\n", i, dels[i]);
-		if (!ft_strcmp(rd, dels[i]))
-		{
-			if (i == input_here[j - 1] - 1)
+			if ((rd && !ft_strcmp(rd, dels[i])) || !rd)
 			{
-				printf("closed\n");
-				created = 0;
-				close(tmp_file);
+				if (!rd)
+					continue;
+				if (created)
+				{
+					created = 0;
+					close(tmp_file);
+				}
+				i++;
+				if (!dels[i])
+					break ;
 			}
-			i++;
-			printf("dels[%i] = %s\n", i, dels[i]);
-			if (!dels[i])
-				break ;
+			if (tmp_file > 0 && i == input_here[j - 1] - 1)
+				(write(tmp_file, rd, ft_strlen(rd)), write(tmp_file, "\n", 1));
 		}
-		if (tmp_file > 0 && i == input_here[j - 1] - 1)
-			(write(tmp_file, rd, ft_strlen(rd)), write(tmp_file, "\n", 1));
 	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(here_child, &status, 0);
+	if (WIFEXITED(status))
+		g_global.exit_stat = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		exited = 1;
+		g_global.exit_stat = WTERMSIG(status) + 128;
+	}
+	else
+		g_global.exit_stat = 1;
+	signal(SIGINT, signal_handler);
+	return (exited);
 }
