@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/12 16:32:35 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/12 18:05:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,18 @@ void	executor(t_shell *mini)
 	int		count;
 	int		exited;
 
+	exited = 0;
 	mini->in_heredocs = count_input_heredocs(mini->cmds);
 	if (here_counter(mini->cmds))
 		exited = here_doc_exe(mini->cmds);
+	printf("exited = %i\n", exited);
 	pipex = pipex_init();
 	count = command_counter(mini->cmds);
 	if (count == 1 && exited != 1)
 		pipex = execute_one(mini, pipex);
-	else if (count == 2 && exited != 1)
+	else if (count == 2 && !exited)
 		pipex = execute_two(mini, pipex);
-	else if (count > 2 && exited != 1)
+	else if (count > 2 && !exited)
 		pipex = execute_all(mini, pipex, count);
 	wait_for_child(pipex, count);
 	delete_all_files(mini->in_heredocs);

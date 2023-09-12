@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/12 16:56:06 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/12 18:05:23 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,10 +226,8 @@ int	here_doc_exe(t_command **commands)
 					break ;
 				}
 			}
-			if ((rd && !ft_strcmp(rd, dels[i])) || !rd)
+			if (rd && !ft_strcmp(rd, dels[i]))
 			{
-				if (!rd)
-					continue;
 				if (created)
 				{
 					created = 0;
@@ -237,10 +235,14 @@ int	here_doc_exe(t_command **commands)
 				}
 				i++;
 				if (!dels[i])
-					break ;
+					exit(0);
 			}
 			if (tmp_file > 0 && i == input_here[j - 1] - 1)
 				(write(tmp_file, rd, ft_strlen(rd)), write(tmp_file, "\n", 1));
+			if (!rd && !dels[i + 1])
+				exit(0);
+			if (!rd)
+				i++;
 		}
 	}
 	signal(SIGINT, SIG_IGN);
