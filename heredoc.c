@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 11:12:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:43:18 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,11 @@ int	here_doc_exe(t_command **commands)
 	else if (WIFSIGNALED(status) && status != 11)
 	{
 		exited = 1;
-		g_global.exit_stat = WTERMSIG(status) + 128;
+		g_global.exit_stat = 1;
 	}
 	else
-		g_global.exit_stat = 1;
+		g_global.exit_stat = 0;
 	signal(SIGINT, signal_handler);
+	printf("g_global.exit_stat = %i\n", g_global.exit_stat);
 	return (exited);
 }

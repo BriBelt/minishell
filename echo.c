@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 13:37:48 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:29:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ void	echo_flagged(t_command *curr)
 {
 	int	i;
 
-	i = check_for_flag(curr->args);
+	i = check_for_flag(curr->args) - 1;
 	while (curr->args[i])
 	{
-		printf("%s", curr->args[i]);
+		if (!curr->args[i + 1])
+			printf("%s", curr->args[i]);
+		else
+			printf("%s ", curr->args[i]);
 		i++;
 	}
 }

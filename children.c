@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 11:47:57 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:04:25 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 		if (pipex.out_fd != -1)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 		if (!command->args[0])
-			exit(errno);
+			exit(0);
 		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: %s: command not found\n", command->args[0]);
+		exit(0);
 	}
 }
 
@@ -76,10 +77,13 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 		else
 			(dup2(pipex.pipes[0][1], STDOUT), close(pipex.pipes[0][1]));
-		if (!call_builtins(command, mini)
-			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
-			printf("Execve: %s: command not found\n", command->args[0]);
-		exit(errno);
+		if (!call_builtins(command, mini))
+		{
+			execve(pipex.cmd_path, command->args, mini->envp);
+			if (errno)
+				printf("Execve: %s: command not found\n", command->args[0]);
+		}
+		exit(0);
 	}
 	return (pipex);
 }
@@ -115,7 +119,7 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: %s: command not found\n", command->args[0]);
-		exit(errno);
+		exit(0);
 	}
 	return (pipex);
 }
@@ -147,7 +151,7 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 			printf("Execve: %s: command not found\n", command->args[0]);
-		exit(errno);
+		exit(0);
 	}
 	return (pipex);
 }

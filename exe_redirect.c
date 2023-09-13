@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 11:46:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:37:51 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,20 @@ int	check_redir_access(t_lexer **lexer)
 		{
 			if (redirect_type(curr->data) == INPUT && curr->next
 				&& access(curr->next->data, F_OK | R_OK) == -1)
+			{
+				g_global.exit_stat = 1;
 				return (printf("%s: No such file or directory\n", \
 							curr->next->data), 0);
+			}
 			else if (redirect_type(curr->data) == OUTPUT)
 			{
 				new = open(curr->next->data, O_CREAT, 0644);
 				if (new < 0)
+				{
+					g_global.exit_stat = 1;
 					return (printf("%s: Could not create the file\n", \
 							   curr->next->data), 0);
+				}
 				close(new);
 			}
 		}

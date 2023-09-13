@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:29:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/12 12:55:26 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:30:28 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	args_size(t_lexer *curr)
 				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-		   || (ptr->type == STR || ptr->type == BUILTIN))
+		   || (ptr->type == STR || ptr->type == BUILTIN || ptr->type == FLAG))
 			size++;
 		ptr = ptr->next;
 	}
@@ -69,7 +69,7 @@ char	**get_args(t_lexer *curr)
 				break ;
 		}
 		if ((ptr->type == FIL && !redir)
-			|| (ptr->type == STR || ptr->type == BUILTIN))
+			|| (ptr->type == STR || ptr->type == BUILTIN || ptr->type == FLAG))
 		{
 			args[i] = ft_strdup(ptr->data);
 			i++;

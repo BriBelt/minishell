@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 16:56:56 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 15:15:27 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:07:16 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-//	mini->exit_status = 1;
+	g_global.exit_stat = 1;
 }
