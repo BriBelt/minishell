@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/12 18:05:23 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:12:31 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ int	here_doc_exe(t_command **commands)
 	waitpid(here_child, &status, 0);
 	if (WIFEXITED(status))
 		g_global.exit_stat = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
+	else if (WIFSIGNALED(status) && status != 11)
 	{
 		exited = 1;
 		g_global.exit_stat = WTERMSIG(status) + 128;

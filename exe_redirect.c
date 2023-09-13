@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 11:57:37 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:46:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	output_check(t_lexer *node)
 	int	new;
 
 	new = 0;
-	if (redirect_type(node->data) == 2 && node->next)
+	if (redirect_type(node->data) == OUTPUT && node->next)
 	{
 		if (access(node->next->data, F_OK) == -1)
 		{
@@ -72,15 +72,16 @@ int	check_redir_access(t_lexer **lexer)
 	{
 		if (curr->type == REDIR)
 		{
-			if (redirect_type(curr->data) == 1 && curr->next
+			if (redirect_type(curr->data) == INPUT && curr->next
 				&& access(curr->next->data, F_OK | R_OK) == -1)
 				return (printf("%s: No such file or directory\n", \
 							curr->next->data), 0);
-			else if (redirect_type(curr->data) == 2)
+			else if (redirect_type(curr->data) == OUTPUT)
 			{
 				new = open(curr->next->data, O_CREAT, 0644);
 				if (new < 0)
-					return (0);
+					return (printf("%s: Could not create the file\n", \
+							   curr->next->data), 0);
 				close(new);
 			}
 		}

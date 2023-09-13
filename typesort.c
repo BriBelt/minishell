@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 11:35:23 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/09/13 11:46:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	redirect_or_pipe(char *content)
 	int	len;
 
 	len = ft_strlen(content);
-	if (!ft_strncmp(content, "<<", len))
+	if (!ft_strcmp(content, "<<"))
 		return (HERE);
-	if (!ft_strncmp(content, ">>", len))
+	if (!ft_strcmp(content, ">>"))
 		return (REDIR);
-	if (!ft_strncmp(content, "<", len))
+	if (!ft_strcmp(content, "<"))
 		return (REDIR);
-	if (!ft_strncmp(content, ">", len))
+	if (!ft_strcmp(content, ">"))
 		return (REDIR);
-	if (!ft_strncmp(content, "|", len))
+	if (!ft_strcmp(content, "|"))
 		return (PIPE);
 	return (0);
 }
@@ -55,30 +55,6 @@ int	is_builtin(char *content)
 		return (BUILTIN);
 	return (STR);
 }
-
-/* Differentiates between a possible COMMAND or a STR by checking for access();
- * of each possible path for *content. */
-/*int	is_command(char *content)
-{
-	char	*com_path;
-	char	*tmp;
-	char	**paths;
-	int		i;
-
-	i = 0;
-	paths = get_paths("PATH");
-	while (paths[i])
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		com_path = ft_strjoin(tmp, content);
-		free(tmp);
-		if (!access(com_path, F_OK | X_OK))
-			return (free_2d_array(paths), COMMAND);
-		free(com_path);
-		i++;
-	}
-	return (STR);
-}*/
 
 /* Just like what_type();, changes the lexer->type(STR) value by calling the
  * is_command();, flag_or_envar(); or is_file(); */
