@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   typesort_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:23:56 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/01 15:22:26 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:36:22 by jaimmart32       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,19 @@ int	is_file(char *content)
 	if (!access(content, F_OK | R_OK))
 		return (FIL);
 	return (STR);
+}
+
+void	is_file_type(t_lexer **lexer)
+{
+	t_lexer	*curr;
+
+	curr = *lexer;
+	while (curr)
+	{
+		if (curr->type == REDIR && curr->next)
+			curr->next->type = FIL;
+		if (curr->type == HERE && curr->next)
+			curr->next->type = DEL;
+		curr = curr->next;
+	}
 }

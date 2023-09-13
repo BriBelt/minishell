@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   typesort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/28 16:28:34 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:46:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /* Returns the value of REDIR if the *content is the same as a redirection char,
  * if the *content is a pipe, returns PIPE value, else returns a 0. */
@@ -20,15 +19,15 @@ int	redirect_or_pipe(char *content)
 	int	len;
 
 	len = ft_strlen(content);
-	if (!ft_strncmp(content, "<<", len)) 
+	if (!ft_strcmp(content, "<<"))
+		return (HERE);
+	if (!ft_strcmp(content, ">>"))
 		return (REDIR);
-	if (!ft_strncmp(content, ">>", len)) 
+	if (!ft_strcmp(content, "<"))
 		return (REDIR);
-	if (!ft_strncmp(content, "<", len)) 
+	if (!ft_strcmp(content, ">"))
 		return (REDIR);
-	if (!ft_strncmp(content, ">", len)) 
-		return (REDIR);
-	if (!ft_strncmp(content, "|", len)) 
+	if (!ft_strcmp(content, "|"))
 		return (PIPE);
 	return (0);
 }
@@ -57,30 +56,6 @@ int	is_builtin(char *content)
 	return (STR);
 }
 
-/* Differentiates between a possible COMMAND or a STR by checking for access();
- * of each possible path for *content. */
-int	is_command(char *content)
-{
-	char	*com_path;
-	char	*tmp;
-	char	**paths;
-	int		i;
-
-	i = 0;
-	paths = get_paths("PATH");
-	while (paths[i])
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		com_path = ft_strjoin(tmp, content);
-		free(tmp);
-		if (!access(com_path, F_OK | X_OK))
-			return (free_2D_array(paths), COMMAND);
-		free(com_path);
-		i++;
-	}
-	return (STR);
-}
-
 /* Just like what_type();, changes the lexer->type(STR) value by calling the
  * is_command();, flag_or_envar(); or is_file(); */
 void	str_type(t_lexer **lst)
@@ -92,9 +67,7 @@ void	str_type(t_lexer **lst)
 	{
 		if (curr->type == STR)
 		{
-			curr->type = is_command(curr->data);
-			if (curr->type == STR)
-				curr->type = flag_or_envar(curr->data);
+			curr->type = flag_or_envar(curr->data);
 			if (curr->type == STR)
 				curr->type = is_file(curr->data);
 		}
@@ -111,11 +84,12 @@ void	def_type(t_lexer **lst)
 	curr = *lst;
 	while (curr)
 	{
-		if (redirect_or_pipe(curr->data))
-			curr->type = redirect_or_pipe(curr->data);		
+		if (redirect_or_pipe(curr->data) && curr->join == 0)
+			curr->type = redirect_or_pipe(curr->data);
 		else
 			curr->type = is_builtin(curr->data);
 		curr = curr->next;
 	}
+	is_file_type(lst);
 	str_type(lst);
 }

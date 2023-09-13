@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/01 15:28:33 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:27:14 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	**get_paths(char *pathname)
 	char	*whole;
 
 	whole = getenv(pathname);
+	if (!whole)
+		return (NULL);
 	paths = ft_split(whole, ':');
 	return (paths);
 }
@@ -45,12 +47,18 @@ char	**get_paths(char *pathname)
 char	*expand_envar(char *data, t_shell *mini)
 {
 	char	*expanded;
+	char	*aux;
 	char	*clean_data;
 	int		len;
 
 	len = ft_strlen(data) - 1;
 	clean_data = ft_substr(data, 1, len);
-	if (search_in_envar(clean_data, mini->envp))
+	if (!ft_strncmp(clean_data, "?", 1))
+	{
+		aux = ft_itoa(g_global.exit_stat);
+		expanded = ft_strjoin(aux, clean_data + 1);
+	}
+	else if (search_in_envar(clean_data, mini->envp))
 		expanded = getenv(clean_data);
 	else
 		expanded = NULL;
@@ -69,6 +77,8 @@ char	**copy_envp(char **envp)
 	while (envp[i])
 		i++;
 	new = ft_calloc(i + 1, sizeof(char *));
+	if (!new)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
@@ -77,4 +87,3 @@ char	**copy_envp(char **envp)
 	}
 	return (new);
 }
-

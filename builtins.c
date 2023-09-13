@@ -3,30 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/01 15:41:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:30:54 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	call_builtins(t_lexer *node, char **envp, t_shell *mini)
+char	*str_tolow(char *str)
 {
-	int		len;
+	int	i;
 
-	len = ft_strlen(node->data);
-	if (!ft_strcmp(node->data, "pwd"))
-		ft_pwd();
-	else if (!ft_strcmp(node->data, "cd"))
-		ft_cd(node);
-	else if (!ft_strcmp(node->data, "env"))
-		ft_env(envp);
-	else if (!ft_strcmp(node->data, "echo"))
-		ft_echo(node, mini);
-	else if (!ft_strcmp(node->data, "unset"))
-		mini->envp = ft_unset(envp, node);
-	else if (!ft_strcmp(node->data, "export"))
-		mini->envp = ft_export(envp, node);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			str[i] += 32;
+		i++;
+	}
+	return (str);
+}
+
+/* This function's purpose is only to call check the given node, if the 
+ * node->data of the lexer is the same as any of the specified builtins, it
+ * executes the corresponding command for the builtin. */
+int	call_builtins(t_command *node, t_shell *mini)
+{
+	if (!node->args[0])
+		return (0);
+	if (!ft_strcmp(node->args[0], "pwd"))
+		return (ft_pwd(), 1);
+	else if (!ft_strcmp(node->args[0], "cd"))
+		return (ft_cd(node), 1);
+	else if (!ft_strcmp(node->args[0], "env"))
+		return (ft_env(node, mini->envp), 1);
+	else if (!ft_strcmp(node->args[0], "echo"))
+		return (ft_echo(node), 1);
+	else if (!ft_strcmp(node->args[0], "unset"))
+	{
+		mini->envp = ft_unset(mini->envp, node);
+		return (1);
+	}
+	else if (!ft_strcmp(node->args[0], "export"))
+	{
+		mini->envp = ft_export(mini->envp, node);
+		return (1);
+	}
+	else if (!ft_strcmp(node->args[0], "exit"))
+		ft_exit(mini);
+	return (0);
 }

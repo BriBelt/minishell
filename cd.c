@@ -3,20 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:03:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/07/31 18:10:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:25:28 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(t_lexer *node)
+/* Cd builtin function, checks if the node->next of the given node exists if it
+ * does exist, calls chdir(); with the node->next->data(desired destination)
+ * to move to that directory, if the directory does not exist or doesn't 
+ * have the correct permissions, returns an error message. */
+void	ft_cd(t_command *node)
 {
-	if (node->next)
+	if (node->args[1])
 	{
-		if (chdir(node->next->data) == -1)
-			printf("Error: %s", strerror(errno));
+		if (chdir(node->args[1]) == -1)
+			printf("cd: %s: %s\n", node->args[1], strerror(errno));
+		else
+			g_global.pwd = getcwd(NULL, 0);
+	}
+	else
+	{
+		chdir("~");
+		g_global.pwd = getcwd(NULL, 0);
 	}
 }
