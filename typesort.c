@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 11:46:54 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:21:11 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
  * if the *content is a pipe, returns PIPE value, else returns a 0. */
 int	redirect_or_pipe(char *content)
 {
-	int	len;
-
-	len = ft_strlen(content);
 	if (!ft_strcmp(content, "<<"))
 		return (HERE);
 	if (!ft_strcmp(content, ">>"))

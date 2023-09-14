@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:31:48 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:41:13 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,15 @@ void	clean_quotes(t_basic **pipes)
 		else if (!no_quotes[0])
 			new_data = ft_strdup("");
 		free_2d_array(no_quotes);
+		free(no_quotes);
 		ptr->data = new_data;
 		ptr = ptr->next;
 	}
 }
 
+/* Splits the data given by spaces, ignoring the spaces
+ * inside quotes. Creates and returns a new space-separated
+ * string. */
 char	*split_quote_sens(char *data, size_t *i)
 {
 	size_t	start;
@@ -131,6 +135,7 @@ char	*split_quote_sens(char *data, size_t *i)
 	if (*i == ft_strlen(data))
 		end = ft_strlen(data);
 	new = ft_substr(data, start, end - start);
+	free(data);
 	return (new);
 }
 

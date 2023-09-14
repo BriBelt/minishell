@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/24 11:36:09 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:35:14 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,39 +80,3 @@ int	found_quote(char *rd, size_t *join)
 	}
 	return (count);
 }
-
-/* Creates a t_basic **basic list from the received readline.
- * First, calls the found_quote(); and checks it result, if 
- * the module of that between 2, is NOT zero, that means the
- * quotes are not closed. Next, with the handle_quotes();*/
-/*t_basic	**create_basic_lst(char *rd)
-{
-	t_basic	**basic;
-	size_t	i;
-	size_t	rd_len;
-	int		found;
-	size_t	join;
-
-	join = 0;
-	found = found_quote(rd, &join);
-	if (found % 2 != 0)
-	{
-		perror("create_basic: All quotes must be closed.");
-		exit (1);
-	}
-	basic = malloc(sizeof(t_basic *));
-	*basic = NULL;
-	i = 0;
-	rd_len = ft_strlen(rd);
-	if (found && found % 2 == 0)
-	{
-		while (i < rd_len)
-			ft_basic_insert(basic, handle_quotes(rd, &i), join--);
-	}
-	else if (!found)
-	{
-		while (i < rd_len)
-			ft_basic_insert(basic, split_quote_sens(rd, &i), join--);
-	}
-	return (basic);
-}*/
