@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/12 16:32:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:26:49 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int			count_input_heredocs(t_command **commands);
 /*		check_execution		*/
 /*		exe_redirect		*/
 t_red		*last_redirect(t_red **redirect, int in_or_out);
+int			check_for_children(t_lexer **lexer);
 int			check_redir_access(t_lexer **lexer);
 /*		execution		*/
 t_pipex		pipex_init(void);
@@ -120,7 +121,7 @@ void		command_executor(t_shell *mini, t_command **commands);
 void		executor(t_shell *mini);
 /*		execution_utils		*/
 t_pipex		pipex_init(void);
-void		wait_for_child(t_pipex pipex, int count);
+void		wait_for_child(t_pipex pipex, int count, t_shell *mini);
 /*		children_utils	*/
 int			command_counter(t_command **commands);
 char		*find_comm_path(char *data);

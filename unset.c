@@ -6,20 +6,11 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:48:55 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:31:10 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:18:44 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_for_unset(char *data)
-{
-	if (ft_strchr(data, '='))
-		return (printf("unset: %s: not a valid identifier\n", data), 0);
-	if (!ft_isalpha((int)data[0]) && data[0] != '_')
-		return (printf("unset: %s: not a valid identifier\n", data), 0);
-	return (1);
-}
 
 /* Just gives the array **envp size, ignoring *desired_path. */
 int	array_size(char **envp, char *desired_path)
@@ -82,15 +73,13 @@ char	**ft_unset(char **envp, t_command *node)
 		new_envp = envp;
 		while (curr->args[i])
 		{
-			if (check_for_unset(curr->args[i]))
-			{
-				aux = new_envp;
-				new_envp = get_new_envp(aux, curr->args[i]);
-				free_2d_array(aux);
-			}
+			aux = new_envp;
+			new_envp = get_new_envp(aux, curr->args[i]);
+			free_2d_array(aux);
 			i++;
 		}
 		return (new_envp);
 	}
+	g_global.exit_stat = 0;
 	return (envp);
 }

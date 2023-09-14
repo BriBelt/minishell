@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 17:10:21 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:03:15 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	space_sep = create_space_sep(rd);
 	lexer = NULL;
 	if ((space_sep && !quote_list_checker(space_sep)) || !space_sep)
-		return (NULL);
+		return (g_global.exit_stat = 1, NULL);
 	quote_sep = create_quote_sep(space_sep);
 	if ((quote_sep && !quote_list_checker(quote_sep)) || !quote_sep)
-		return (NULL);
+		return (g_global.exit_stat = 1, NULL);
 	redirects = redirect_separate(quote_sep);
 	pipes = pipe_separate(redirects);
 	clean_false_joins(pipes);
@@ -63,8 +63,8 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	lexer = final_lexer(pipes);
 	def_type(lexer);
 	if ((lexer && !check_redirects(lexer)) || !lexer)
-		return (NULL);
+		return (g_global.exit_stat = 258, NULL);
 	if ((lexer && !check_pipes(lexer)) || !lexer)
-		return (NULL);
+		return (g_global.exit_stat = 258, NULL);
 	return (lexer);
 }

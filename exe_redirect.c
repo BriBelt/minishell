@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 15:37:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:04:39 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,39 @@ int	output_check(t_lexer *node)
 		return (1);
 	}
 	return (0);
+}
+
+int	check_for_children(t_lexer **lexer)
+{
+	t_lexer	*curr;
+	int		new;
+
+	curr = *lexer;
+	new = 0;
+	while (curr)
+	{
+		if (curr->type == REDIR)
+		{
+			if (redirect_type(curr->data) == INPUT && curr->next
+				&& access(curr->next->data, F_OK | R_OK) == -1)
+			{
+				g_global.exit_stat = 1;
+				return(0);
+			}
+			else if (redirect_type(curr->data) == OUTPUT)
+			{
+				new = open(curr->next->data, O_CREAT, 0644);
+				if (new < 0)
+				{
+					g_global.exit_stat = 1;
+					return(0);
+				}
+				close(new);
+			}
+		}
+		curr = curr->next;
+	}
+	return (1);
 }
 
 /* Iterates through the lexer, if it finds a redirect node type, checks if 

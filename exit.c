@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:55:36 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 17:26:08 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:06:06 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,7 @@ int	get_exit_code(char **args)
 
 void	ft_exit(t_shell *mini)
 {
-//	Not sure if it should print exit to stderror or just stdout.
 	ft_putstr_fd("\nexit\n", 2);
-//	printf("exit\n");
 	if (!mini)
 		exit(0);
 	g_global.exit_stat = get_exit_code((*mini->cmds)->args);

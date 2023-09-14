@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 12:29:37 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:02:51 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	ft_echo(t_command *node)
 		else
 			echo_no_flag(curr);
 	}
+	g_global.exit_stat = 0;
 }

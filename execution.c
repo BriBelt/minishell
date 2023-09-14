@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 17:04:37 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:26:50 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,8 @@
  * a builtin, if not, calls the only_child(); function. */
 t_pipex	execute_one(t_shell *mini, t_pipex pipex)
 {
-	int	check;
-
-	check = 1;
 	mini->curr_heredoc = 0;
-	if ((*mini->cmds) && !(*mini->cmds)->args[0])
-	{
-		printf("no command\n");
-		check = 0;
-	}
-	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex) &&
-		check)	
+	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))	
 		only_child(pipex, *mini->cmds, mini);
 	return (pipex);
 }
@@ -139,7 +130,7 @@ void	executor(t_shell *mini)
 		pipex = execute_two(mini, pipex);
 	else if (count > 2 && !exited)
 		pipex = execute_all(mini, pipex, count);
-	if (count > 0 && (*mini->cmds)->args[0])
-		wait_for_child(pipex, count);
+	if (count > 0 && check_for_children(mini->lex))
+		wait_for_child(pipex, count, mini);
 	delete_all_files(mini->in_heredocs);
 }

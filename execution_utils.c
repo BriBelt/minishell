@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 17:06:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:24:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,21 @@ t_pipex	pipex_init(void)
 
 /* While loop that will iterate through the children_id array to make the
  * parent process wait until all the children processes are done. */
-void	wait_for_child(t_pipex pipex, int count)
+void	wait_for_child(t_pipex pipex, int count, t_shell *mini)
 {
-	int	i;
-	int	status;
+	int			i;
+	int			status;
+	t_command	*curr;
 
 	i = 0;
 	status = 0;
+	curr = *mini->cmds;
 	signal(SIGINT, SIG_IGN);
 	while (i < count)
 	{
-		waitpid(pipex.child_id[i], &status, 0);
+		if (count > 0 && curr->args[0])
+			waitpid(pipex.child_id[i], &status, 0);
+		curr = curr->next;
 		i++;
 	}
 	if (WIFEXITED(status))

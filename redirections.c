@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 13:51:10 by jaimmart32       ###   ########.fr       */
+/*   Updated: 2023/09/14 16:02:44 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ int	check_redirects(t_lexer **lex)
 		return (0);
 	while (curr)
 	{
-		if (curr->type == REDIR && (!curr->next || curr->next->type == PIPE))
+		if ((curr->type == REDIR || curr->type == HERE) &&
+			((curr->next && !ft_strcmp(curr->next->data, "|")) || !curr->next))
 			return (printf(REDIR_ERR), 0);
 		if ((ft_strchr(curr->data, '>') || ft_strchr(curr->data, '<'))
 			&& curr->type == STR && curr->join == 0)
@@ -124,7 +125,8 @@ int	check_redirects(t_lexer **lex)
 			if (!valid_redirects(curr->data))
 				return (ft_putstr_fd(REDIR_ERR, 2), 0);
 		}
-		if (curr->type == REDIR && curr->next && curr->next->type == REDIR)
+		if ((curr->type == REDIR || curr->type == HERE) &&
+			curr->next && (curr->next->type == REDIR || curr->next->type == HERE))
 			return (ft_putstr_fd(REDIR_ERR, 2), 0);
 		curr = curr->next;
 	}

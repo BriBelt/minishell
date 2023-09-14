@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:03:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 17:25:28 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:01:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,23 @@ void	ft_cd(t_command *node)
 	if (node->args[1])
 	{
 		if (chdir(node->args[1]) == -1)
-			printf("cd: %s: %s\n", node->args[1], strerror(errno));
+		{
+			g_global.exit_stat = 1;
+			perror("cd");
+		}
 		else
+		{
+//			if (g_global.pwd)
+//				free(g_global.pwd);
+			g_global.exit_stat = 0;
 			g_global.pwd = getcwd(NULL, 0);
+		}
 	}
 	else
 	{
+//		if (g_global.pwd)
+//			free(g_global.pwd);
+		g_global.exit_stat = 0;
 		chdir("~");
 		g_global.pwd = getcwd(NULL, 0);
 	}

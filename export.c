@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/01 14:31:31 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:15:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_for_export(char *data)
 	if (!ft_isalpha((int)data[0]) && data[0] != '_')
 		return (printf("unset: %s: not a valid identifier\n", data), 0);
 	if (!ft_strchr(data, '='))
-		return (0);
+		return (2);
 	return (1);
 }
 
@@ -75,6 +75,7 @@ char	**ft_export(char **envp, t_command *node)
 	char		**aux;
 	t_command	*curr;
 	int			i;
+	int			result;
 
 	i = 1;
 	curr = node;
@@ -83,12 +84,19 @@ char	**ft_export(char **envp, t_command *node)
 		new_envp = envp;
 		while (curr->args[i])
 		{
-			if (check_for_export(curr->args[i]))
+			result = check_for_export(curr->args[i]);
+			if (result)
 			{
-				aux = new_envp;
-				new_envp = export_new_envar(aux, curr->args[i]);
-				free_2d_array(aux);
+				g_global.exit_stat = 0;
+				if (result == 1)
+				{
+					aux = new_envp;
+					new_envp = export_new_envar(aux, curr->args[i]);
+					free_2d_array(aux);
+				}
 			}
+			else
+				g_global.exit_stat = 1;
 			i++;
 		}
 		return (new_envp);
