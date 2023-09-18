@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 15:26:49 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:05:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <string.h>
+# include <signal.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include <sys/types.h>
 # include "libft/libft.h"
 
-t_global	g_global;
-/*		readline		*/
 void		rl_replace_line(const char *text, int clear_undo);
+t_global	g_global;
 void		minishell_exe(t_shell *mini, int in, int out);
 /*		parser			*/
 t_lexer		**ft_parser(t_shell *mini, char *rd);
@@ -54,7 +55,7 @@ int			is_command(char *content);
 int			redirect_or_pipe(char *content);
 void		def_type(t_lexer **lst);
 /*		typesort_utils		*/
-int			flag_or_envar(char *content);
+int			flag_or_envar(char *content, int quote_type);
 int			is_file(char *content);
 void		is_file_type(t_lexer **lexer);
 /*		free_utils		*/
@@ -62,6 +63,8 @@ void		exit_mode(char *strerror, int errornum);
 void		free_2d_array(char **array);
 void		free_t_lexer(t_lexer **lst);
 void		free_t_basic(t_basic **lst);
+void		free_t_command(t_command **lst);
+void		free_t_red(t_red **lst);
 /*		t_red				*/
 int			redirect_type(char *data);
 t_red		**create_redir_list(t_lexer	*curr);

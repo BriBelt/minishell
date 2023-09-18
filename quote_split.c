@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:12:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:35:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 11:24:14 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	quote_list_checker(t_basic **list)
 char	*quote_split(char *rd, int *i)
 {
 	t_quote	*h;
+	char	*new;
 
 	h = initialize_t_quote();
 	while (rd[*i])
@@ -87,7 +88,7 @@ char	*quote_split(char *rd, int *i)
 	}
 	if (h->count == 1 && h->start && !h->end)
 		h->end = ft_strlen(rd);
-	return (ft_substr(rd, h->start, h->end - h->start));
+	return (new = ft_substr(rd, h->start, h->end - h->start), free(h), new);
 }
 
 /* Just checks if there's a quote inside the *data. */
@@ -127,7 +128,7 @@ t_basic	**create_quote_sep(t_basic **space_sep)
 					++join);
 		}
 		else if (!quote_inside_node(curr_space->data))
-			ft_basic_insert(quote_sep, curr_space->data, 0);
+			ft_basic_insert(quote_sep, ft_strdup(curr_space->data), 0);
 		curr_space = curr_space->next;
 	}
 	return (quote_sep);

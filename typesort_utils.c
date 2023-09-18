@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 16:23:56 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 15:52:28 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:04:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 /* Differentiates between FLAG or VAR type, else
  * is a STR type. */
-int	flag_or_envar(char *content)
+int	flag_or_envar(char *content, int quote_type)
 {
 	if (!ft_strncmp(content, "-", 1))
 		return (FLAG);
-	if (!ft_strncmp(content, "$", 1))
+	if (!ft_strncmp(content, "$", 1) && quote_type != 1)
 		return (VAR);
 	return (STR);
 }

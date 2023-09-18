@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 15:43:50 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:44:56 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int	here_doc_exe(t_command **commands)
 	int			here_child;
 	int			status;
 	int			exited;
+	char		*num;
 
 	here_child = fork();
 	exited = 0;
@@ -214,7 +215,9 @@ int	here_doc_exe(t_command **commands)
 			{
 				if (i == input_here[j] - 1 && !created)
 				{
-					tmp_name = ft_strjoin("/tmp/.heredoc_", ft_itoa(j));
+					num = ft_itoa(j);
+					tmp_name = ft_strjoin("/tmp/.heredoc_", num);
+					free(num);
 					tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
 					if (tmp_file < 0)
 					{
@@ -237,12 +240,13 @@ int	here_doc_exe(t_command **commands)
 				if (!dels[i])
 					exit(0);
 			}
-			if (tmp_file > 0 && i == input_here[j - 1] - 1)
+			if (rd && tmp_file > 0 && i == input_here[j - 1] - 1)
 				(write(tmp_file, rd, ft_strlen(rd)), write(tmp_file, "\n", 1));
 			if (!rd && !dels[i + 1])
 				exit(0);
 			if (!rd)
 				i++;
+			free(rd);
 		}
 	}
 	signal(SIGINT, SIG_IGN);

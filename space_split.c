@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:11:03 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/08/21 17:42:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:09:51 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ t_basic	**create_space_sep(char *rd)
 	{
 		new = space_split(rd, &i);
 		if (new)
-			ft_basic_insert(space_sep, new, 0);
+		{
+			ft_basic_insert(space_sep, ft_strdup(new), 0);
+			free(new);
+		}
 	}
-	return (space_sep);
+	return (free(rd), space_sep);
 }

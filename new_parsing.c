@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:48:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:22:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 		return (g_global.exit_stat = 1, NULL);
 	}
 	quote_sep = create_quote_sep(space_sep);
+	free_t_basic(space_sep);
 	if ((quote_sep && !quote_list_checker(quote_sep)) || !quote_sep)
 	{
 		if (quote_sep)
@@ -71,12 +72,9 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	change_node_var(pipes, mini);
 	clean_quotes(pipes);
 	lexer = final_lexer(pipes);
-	free_t_basic(pipes);
 	def_type(lexer);
+	free_t_basic(pipes);
 	if ((lexer && (!check_redirects(lexer) || !check_pipes(lexer))) || !lexer)
-	{
-		free_t_lexer(lexer);
-		return (g_global.exit_stat = 258, NULL);
-	}
+		return (free_t_lexer(lexer), g_global.exit_stat = 258, NULL);
 	return (lexer);
 }

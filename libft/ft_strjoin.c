@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:54:43 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/03/01 10:30:00 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:06:50 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	lens1;
 	size_t	lens2;
 
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
+	if (s1)
+		lens1 = ft_strlen(s1);
+	else
+		lens1 = 0;
+	if (s2)
+		lens2 = ft_strlen(s2);
+	else
+		lens2 = 0;
 	newssize = lens1 + lens2;
 	newstr = malloc((newssize + 1) * sizeof(char));
 	ptr = newstr;

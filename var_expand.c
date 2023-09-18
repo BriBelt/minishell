@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/06 17:23:50 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:37:43 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
  * or quotes. Returns the result of the cutted *data. */
 char	*split_variables(char *data, int *i)
 {
-	int	loop;
-	int	start;
-	int	end;
+	int		loop;
+	int		start;
+	int		end;
+	char	*new;
 
 	start = *i;
 	end = -1;
@@ -41,7 +42,8 @@ char	*split_variables(char *data, int *i)
 	}
 	if (end == -1)
 		end = *i;
-	return (ft_substr(data, start, end - start));
+	new = ft_substr(data, start, end - start);
+	return (new);
 }
 
 /* Gets the amount of memory that the new node data will
@@ -65,25 +67,40 @@ int	total_node_len(char *data, t_shell *mini)
 	return (total);
 }
 
-/* This function is only called when a "$" symbol is found
- * inside the node */
 char	*found_symbol(char *data, t_shell *mini)
 {
 	int		i;
-	char	*new;
+	char	*expanded;
 	char	*final;
+	char	*no_sym;
+	char	*aux;
 
-	i = 0;
-	final = ft_calloc(total_node_len(data, mini), sizeof(char));
+	final = ft_calloc(1, sizeof(char));
 	if (!final)
 		return (NULL);
+	i = 0;
 	while (i < (int)ft_strlen(data))
 	{
-		new = split_variables(data, &i);
-		if (ft_strchr(new, '$'))
-			new = expand_envar(new, mini);
-		if (new)
-			final = ft_strjoin(final, new);
+		aux = split_variables(data, &i);
+		if (ft_strchr(aux, '$'))
+		{
+			expanded = expand_envar(aux, mini);
+			free(aux);
+			aux = final;
+			if (expanded)
+			{
+				final = ft_strjoin(final, expanded);
+				free(aux);
+			}
+		}
+		else if (!ft_strchr(aux, '$'))
+		{
+			no_sym = ft_strdup(aux);
+			free(aux);
+			aux = final;
+			final = ft_strjoin(final, no_sym);
+			(free(aux), free(no_sym));
+		}
 		else
 			final = NULL;
 	}
@@ -140,6 +157,7 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 {
 	t_basic	*curr;
 	char	*new_node;
+	char	*aux;
 	int		inside;
 
 	curr = *pipes;
@@ -150,12 +168,15 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 		{
 			if (curr->quote == 1)
 				inside = sym_in_quotes(curr->data);
-			if (!inside)
+			if (!inside || curr->quote != 1)
 			{
 				new_node = found_symbol(curr->data, mini);
-				free(curr->data);
 				if (new_node)
+				{
+					aux = curr->data;
 					curr->data = new_node;
+					free(aux);
+				}
 			}
 		}
 		curr = curr->next;

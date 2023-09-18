@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:39:29 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:00:01 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	minishell_exe(t_shell *mini, int in, int out)
 	{
 		dup2(in, STDIN_FILENO);
 		dup2(out, STDOUT_FILENO);
-		aux = readline("minishell>");
+		aux = readline("minishell> ");
 		if (!aux)
 			ft_exit(NULL);
 		rd = ft_strtrim(aux, " \t\n\r\v\f");
@@ -59,9 +59,8 @@ void	minishell_exe(t_shell *mini, int in, int out)
 			{
 				mini->cmds = create_command_list(mini->lex);
 				executor(mini);
+				(free_t_command(mini->cmds), free_t_lexer(mini->lex));
 			}
-			else
-				free(rd);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 17:27:14 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:51:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*expand_envar(char *data, t_shell *mini)
 	else
 		expanded = NULL;
 	free(clean_data);
-	free(data);
+//	free(data);
 	return (expanded);
 }
 

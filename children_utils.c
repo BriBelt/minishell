@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/08 12:00:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:32:55 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*find_comm_path(char *data)
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		if (ft_strnstr(paths[i], "munki", ft_strlen(paths[i])))
-			return (NULL);
+			return (free(tmp), free_2d_array(paths), NULL);
 		com_path = ft_strjoin(tmp, data);
 		free(tmp);
 		if (!access(com_path, F_OK | X_OK))
@@ -52,6 +52,7 @@ char	*find_comm_path(char *data)
 		free(com_path);
 		i++;
 	}
+	free_2d_array(paths);
 	return (com_path);
 }
 

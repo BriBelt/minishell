@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:41:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:19:45 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,16 @@ char	**quotes_in_node(char *data)
 	}
 	if (open && closed == -1)
 		return (printf(QUOTE_ERR), NULL);
-	clean = ft_split(data, data[closed]);
+	if (open && closed > -1 && data[closed])
+		clean = ft_split(data, data[closed]);
+	else
+	{
+		clean = ft_calloc(2, sizeof(char *));
+		if (!clean)
+			return (NULL);
+		clean[0] = ft_strdup(data);
+	}
+	free(data);
 	return (clean);
 }
 
@@ -100,7 +109,6 @@ void	clean_quotes(t_basic **pipes)
 		else if (!no_quotes[0])
 			new_data = ft_strdup("");
 		free_2d_array(no_quotes);
-		free(no_quotes);
 		ptr->data = new_data;
 		ptr = ptr->next;
 	}
@@ -135,7 +143,6 @@ char	*split_quote_sens(char *data, size_t *i)
 	if (*i == ft_strlen(data))
 		end = ft_strlen(data);
 	new = ft_substr(data, start, end - start);
-	free(data);
 	return (new);
 }
 
