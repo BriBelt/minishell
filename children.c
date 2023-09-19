@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:04:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:14:47 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_path(char *arg)
 {
+	if (!arg)
+		return (0);
 	if (*arg == '/' || !ft_strncmp(arg, "./", 2))
 	{
 		if (!access(arg, F_OK | X_OK))
@@ -80,6 +82,8 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 		else
 			(dup2(pipex.pipes[0][1], STDOUT), close(pipex.pipes[0][1]));
+		if (!command->args[0])
+			exit(0);
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{
@@ -119,6 +123,8 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 		else
 			(dup2(pipex.pipes[i][1], STDOUT), close(pipex.pipes[i][1]));
+		if (!command->args[0])
+			exit(0);
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{
@@ -154,6 +160,8 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 			(dup2(pipex.pipes[i - 1][0], STDIN), close(pipex.pipes[i - 1][0]));
 		if (pipex.out_fd != -1)
 			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
+		if (!command->args[0])
+			exit(0);
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{

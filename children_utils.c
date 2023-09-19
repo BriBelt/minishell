@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/15 16:32:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:22:23 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*find_comm_path(char *data)
 	int		i;
 
 	i = 0;
+	if (!data)
+		return (0);
 	paths = get_paths("PATH");
 	com_path = NULL;
 	while (paths && paths[i])
