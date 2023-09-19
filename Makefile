@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+         #
+#    By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/09/11 13:16:23 by jaimmart32       ###   ########.fr        #
+#    Updated: 2023/09/19 11:14:35 by jaimmart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
 #  -g3 -fsanitize=address
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 EXTRAFLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 # EXTRAFLAGS = -L/usr/lib/x86_64-linux-gnu -lreadline
 RM = rm -rf
@@ -36,7 +36,7 @@ MINI_OBJ = $(MINI_SRC:.c=.o)
 $(NAME):	$(MINI_OBJ)
 				@echo  "     - Making libft..."
 				@make -C $(LIBF_DIR)
-				@${CC} ${FLAGS} ${EXTRAFLAGS} ${MINI_OBJ} ${LIBFT} -o ${NAME}
+				@${CC} ${FLAGS} ${MINI_OBJ} ${EXTRAFLAGS} ${LIBFT} -o ${NAME}
 				@echo "$(NAME) created."
 
 $(MINI_OBJ): 	$(MINI_SRC)

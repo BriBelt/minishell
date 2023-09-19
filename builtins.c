@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/11 17:30:54 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/19 10:53:15 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ char	*str_tolow(char *str)
 		i++;
 	}
 	return (str);
+}
+
+int	builtin_arg(t_command *node)
+{
+	if (!node->args[0])
+		return (0);
+	if (!ft_strcmp(node->args[0], "pwd"))
+		return (1);
+	else if (!ft_strcmp(node->args[0], "cd"))
+		return (1);
+	else if (!ft_strcmp(node->args[0], "env"))
+		return (1);
+	else if (!ft_strcmp(node->args[0], "echo"))
+		return (1);
+	else if (!ft_strcmp(node->args[0], "unset"))
+		return (1);
+	else if (!ft_strcmp(node->args[0], "export"))
+		return (1);
+	else if (!ft_strcmp(node->args[0], "exit"))
+		return (1);
+	return (0);
 }
 
 /* This function's purpose is only to call check the given node, if the 

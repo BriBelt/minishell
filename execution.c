@@ -6,19 +6,41 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/15 16:38:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/19 11:22:48 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	exec_one_builtin(t_shell *mini, t_pipex pipex)
+{
+	int	here_fd;
+
+	here_fd = -1;
+	get_file_des(&pipex, (*mini->cmds)->redirect);
+	if (mini->curr_heredoc < mini->in_heredocs)
+		here_fd = open_heredoc_file(mini);
+	if (here_fd != -1)
+		(dup2(here_fd, STDIN), close(here_fd));
+	else if (pipex.in_fd != -1)
+		(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
+	if (pipex.out_fd != -1)
+		(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
+	call_builtins(*mini->cmds, mini);
+}
 
 /* First case for execution(); Checks if the only node from the mini->cmds is
  * a builtin, if not, calls the only_child(); function. */
 t_pipex	execute_one(t_shell *mini, t_pipex pipex)
 {
 	mini->curr_heredoc = 0;
-	if (!call_builtins(*mini->cmds, mini) && check_redir_access(mini->lex))	
-		only_child(pipex, *mini->cmds, mini);
+	if (check_redir_access(mini->lex))
+	{
+		if (builtin_arg(*mini->cmds))
+			exec_one_builtin(mini, pipex);
+		else
+			only_child(pipex, *mini->cmds, mini);
+	}
 	return (pipex);
 }
 
@@ -95,13 +117,10 @@ void	delete_all_files(int in_heredocs)
 {
 	int		i;
 	char	*name;
-	char	*aux;
 
 	i = -1;
 	while (++i < in_heredocs)
 	{
-		aux = name;
-		free(aux);
 		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(i));
 		unlink(name);
 		free(name);

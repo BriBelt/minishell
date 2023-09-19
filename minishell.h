@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 15:05:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/19 10:53:11 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void		print_sort_env(char **envp);
 char		**ft_export(char **envp, t_command *node);
 /*		builtins		*/
 char		*str_tolow(char *str);
+int			builtin_arg(t_command *node);
 int			call_builtins(t_command *node, t_shell *mini);
 /*		path_utils		*/
 int			search_in_envar(char *search, char **envars);
