@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:16:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 16:57:40 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 17:08:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ t_lexer	**final_lexer(t_basic **lst)
 			h->first = curr->quote;
 			while (++h->end <= h->count)
 			{
+				aux = data;
 				data = ft_strjoin(aux, curr->data);
 				curr = curr->next;
+				free(aux);
 			}
 		}
 		else
