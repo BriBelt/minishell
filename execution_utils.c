@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/13 17:24:40 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:18:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	wait_for_child(t_pipex pipex, int count, t_shell *mini)
 	signal(SIGINT, SIG_IGN);
 	while (i < count)
 	{
-		if (count > 0 && curr->args[0])
+		if (count > 0)
 			waitpid(pipex.child_id[i], &status, 0);
 		curr = curr->next;
 		i++;

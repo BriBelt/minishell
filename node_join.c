@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:16:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 14:20:38 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:57:40 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_lexer	**final_lexer(t_basic **lst)
 	if (!lexer)
 		return (NULL);
 	*lexer = NULL;
+	aux = NULL;
 	h = initialize_t_quote();
 	curr = *lst;
 	while (curr)
@@ -69,13 +70,13 @@ t_lexer	**final_lexer(t_basic **lst)
 		{
 			h->end = 0;
 			data = ft_calloc(join_len(curr) + 1, sizeof(char));
+			if (!data)
+				return (NULL);
 			h->count = join_times(curr);
 			h->first = curr->quote;
 			while (++h->end <= h->count)
 			{
-				aux = data;
 				data = ft_strjoin(aux, curr->data);
-				free(aux);
 				curr = curr->next;
 			}
 		}
@@ -85,7 +86,10 @@ t_lexer	**final_lexer(t_basic **lst)
 			h->first = curr->quote;
 			curr = curr->next;
 		}
-		ft_lexer_insert(lexer, data, ++h->start, h->first);
+		if (data && data[0])
+			ft_lexer_insert(lexer, data, ++h->start, h->first);
+		else
+			free(data);
 	}
 	return (free(h), lexer);
 }

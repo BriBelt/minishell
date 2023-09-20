@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/15 16:44:56 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 12:59:05 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,17 @@ int	open_heredoc_file(t_shell *mini)
 {
 	int		heredoc_num;
 	char	*name;
+	char	*num;
 	int		fd;
 
 	heredoc_num = mini->curr_heredoc;
+	num = ft_itoa(heredoc_num);
 	fd = 0;
 	if (heredoc_num > -1)
 	{
-		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(heredoc_num));
+		name = ft_strjoin("/tmp/.heredoc_", num);
 		fd = open(name, O_RDWR, 0644);
-		if (fd < 0)
-			return (perror("open_heredoc_file"), 0);
+		(free(name), free(num));
 	}
 	return (fd);
 }

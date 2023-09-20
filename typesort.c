@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:36:01 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 12:07:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:09:05 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ void	str_type(t_lexer **lst)
 	{
 		if (curr->type == STR)
 		{
-			curr->type = flag_or_envar(curr->data, curr->join);
-			if (curr->type == STR)
-				curr->type = is_file(curr->data);
+			if (!ft_strncmp(curr->data, "-", 1))
+				curr->type = FLAG;
+			if (!ft_strncmp(curr->data, "$", 1) && curr->join != 1)
+				curr->type = VAR;
 		}
 		curr = curr->next;
 	}
@@ -87,6 +88,6 @@ void	def_type(t_lexer **lst)
 			curr->type = is_builtin(curr->data);
 		curr = curr->next;
 	}
-	is_file_type(lst);
 	str_type(lst);
+	is_file_type(lst);
 }

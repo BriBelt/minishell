@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/19 11:22:48 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:18:07 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,15 @@ void	delete_all_files(int in_heredocs)
 {
 	int		i;
 	char	*name;
+	char	*num;
 
 	i = -1;
 	while (++i < in_heredocs)
 	{
-		name = ft_strjoin("/tmp/.heredoc_", ft_itoa(i));
+		num = ft_itoa(i);
+		name = ft_strjoin("/tmp/.heredoc_", num);
 		unlink(name);
-		free(name);
+		(free(name), free(num));
 	}
 }
 

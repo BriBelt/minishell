@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 17:37:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:32:18 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,9 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 			if (!inside || curr->quote != 1)
 			{
 				new_node = found_symbol(curr->data, mini);
-				if (new_node)
-				{
-					aux = curr->data;
-					curr->data = new_node;
-					free(aux);
-				}
+				aux = curr->data;
+				curr->data = new_node;
+				free(aux);
 			}
 		}
 		curr = curr->next;

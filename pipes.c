@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:05:34 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:02:55 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:17:38 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,23 @@ int	first_pipe(char *data)
 	i = -1;
 	quote = -2;
 	pipe = 0;
-	while (data[++i] && data[i] != '|')
-		pipe = i;
+	while (data[++i])
+	{
+		if (data[i] == '|')
+		{
+			pipe = i;
+			break ;
+		}
+	}
 	i = -1;
-	while (data[++i] && !quote_type(data[i]))
-		quote = i;
+	while (data[++i])
+	{
+		if (quote_type(data[i]))
+		{
+			quote = i;
+			break ;
+		}
+	}
 	if (pipe < quote || quote == -2)
 		return (quote);
 	return (-1);
@@ -49,10 +61,7 @@ char	*pipe_split(char *data, size_t *i)
 		(*i)++;
 	}
 	if (data[*i] && data[*i] == '|' && !loop)
-	{
 		(*i)++;
-		return (ft_substr(data, start, 1));
-	}
 	if (*i > (size_t)first_pipe(data))
 		*i = ft_strlen(data);
 	end = *i;

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 15:51:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:32:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ char	*expand_envar(char *data, t_shell *mini)
 	{
 		aux = ft_itoa(g_global.exit_stat);
 		expanded = ft_strjoin(aux, clean_data + 1);
+		free(aux);
 	}
 	else if (search_in_envar(clean_data, mini->envp))
 		expanded = getenv(clean_data);
 	else
 		expanded = NULL;
-	free(clean_data);
-//	free(data);
-	return (expanded);
+	return (free(clean_data), expanded);
 }
 
 /* As its name says so, creates a copy of the **envp array and returns it.*/
