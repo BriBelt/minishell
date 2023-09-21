@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 15:03:32 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:16:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,12 @@ t_basic		**create_space_sep(char *rd);
 /*		quote_split		*/
 int			quote_list_checker(t_basic **list);
 t_basic		**create_quote_sep(t_basic **space_sep);
+/*		var_expand_utils		*/
+int			symbol_count(char *data);
+char		*more_than_one_expand(char *data, t_shell *mini);
 /*		var_expand		*/
+char		*split_variables(char *data, int *i);
+char		*found_symbol(char *data, t_shell *mini);
 void		change_node_var(t_basic **pipes, t_shell *mini);
 /*		node_join		*/
 t_lexer		**final_lexer(t_basic **lst);

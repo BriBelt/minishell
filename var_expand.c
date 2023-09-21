@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 17:49:25 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:22:55 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 	char	*new_node;
 	char	*aux;
 	int		inside;
+	int		count;
 
 	curr = *pipes;
 	inside = 0;
@@ -171,11 +172,15 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 	{
 		if (ft_strchr(curr->data, '$'))
 		{
+			count = symbol_count(curr->data);
 			if (curr->quote == 1)
 				inside = sym_in_quotes(curr->data);
 			if (!inside || curr->quote != 1)
 			{
-				new_node = found_symbol(curr->data, mini);
+				if (count > 1 && curr->quote == 1)
+					new_node = more_than_one_expand(curr->data, mini);
+				else
+					new_node = found_symbol(curr->data, mini);
 				aux = curr->data;
 				curr->data = new_node;
 				free(aux);
