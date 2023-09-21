@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 16:32:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:10:27 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,27 @@ int	search_in_envar(char *search, char **envars)
 	return (0);
 }
 
+char	*ft_getenv(t_shell *mini, char *pathname)
+{
+	int	i;
+
+	i = -1;
+	if (mini->envp)
+	{
+		while (mini->envp[++i])
+			if (!ft_strncmp(mini->envp[i], pathname, 5))
+				return (mini->envp[i]);
+	}
+	return (NULL);
+}
+
 /* Returns the array (char **) of the sent *pathname. */
-char	**get_paths(char *pathname)
+char	**get_paths(t_shell *mini, char *pathname)
 {
 	char	**paths;
 	char	*whole;
 
-	whole = getenv(pathname);
+	whole = ft_getenv(mini, pathname);
 	if (!whole)
 		return (NULL);
 	paths = ft_split(whole, ':');
@@ -59,8 +73,8 @@ char	*expand_envar(char *data, t_shell *mini)
 		expanded = ft_strjoin(aux, clean_data + 1);
 		free(aux);
 	}
-	else if (search_in_envar(clean_data, mini->envp))
-		expanded = getenv(clean_data);
+	else if (mini->envp && search_in_envar(clean_data, mini->envp))
+		expanded = ft_strdup(getenv(clean_data));
 	else
 		expanded = NULL;
 	return (free(clean_data), expanded);

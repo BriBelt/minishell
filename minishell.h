@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/19 10:53:11 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:03:32 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			builtin_arg(t_command *node);
 int			call_builtins(t_command *node, t_shell *mini);
 /*		path_utils		*/
 int			search_in_envar(char *search, char **envars);
-char		**get_paths(char *pathname);
+char		**get_paths(t_shell *mini, char *pathname);
 char		*expand_envar(char *data, t_shell *mini);
 char		**copy_envp(char **envp);
 /*		quotes		*/
@@ -128,7 +128,7 @@ t_pipex		pipex_init(void);
 void		wait_for_child(t_pipex pipex, int count, t_shell *mini);
 /*		children_utils	*/
 int			command_counter(t_command **commands);
-char		*find_comm_path(char *data);
+char		*find_comm_path(t_shell *mini, char *data);
 int			found_redirect_type(t_red **redirect, int type);
 void		get_file_des(t_pipex *pipex, t_red **redirect);
 void		create_pipes(t_command **commands, t_pipex pipex);

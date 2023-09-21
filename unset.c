@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:48:55 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 14:18:44 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:14:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,25 @@
 /* Just gives the array **envp size, ignoring *desired_path. */
 int	array_size(char **envp, char *desired_path)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		size;
+	int		len;
 
 	i = 0;
-	j = 0;
+	size = 0;
+	len = ft_strlen(desired_path);
 	while (envp[i])
 	{
-		if (!ft_strncmp(envp[i], desired_path, ft_strlen(desired_path)))
-			i++;
-		j++;
+		if (!ft_strncmp(desired_path, envp[i], len))
+		{
+			if (envp[i][len + 1] != '=')
+				size++;
+		}
+		else
+			size++;
 		i++;
 	}
-	return (j);
+	return (size);
 }
 
 /* Iterates through the **envp array, searching for the *desired_path, if found,
@@ -38,19 +44,26 @@ char	**get_new_envp(char **envp, char *desired_path)
 	char	**new;
 	int		i;
 	int		j;
+	int		len;
 
-	new = ft_calloc(array_size(envp, desired_path) + 1, sizeof(char *));
+	if (envp && array_size(envp, desired_path))
+		new = ft_calloc(array_size(envp, desired_path) + 1, sizeof(char *));
+	else
+		new = NULL;
 	if (!new)
 		return (NULL);
 	i = 0;
 	j = 0;
+	len = ft_strlen(desired_path);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], desired_path, ft_strlen(desired_path)))
+		if (!ft_strncmp(envp[i], desired_path, len))
 		{
-			new[j] = ft_strdup(envp[i]);
-			j++;
+			if (envp[i][len] != '=')
+				new[j++] = ft_strdup(envp[i]);
 		}
+		else
+			new[j++] = ft_strdup(envp[i]);
 		i++;
 	}
 	return (new);

@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 16:32:18 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/20 17:49:25 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	total_node_len(char *data, t_shell *mini)
 	int		i;
 	int		total;
 	char	*new;
+	char	*aux;
 
 	i = 0;
 	total = 0;
@@ -60,7 +61,11 @@ int	total_node_len(char *data, t_shell *mini)
 	{
 		new = split_variables(data, &i);
 		if (ft_strchr(new, '$'))
-			new = expand_envar(new, mini);
+		{
+			aux = new;
+			new = expand_envar(aux, mini);
+			free(aux);
+		}
 		if (new)
 			total += ft_strlen(new);
 	}
@@ -90,7 +95,7 @@ char	*found_symbol(char *data, t_shell *mini)
 			if (expanded)
 			{
 				final = ft_strjoin(final, expanded);
-				free(aux);
+				(free(expanded), free(aux));
 			}
 		}
 		else if (!ft_strchr(aux, '$'))

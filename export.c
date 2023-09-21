@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 14:15:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:10:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 int	check_for_export(char *data)
 {
+	int	i;
+
+	i = -1;
+	while (data[++i] && data[i] != '=')
+	{
+		if (!ft_isalnum(data[i]))
+			return (printf("export: %s: not a valid identifier\n", data), 0);
+	}
 	if (!ft_isalpha((int)data[0]) && data[0] != '_')
-		return (printf("unset: %s: not a valid identifier\n", data), 0);
+		return (printf("export: %s: not a valid identifier\n", data), 0);
 	if (!ft_strchr(data, '='))
 		return (2);
 	return (1);
@@ -26,15 +34,22 @@ int	check_for_export(char *data)
 int	found_var(char **envp, char *new_var)
 {
 	int	i;
+	int	len;
 
 	i = 0;
+	len = 0;
+	while (new_var[len] && new_var[len] != '=')
+		len++;
 	while (envp[i])
 	{
-		if (!ft_strncmp(envp[i], new_var, ft_strlen(new_var)))
-			return (i);
+		if (!ft_strncmp(envp[i], new_var, len))
+		{
+			if (envp[i][len] == '=')
+				return (i);
+		}
 		i++;
 	}
-	return (i);
+	return (-1);
 }
 
 /* Iterates through the **envp array while copies it into a **new array, when
@@ -42,26 +57,31 @@ int	found_var(char **envp, char *new_var)
 char	**export_new_envar(char **envp, char *new_var)
 {
 	char	**new;
+	int		found;
 	int		i;
 	int		j;
+	int		array_size;
 
-	i = found_var(envp, new_var);
-	j = 0;
-	while (envp[j])
-		j++;
-	if (i == j)
-		new = ft_calloc(++i + 1, sizeof(char *));
-	else
-		new = ft_calloc(j + 1, sizeof(char *));
+	found = found_var(envp, new_var);
+	array_size = 0;
+	while (envp[array_size])
+		array_size++;
+	if (found == -1)
+		array_size++;
+	new = ft_calloc(array_size + 1, sizeof(char *));
 	if (!new)
 		return (NULL);
-	j = -1;
-	while (++j < i)
+	j = 0;
+	i = -1;
+	while (++i < array_size)
 	{
-		if (j == i - 1)
-			new[j] = ft_strdup(new_var);
-		else
-			new[j] = ft_strdup(envp[j]);
+		if (i == found)
+			new[i] = ft_strdup(new_var);
+		else if (found == -1 && i == array_size - 1)
+			new[i] = ft_strdup(new_var);
+		else if (envp[j])
+			new[i] = ft_strdup(envp[j]);
+		j++;
 	}
 	return (new);
 }

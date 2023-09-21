@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:04:39 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:18:28 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,6 @@ t_red	*last_redirect(t_red **redirect, int in_or_out)
 	return (NULL);
 }
 
-int	output_check(t_lexer *node)
-{
-	int	new;
-
-	new = 0;
-	if (redirect_type(node->data) == OUTPUT && node->next)
-	{
-		if (access(node->next->data, F_OK) == -1)
-		{
-			new = open(node->next->data, O_CREAT, 0644);
-			if (new < 0)
-				return (0);
-			close(new);
-		}
-		return (1);
-	}
-	return (0);
-}
-
 int	check_for_children(t_lexer **lexer)
 {
 	t_lexer	*curr;
@@ -74,7 +55,8 @@ int	check_for_children(t_lexer **lexer)
 				g_global.exit_stat = 1;
 				return(0);
 			}
-			else if (redirect_type(curr->data) == OUTPUT)
+			else if (redirect_type(curr->data) == OUTPUT
+					|| redirect_type(curr->data) == APPEND)
 			{
 				new = open(curr->next->data, O_CREAT, 0644);
 				if (new < 0)
@@ -112,7 +94,8 @@ int	check_redir_access(t_lexer **lexer)
 				return (printf("%s: No such file or directory\n", \
 							curr->next->data), 0);
 			}
-			else if (redirect_type(curr->data) == OUTPUT)
+			else if (redirect_type(curr->data) == OUTPUT
+					|| redirect_type(curr->data) == APPEND)
 			{
 				new = open(curr->next->data, O_CREAT, 0644);
 				if (new < 0)

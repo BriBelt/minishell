@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/19 16:22:23 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:34:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ int	command_counter(t_command **commands)
 	return (count);
 }
 
+
 /* Gets posible paths for executables with get_paths() and tries to access 
 every path with the node's data append to it. If it access the file 
 successfully, returns the correct path so that it can be use in a execve().*/
-char	*find_comm_path(char *data)
+char	*find_comm_path(t_shell *mini, char *data)
 {
 	char	*com_path;
 	char	*tmp;
@@ -40,7 +41,7 @@ char	*find_comm_path(char *data)
 	i = 0;
 	if (!data)
 		return (0);
-	paths = get_paths("PATH");
+	paths = get_paths(mini, "PATH=");
 	com_path = NULL;
 	while (paths && paths[i])
 	{
@@ -54,10 +55,14 @@ char	*find_comm_path(char *data)
 		free(com_path);
 		i++;
 	}
-	free_2d_array(paths);
+	if (paths)
+		free_2d_array(paths);
 	return (com_path);
 }
 
+/* This function checks the redirect list, counting the number
+ * of redirects of the especified type. Depending on the type returns
+ * either OUTPUT, INPUT or APPEND count. */
 int	found_redirect_type(t_red **redirect, int type)
 {
 	t_red	*curr;
@@ -71,7 +76,7 @@ int	found_redirect_type(t_red **redirect, int type)
 	{
 		if (curr->type == INPUT)
 			in_count++;
-		if (curr->type == OUTPUT)
+		if (curr->type == OUTPUT || curr->type == APPEND)
 			out_count++;
 		curr = curr->next;
 	}
@@ -97,6 +102,9 @@ void	get_file_des(t_pipex *pipex, t_red **redirect)
 	if (found_redirect_type(redirect, OUTPUT))
 	{
 		out = last_redirect(redirect, OUTPUT);
-		(*pipex).out_fd = open(out->data, O_WRONLY);
+		if (out->type == APPEND)
+			(*pipex).out_fd = open(out->data, O_WRONLY | O_APPEND);
+		else
+			(*pipex).out_fd = open(out->data, O_WRONLY);
 	}
 }

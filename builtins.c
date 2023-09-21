@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/19 10:53:15 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:14:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ int	call_builtins(t_command *node, t_shell *mini)
 		return (ft_pwd(), 1);
 	else if (!ft_strcmp(node->args[0], "cd"))
 		return (ft_cd(node), 1);
-	else if (!ft_strcmp(node->args[0], "env"))
+	else if (!ft_strcmp(node->args[0], "env") && mini->envp)
 		return (ft_env(node, mini->envp), 1);
 	else if (!ft_strcmp(node->args[0], "echo"))
 		return (ft_echo(node), 1);
 	else if (!ft_strcmp(node->args[0], "unset"))
 	{
-		mini->envp = ft_unset(mini->envp, node);
+		if (mini->envp)
+			mini->envp = ft_unset(mini->envp, node);
 		return (1);
 	}
 	else if (!ft_strcmp(node->args[0], "export"))

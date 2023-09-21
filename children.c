@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 13:18:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:34:35 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 		if (is_path(command->args[0]))
 			pipex.cmd_path = command->args[0];
 		else
-			pipex.cmd_path = find_comm_path(command->args[0]);
+			pipex.cmd_path = find_comm_path(mini, command->args[0]);
 		if (mini->curr_heredoc < mini->in_heredocs)
 			heredoc_fd = open_heredoc_file(mini);
 		if (heredoc_fd != -1)
@@ -50,7 +50,7 @@ void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 			exit(0);
 		if (execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{
-			printf("Execve: %s: command not found\n", command->args[0]);
+			ft_putstr_fd("Execve: command not found\n", 2);
 			exit (127);
 		}
 		exit(0);
@@ -70,7 +70,7 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 		if (is_path(command->args[0]))
 			pipex.cmd_path = command->args[0];
 		else
-			pipex.cmd_path = find_comm_path(command->args[0]);
+			pipex.cmd_path = find_comm_path(mini, command->args[0]);
 		close(pipex.pipes[0][0]);
 		if (mini->curr_heredoc < mini->in_heredocs)
 			heredoc_fd = open_heredoc_file(mini);
@@ -87,7 +87,7 @@ t_pipex	first_child(t_pipex pipex, t_command *command, t_shell *mini)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{
-			printf("Execve: %s: command not found\n", command->args[0]);
+			ft_putstr_fd("Execve: command not found\n", 2);
 			exit (127);
 		}
 		exit(0);
@@ -108,7 +108,7 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (is_path(command->args[0]))
 			pipex.cmd_path = command->args[0];
 		else
-			pipex.cmd_path = find_comm_path(command->args[0]);
+			pipex.cmd_path = find_comm_path(mini, command->args[0]);
 		close(pipex.pipes[i][0]);
 		if (mini->curr_heredoc < mini->in_heredocs)
 			heredoc_fd = open_heredoc_file(mini);
@@ -128,7 +128,7 @@ t_pipex	middle_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{
-			printf("Execve: %s: command not found\n", command->args[0]);
+			ft_putstr_fd("Execve: command not found\n", 2);
 			exit (127);
 		}
 		exit(0);
@@ -149,7 +149,7 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (is_path(command->args[0]))
 			pipex.cmd_path = command->args[0];
 		else
-			pipex.cmd_path = find_comm_path(command->args[0]);
+			pipex.cmd_path = find_comm_path(mini, command->args[0]);
 		if (mini->curr_heredoc < mini->in_heredocs)
 			heredoc_fd = open_heredoc_file(mini);
 		if (heredoc_fd != -1)
@@ -165,7 +165,7 @@ t_pipex	last_child(t_pipex pipex, t_command *command, t_shell *mini, int i)
 		if (!call_builtins(command, mini)
 			&& execve(pipex.cmd_path, command->args, mini->envp) == -1)
 		{
-			printf("Execve: %s: command not found\n", command->args[0]);
+			ft_putstr_fd("Execve: command not found\n", 2);
 			exit (127);
 		}
 		exit(0);
