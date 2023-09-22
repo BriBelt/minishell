@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 16:56:40 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:17:22 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	*found_symbol(char *data, t_shell *mini)
 	}
 	return (final);
 }
-
 
 /* This function is only called when there's a node with
  * single quotes. It checks the *data, looks for the first

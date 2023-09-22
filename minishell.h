@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 17:00:39 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:55:29 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ int			quote_type(char c);
 /*		redirections	*/
 t_basic		**redirect_separate(t_basic **closed_q);
 int			check_redirects(t_lexer **lex);
+/*		redir_utils		*/
+int			valid_redirects(char *data);
+int			first_redirect(char *data);
 /*		pipes			*/
 t_basic		**pipe_separate(t_basic **r_basic);
 int			check_pipes(t_lexer **lex);

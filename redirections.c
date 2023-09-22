@@ -3,45 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:29:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 16:32:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:55:31 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	first_redirect(char *data)
-{
-	int	i;
-	int	quote;
-	int	redirect;
-
-	i = -1;
-	quote = -2;
-	redirect = 0;
-	while (data[++i])
-	{
-		if (data[i] == '<' || data[i] == '>')
-		{
-			redirect = i;
-			break ;
-		}
-	}
-	i = -1;
-	while (data[++i])
-	{
-		if (quote_type(data[i]))
-		{
-			quote = i;
-			break ;
-		}
-	}
-	if (redirect < quote || quote == -2)
-		return (quote);
-	return (-1);
-}
 
 char	*redirect_split(char *data, size_t *i)
 {
@@ -69,6 +38,19 @@ char	*redirect_split(char *data, size_t *i)
 	return (new);
 }
 
+void	red_new(t_basic *curr_c, size_t *i, t_basic **red_basic, size_t *join)
+{
+	while (*i < ft_strlen(curr_c->data))
+	{
+		if (first_redirect(curr_c->data) != -1)
+			ft_basic_insert(red_basic,
+				redirect_split(curr_c->data, i), *join);
+		else
+			ft_basic_insert(red_basic,
+				split_quote_sens(curr_c->data, i), *join);
+	}
+}
+
 t_basic	**redirect_separate(t_basic **closed_q)
 {
 	t_basic	**red_basic;
@@ -86,25 +68,10 @@ t_basic	**redirect_separate(t_basic **closed_q)
 	{
 		i = 0;
 		join = curr_c->join;
-		while (i < ft_strlen(curr_c->data))
-		{
-			if (first_redirect(curr_c->data) != -1)
-				ft_basic_insert(red_basic, redirect_split(curr_c->data, &i), join);
-			else
-				ft_basic_insert(red_basic, split_quote_sens(curr_c->data, &i), join);
-		}
+		red_new(curr_c, &i, red_basic, &join);
 		curr_c = curr_c->next;
 	}
 	return (red_basic);
-}
-
-int	valid_redirects(char *data)
-{
-	if (!ft_strcmp("<", data) || !ft_strcmp(">", data))
-		return (1);
-	if (!ft_strcmp("<<", data) || !ft_strcmp(">>", data))
-		return (1);
-	return (0);
 }
 
 int	check_redirects(t_lexer **lex)
@@ -116,8 +83,8 @@ int	check_redirects(t_lexer **lex)
 		return (0);
 	while (curr)
 	{
-		if ((curr->type == REDIR || curr->type == HERE) &&
-			((curr->next && !ft_strcmp(curr->next->data, "|")) || !curr->next))
+		if ((curr->type == REDIR || curr->type == HERE) && ((curr->next
+					&& !ft_strcmp(curr->next->data, "|")) || !curr->next))
 			return (printf(REDIR_ERR), 0);
 		if ((ft_strchr(curr->data, '>') || ft_strchr(curr->data, '<'))
 			&& curr->type == STR && curr->join == 0)
@@ -125,8 +92,8 @@ int	check_redirects(t_lexer **lex)
 			if (!valid_redirects(curr->data))
 				return (ft_putstr_fd(REDIR_ERR, 2), 0);
 		}
-		if ((curr->type == REDIR || curr->type == HERE) &&
-			curr->next && (curr->next->type == REDIR || curr->next->type == HERE))
+		if ((curr->type == REDIR || curr->type == HERE) && curr->next
+			&& (curr->next->type == REDIR || curr->next->type == HERE))
 			return (ft_putstr_fd(REDIR_ERR, 2), 0);
 		curr = curr->next;
 	}
