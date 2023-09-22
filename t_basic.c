@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:21:09 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/14 16:35:14 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:27:25 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ void	ft_basic_insert(t_basic	**lst, char *content, size_t join)
 	}
 }
 
+void	set_first_quote(int *i, int *count, int *first)
+{
+	if (*first == -1)
+	{
+		(*count)++;
+		*first = (*i)++;
+	}
+}
+
 /* Counts the quotes found inside the user readline, this function will
  * later be used for creating the list. */
 int	found_quote(char *rd, size_t *join)
@@ -63,11 +72,7 @@ int	found_quote(char *rd, size_t *join)
 	{
 		if (quote_type(rd[i]))
 		{
-			if (first == -1)
-			{
-				count++;
-				first = i++;
-			}
+			set_first_quote(&i, &count, &first);
 			if (rd[i] == rd[first])
 			{
 				if (count && rd[i + 1] && rd[i + 1] != ' ')
