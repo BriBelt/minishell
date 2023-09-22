@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:50:33 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 19:23:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 11:31:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,15 @@ int	symbol_count(char *data)
 
 char	*more_than_one_expand(char *data, t_shell *mini)
 {
-	int		i;
 	char	*quoted_str;
 	char	*str_expand;
 	char	*expanded;
 	char	*new;
 
-	i = -1;
 	quoted_str = ft_strdup(ft_strchr(data, '\''));
 	str_expand = ft_substr(data, 0, ft_strlen(data) - ft_strlen(quoted_str));
 	expanded = found_symbol(str_expand, mini);
 	new = ft_strjoin(expanded, quoted_str);
+	(free(expanded), free(str_expand), free(quoted_str));
 	return (new);
 }

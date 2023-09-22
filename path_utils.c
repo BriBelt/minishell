@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 15:10:27 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:27:03 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,25 @@ int	search_in_envar(char *search, char **envars)
 
 char	*ft_getenv(t_shell *mini, char *pathname)
 {
-	int	i;
+	int		i;
+	int		len;
+	char	*joined_pathname;
+	char	*aux;
+	char	*new;
 
 	i = -1;
 	if (mini->envp)
 	{
+		joined_pathname = ft_strjoin(pathname, "=");
+		len = ft_strlen(joined_pathname);
 		while (mini->envp[++i])
-			if (!ft_strncmp(mini->envp[i], pathname, 5))
-				return (mini->envp[i]);
+			if (!ft_strncmp(mini->envp[i], joined_pathname, len))
+			{
+				aux = ft_strdup(ft_strchr(mini->envp[i], '='));
+				new = ft_strdup(aux + 1);
+				return (free(joined_pathname), free(aux), new);
+			}
+		free(joined_pathname);
 	}
 	return (NULL);
 }
@@ -50,8 +61,9 @@ char	**get_paths(t_shell *mini, char *pathname)
 
 	whole = ft_getenv(mini, pathname);
 	if (!whole)
-		return (NULL);
+		return (free(whole), NULL);
 	paths = ft_split(whole, ':');
+	free(whole);
 	return (paths);
 }
 
@@ -63,6 +75,7 @@ char	*expand_envar(char *data, t_shell *mini)
 	char	*expanded;
 	char	*aux;
 	char	*clean_data;
+	char	*desired_var;
 	int		len;
 
 	len = ft_strlen(data) - 1;
@@ -74,7 +87,11 @@ char	*expand_envar(char *data, t_shell *mini)
 		free(aux);
 	}
 	else if (mini->envp && search_in_envar(clean_data, mini->envp))
-		expanded = ft_strdup(getenv(clean_data));
+	{
+		desired_var = ft_getenv(mini, clean_data);
+		expanded = ft_strdup(desired_var);
+		free(desired_var);
+	}
 	else
 		expanded = NULL;
 	return (free(clean_data), expanded);

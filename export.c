@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 12:10:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:50:33 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	check_for_export(char *data)
 	while (data[++i] && data[i] != '=')
 	{
 		if (!ft_isalnum(data[i]))
-			return (printf("export: %s: not a valid identifier\n", data), 0);
+			return (ft_putstr_fd("export: not a valid identifier\n", 2), 0);
 	}
 	if (!ft_isalpha((int)data[0]) && data[0] != '_')
-		return (printf("export: %s: not a valid identifier\n", data), 0);
+		return (ft_putstr_fd("export: not a valid identifier\n", 2), 0);
 	if (!ft_strchr(data, '='))
 		return (2);
 	return (1);

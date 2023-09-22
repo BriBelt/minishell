@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 13:18:07 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:44:04 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_pipex	pipex_init(void)
 
 	pipex.in_fd = -1;
 	pipex.out_fd = -1;
+	pipex.one_built = 0;
 	return (pipex);
 }
 

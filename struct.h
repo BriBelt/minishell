@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/15 15:27:48 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:50:34 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_pipex
 	int		pipes[1024][2];
 	int		in_fd;
 	int		out_fd;
+	int		one_built;
 	char	*cmd_path;
 }			t_pipex;
 

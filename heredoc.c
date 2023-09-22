@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 12:59:05 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 11:46:37 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,8 +218,8 @@ int	here_doc_exe(t_command **commands)
 				{
 					num = ft_itoa(j);
 					tmp_name = ft_strjoin("/tmp/.heredoc_", num);
-					free(num);
 					tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
+					(free(num), free(tmp_name));
 					if (tmp_file < 0)
 					{
 						perror("Error creating the temp file");

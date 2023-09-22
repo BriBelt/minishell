@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 17:34:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 11:59:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*find_comm_path(t_shell *mini, char *data)
 	i = 0;
 	if (!data)
 		return (0);
-	paths = get_paths(mini, "PATH=");
+	paths = get_paths(mini, "PATH");
 	com_path = NULL;
 	while (paths && paths[i])
 	{
