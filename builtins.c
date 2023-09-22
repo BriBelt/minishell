@@ -6,24 +6,27 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 15:14:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:23:25 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*str_tolow(char *str)
+void	exec_one_builtin(t_shell *mini, t_pipex pipex)
 {
-	int	i;
+	int	here_fd;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] >= 'A' && str[i] <= 'Z')
-			str[i] += 32;
-		i++;
-	}
-	return (str);
+	here_fd = -1;
+	get_file_des(&pipex, (*mini->cmds)->redirect);
+	if (mini->curr_heredoc < mini->in_heredocs)
+		here_fd = open_heredoc_file(mini);
+	if (here_fd != -1)
+		(dup2(here_fd, STDIN), close(here_fd));
+	else if (pipex.in_fd != -1)
+		(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
+	if (pipex.out_fd != -1)
+		(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
+	call_builtins(*mini->cmds, mini);
 }
 
 int	builtin_arg(t_command *node)

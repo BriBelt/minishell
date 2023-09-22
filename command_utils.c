@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   children_utils.c                                   :+:      :+:    :+:   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 15:54:38 by bbeltran         ###   ########.fr       */
+/*   Created: 2023/09/22 15:09:35 by bbeltran          #+#    #+#             */
+/*   Updated: 2023/09/22 19:08:47 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,53 +57,4 @@ char	*find_comm_path(t_shell *mini, char *data)
 	if (paths)
 		free_2d_array(paths);
 	return (com_path);
-}
-
-/* This function checks the redirect list, counting the number
- * of redirects of the especified type. Depending on the type returns
- * either OUTPUT, INPUT or APPEND count. */
-int	found_redirect_type(t_red **redirect, int type)
-{
-	t_red	*curr;
-	int		in_count;
-	int		out_count;
-
-	curr = *redirect;
-	in_count = 0;
-	out_count = 0;
-	while (curr)
-	{
-		if (curr->type == INPUT)
-			in_count++;
-		if (curr->type == OUTPUT || curr->type == APPEND)
-			out_count++;
-		curr = curr->next;
-	}
-	if (type == INPUT)
-		return (in_count);
-	if (type == OUTPUT)
-		return (out_count);
-	return (0);
-}
-
-void	get_file_des(t_pipex *pipex, t_red **redirect)
-{
-	t_red	*out;
-	t_red	*in;
-
-	out = NULL;
-	in = NULL;
-	if (found_redirect_type(redirect, INPUT))
-	{
-		in = last_redirect(redirect, INPUT);
-		(*pipex).in_fd = open(in->data, O_RDWR);
-	}
-	if (found_redirect_type(redirect, OUTPUT))
-	{
-		out = last_redirect(redirect, OUTPUT);
-		if (out->type == APPEND)
-			(*pipex).out_fd = open(out->data, O_WRONLY | O_APPEND);
-		else
-			(*pipex).out_fd = open(out->data, O_WRONLY);
-	}
 }

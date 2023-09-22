@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 12:50:33 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:43:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@ int	check_for_export(char *data)
 	while (data[++i] && data[i] != '=')
 	{
 		if (!ft_isalnum(data[i]))
+		{
+			g_global.exit_stat = 1;
 			return (ft_putstr_fd("export: not a valid identifier\n", 2), 0);
+		}
 	}
 	if (!ft_isalpha((int)data[0]) && data[0] != '_')
+	{
+		g_global.exit_stat = 1;
 		return (ft_putstr_fd("export: not a valid identifier\n", 2), 0);
+	}
 	if (!ft_strchr(data, '='))
 		return (2);
 	return (1);
@@ -63,9 +69,7 @@ char	**export_new_envar(char **envp, char *new_var)
 	int		array_size;
 
 	found = found_var(envp, new_var);
-	array_size = 0;
-	while (envp[array_size])
-		array_size++;
+	array_size = find_size_envp(envp);
 	if (found == -1)
 		array_size++;
 	new = ft_calloc(array_size + 1, sizeof(char *));
@@ -80,10 +84,19 @@ char	**export_new_envar(char **envp, char *new_var)
 		else if (found == -1 && i == array_size - 1)
 			new[i] = ft_strdup(new_var);
 		else if (envp[j])
-			new[i] = ft_strdup(envp[j]);
-		j++;
+			new[i] = ft_strdup(envp[j++]);
 	}
 	return (new);
+}
+
+char	**return_new_envp(char **new_envp, int i, t_command *curr)
+{
+	char	**aux;
+
+	aux = new_envp;
+	new_envp = export_new_envar(aux, curr->args[i]);
+	free_2d_array(aux);
+	return (new_envp);
 }
 
 /* Export builtin function, calls export_new_envar(); that creates a new array
@@ -92,34 +105,25 @@ char	**export_new_envar(char **envp, char *new_var)
 char	**ft_export(char **envp, t_command *node)
 {
 	char		**new_envp;
-	char		**aux;
 	t_command	*curr;
 	int			i;
 	int			result;
 
-	i = 1;
+	i = 0;
 	curr = node;
-	if (curr->args[i])
+	if (curr->args[1])
 	{
 		new_envp = envp;
-		while (curr->args[i])
+		while (curr->args[++i])
 		{
 			result = check_for_export(curr->args[i]);
 			if (result)
 			{
 				g_global.exit_stat = 0;
 				if (result == 1)
-				{
-					aux = new_envp;
-					new_envp = export_new_envar(aux, curr->args[i]);
-					free_2d_array(aux);
-				}
+					return (new_envp = return_new_envp(new_envp, i, curr));
 			}
-			else
-				g_global.exit_stat = 1;
-			i++;
 		}
-		return (new_envp);
 	}
 	else
 		print_sort_env(envp);

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:46:40 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 17:18:28 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:20:16 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,33 @@ int	check_for_children(t_lexer **lexer)
 		{
 			if (redirect_type(curr->data) == INPUT && curr->next
 				&& access(curr->next->data, F_OK | R_OK) == -1)
-			{
-				g_global.exit_stat = 1;
-				return(0);
-			}
+				return (g_global.exit_stat = 1, 0);
 			else if (redirect_type(curr->data) == OUTPUT
-					|| redirect_type(curr->data) == APPEND)
+				|| redirect_type(curr->data) == APPEND)
 			{
 				new = open(curr->next->data, O_CREAT, 0644);
 				if (new < 0)
-				{
-					g_global.exit_stat = 1;
-					return(0);
-				}
+					return (g_global.exit_stat = 1, 0);
 				close(new);
 			}
 		}
 		curr = curr->next;
+	}
+	return (1);
+}
+
+int	check_redir_output(t_lexer *curr)
+{
+	int	new;
+
+	new = 0;
+	if (redirect_type(curr->data) == OUTPUT
+		|| redirect_type(curr->data) == APPEND)
+	{
+		new = open(curr->next->data, O_CREAT, 0644);
+		if (new < 0)
+			return (ft_putstr_fd("Error: Could not create file\n", 2), 0);
+		close(new);
 	}
 	return (1);
 }
@@ -79,10 +89,8 @@ it's a output redirect only for writing permissions*/
 int	check_redir_access(t_lexer **lexer)
 {
 	t_lexer	*curr;
-	int		new;
 
 	curr = *lexer;
-	new = 0;
 	while (curr)
 	{
 		if (curr->type == REDIR)
@@ -91,22 +99,11 @@ int	check_redir_access(t_lexer **lexer)
 				&& access(curr->next->data, F_OK | R_OK) == -1)
 			{
 				g_global.exit_stat = 1;
-				return (printf("%s: No such file or directory\n", \
-							curr->next->data), 0);
-			}
-			else if (redirect_type(curr->data) == OUTPUT
-					|| redirect_type(curr->data) == APPEND)
-			{
-				new = open(curr->next->data, O_CREAT, 0644);
-				if (new < 0)
-				{
-					g_global.exit_stat = 1;
-					return (printf("%s: Could not create the file\n", \
-							   curr->next->data), 0);
-				}
-				close(new);
+				return (ft_putstr_fd("Error: Could not create file\n", 2), 0);
 			}
 		}
+		if (!check_redir_output(curr))
+			return (g_global.exit_stat = 1, 0);
 		curr = curr->next;
 	}
 	return (1);

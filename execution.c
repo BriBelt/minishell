@@ -6,28 +6,11 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 12:45:36 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:24:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exec_one_builtin(t_shell *mini, t_pipex pipex)
-{
-	int	here_fd;
-
-	here_fd = -1;
-	get_file_des(&pipex, (*mini->cmds)->redirect);
-	if (mini->curr_heredoc < mini->in_heredocs)
-		here_fd = open_heredoc_file(mini);
-	if (here_fd != -1)
-		(dup2(here_fd, STDIN), close(here_fd));
-	else if (pipex.in_fd != -1)
-		(dup2(pipex.in_fd, STDIN), close(pipex.in_fd));
-	if (pipex.out_fd != -1)
-		(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
-	call_builtins(*mini->cmds, mini);
-}
 
 /* First case for execution(); Checks if the only node from the mini->cmds is
  * a builtin, if not, calls the only_child(); function. */
@@ -114,22 +97,6 @@ t_pipex	execute_all(t_shell *mini, t_pipex pipex, int count)
 		}
 	}
 	return (pipex);
-}
-
-void	delete_all_files(int in_heredocs)
-{
-	int		i;
-	char	*name;
-	char	*num;
-
-	i = -1;
-	while (++i < in_heredocs)
-	{
-		num = ft_itoa(i);
-		name = ft_strjoin("/tmp/.heredoc_", num);
-		unlink(name);
-		(free(name), free(num));
-	}
 }
 
 /* Command and builtin executor, in charge of creating the pipes

@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 19:16:37 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:48:38 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_lexer		**final_lexer(t_basic **lst);
 /*		t_basic			*/
 t_basic		*new_create_node(char *content, int join);
 void		ft_basic_insert(t_basic	**lst, char *content, size_t join);
-//t_basic	**create_basic_lst(char *rd);
 /*		list_utils		*/
 t_lexer		**create_lexer(t_basic **basic);
 t_lexer		*ft_lexernew(char *content, int i, size_t join);
@@ -64,7 +63,6 @@ int			flag_or_envar(char *content, int quote_type);
 int			is_file(char *content);
 void		is_file_type(t_lexer **lexer);
 /*		free_utils		*/
-void		exit_mode(char *strerror, int errornum);
 void		free_2d_array(char **array);
 void		free_t_lexer(t_lexer **lst);
 void		free_t_basic(t_basic **lst);
@@ -88,11 +86,13 @@ void		ft_env(t_command *node, char **envp);
 /*		unset			*/
 int			array_size(char **envp, char *desired_path);
 char		**ft_unset(char **envp, t_command *node);
+/*		export_utils	*/
+int			find_size_envp(char **envp);
 /*		export			*/
 void		print_sort_env(char **envp);
 char		**ft_export(char **envp, t_command *node);
 /*		builtins		*/
-char		*str_tolow(char *str);
+void		exec_one_builtin(t_shell *mini, t_pipex pipex);
 int			builtin_arg(t_command *node);
 int			call_builtins(t_command *node, t_shell *mini);
 /*		path_utils		*/
@@ -114,6 +114,12 @@ int			check_redirects(t_lexer **lex);
 /*		pipes			*/
 t_basic		**pipe_separate(t_basic **r_basic);
 int			check_pipes(t_lexer **lex);
+/*		heredoc_utils	*/
+t_lexer		*check_for_heredoc(t_lexer **lexer);
+char		*find_delimiter(t_lexer **lexer);
+int			heredoc_or_input(t_red **redirects);
+int			open_heredoc_file(t_shell *mini);
+int			here_counter(t_command **commands);
 /*		heredoc			*/
 int			open_heredoc_file(t_shell *mini);
 int			here_doc_exe(t_command **commands);
@@ -125,10 +131,10 @@ t_red		*last_redirect(t_red **redirect, int in_or_out);
 int			check_for_children(t_lexer **lexer);
 int			check_redir_access(t_lexer **lexer);
 /*		execution		*/
-t_pipex		pipex_init(void);
 void		command_executor(t_shell *mini, t_command **commands);
 void		executor(t_shell *mini);
 /*		execution_utils		*/
+void		delete_all_files(int in_heredocs);
 t_pipex		pipex_init(void);
 void		wait_for_child(t_pipex pipex, int count, t_shell *mini);
 /*		children_utils	*/

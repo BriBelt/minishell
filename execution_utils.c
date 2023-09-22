@@ -6,11 +6,27 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 12:44:04 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:24:43 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	delete_all_files(int in_heredocs)
+{
+	int		i;
+	char	*name;
+	char	*num;
+
+	i = -1;
+	while (++i < in_heredocs)
+	{
+		num = ft_itoa(i);
+		name = ft_strjoin("/tmp/.heredoc_", num);
+		unlink(name);
+		(free(name), free(num));
+	}
+}
 
 /* Initializes and returns a t_pipex variable for later use during the child
  * processes.*/
