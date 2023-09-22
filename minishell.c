@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 11:43:10 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:32:28 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,29 @@ int	main(int argc, char **argv, char **envp)
 	return (g_global.exit_stat);
 }
 
+char	*ft_readline(char *aux)
+{
+	char	*rd;
+
+	aux = readline("minishell> ");
+	if (!aux)
+		ft_exit(NULL);
+	rd = ft_strtrim(aux, " \t\n\r\v\f");
+	free(aux);
+	return (rd);
+}
+
 void	minishell_exe(t_shell *mini, int in, int out)
 {
 	char	*rd;
 	char	*aux;
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	aux = NULL;
+	(signal(SIGINT, signal_handler), signal(SIGQUIT, SIG_IGN));
 	while (1)
 	{
-		dup2(in, STDIN_FILENO);
-		dup2(out, STDOUT_FILENO);
-		aux = readline("minishell> ");
-		if (!aux)
-			ft_exit(NULL);
-		rd = ft_strtrim(aux, " \t\n\r\v\f");
-		free(aux);
+		(dup2(in, STDIN_FILENO), dup2(out, STDOUT_FILENO));
+		rd = ft_readline(aux);
 		if (rd && ft_strlen(rd) > 0)
 		{
 			add_history(rd);
