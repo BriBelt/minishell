@@ -3,73 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   var_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 12:27:02 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:56:40 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
- *				VARIABLES	
- *  										*/
-/* Splits the given node->data depending on if it finds a "$"
- * or quotes. Returns the result of the cutted *data. */
-char	*split_variables(char *data, int *i)
+char	*set_final_str(char *f, char *aux, char *no_sym, char *exp, t_shell *m)
 {
-	int		loop;
-	int		start;
-	int		end;
-	char	*new;
-
-	start = *i;
-	end = -1;
-	loop = 0;
-	while (data[*i] && data[*i] != '$' && !quote_type(data[*i]))
+	if (ft_strchr(aux, '$'))
 	{
-		loop = 1;
-		(*i)++;
-	}
-	while (!loop && data[*i] && end == -1)
-	{
-		if (quote_type(data[*i]) && start != *i)
-			break ;
-		if (data[*i] == '$' && start != *i)
-			break ;
-		(*i)++;
-	}
-	if (end == -1)
-		end = *i;
-	new = ft_substr(data, start, end - start);
-	return (new);
-}
-
-/* Gets the amount of memory that the new node data will
- * need. */
-int	total_node_len(char *data, t_shell *mini)
-{
-	int		i;
-	int		total;
-	char	*new;
-	char	*aux;
-
-	i = 0;
-	total = 0;
-	while (i < (int)ft_strlen(data))
-	{
-		new = split_variables(data, &i);
-		if (ft_strchr(new, '$'))
+		exp = expand_envar(aux, m);
+		free(aux);
+		aux = f;
+		if (exp)
 		{
-			aux = new;
-			new = expand_envar(aux, mini);
-			free(aux);
+			f = ft_strjoin(f, exp);
+			(free(exp), free(aux));
 		}
-		if (new)
-			total += ft_strlen(new);
 	}
-	return (total);
+	else if (!ft_strchr(aux, '$'))
+	{
+		no_sym = ft_strdup(aux);
+		free(aux);
+		aux = f;
+		f = ft_strjoin(f, no_sym);
+		(free(aux), free(no_sym));
+	}
+	else
+		f = NULL;
+	return (f);
 }
 
 char	*found_symbol(char *data, t_shell *mini)
@@ -80,6 +46,8 @@ char	*found_symbol(char *data, t_shell *mini)
 	char	*no_sym;
 	char	*aux;
 
+	expanded = NULL;
+	no_sym = NULL;
 	final = ft_calloc(1, sizeof(char));
 	if (!final)
 		return (NULL);
@@ -87,30 +55,11 @@ char	*found_symbol(char *data, t_shell *mini)
 	while (i < (int)ft_strlen(data))
 	{
 		aux = split_variables(data, &i);
-		if (ft_strchr(aux, '$'))
-		{
-			expanded = expand_envar(aux, mini);
-			free(aux);
-			aux = final;
-			if (expanded)
-			{
-				final = ft_strjoin(final, expanded);
-				(free(expanded), free(aux));
-			}
-		}
-		else if (!ft_strchr(aux, '$'))
-		{
-			no_sym = ft_strdup(aux);
-			free(aux);
-			aux = final;
-			final = ft_strjoin(final, no_sym);
-			(free(aux), free(no_sym));
-		}
-		else
-			final = NULL;
+		final = set_final_str(final, aux, no_sym, expanded, mini);
 	}
 	return (final);
 }
+
 
 /* This function is only called when there's a node with
  * single quotes. It checks the *data, looks for the first
@@ -135,12 +84,7 @@ int	sym_in_quotes(char *data)
 	i = 0;
 	while (data[i] && last == -1)
 	{
-		if (data[i] == '\'')
-		{
-			count++;
-			if (first == -1)
-				first = i;
-		}
+		set_first_quote2(data, &count, &first, &i);
 		if (count == 2)
 			last = i;
 		i++;
@@ -150,6 +94,15 @@ int	sym_in_quotes(char *data)
 	if (symbol > first && symbol < last)
 		return (1);
 	return (0);
+}
+
+char	*expand_method(int *count, t_basic *curr, char *new_node, t_shell *mini)
+{
+	if (*count > 1 && curr->quote == 1)
+		new_node = more_than_one_expand(curr->data, mini);
+	else
+		new_node = found_symbol(curr->data, mini);
+	return (new_node);
 }
 
 /* Checks the **pipes list, if the node contains a $
@@ -177,10 +130,7 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 				inside = sym_in_quotes(curr->data);
 			if (!inside || curr->quote != 1)
 			{
-				if (count > 1 && curr->quote == 1)
-					new_node = more_than_one_expand(curr->data, mini);
-				else
-					new_node = found_symbol(curr->data, mini);
+				new_node = expand_method(&count, curr, new_node, mini);
 				aux = curr->data;
 				curr->data = new_node;
 				free(aux);

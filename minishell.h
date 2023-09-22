@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 19:16:37 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:00:39 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ t_basic		**create_space_sep(char *rd);
 int			quote_list_checker(t_basic **list);
 t_basic		**create_quote_sep(t_basic **space_sep);
 /*		var_expand_utils		*/
+int			total_node_len(char *data, t_shell *mini);
+void		set_first_quote2(char *data, int *count, int *first, int *i);
+char		*split_variables(char *data, int *i);
 int			symbol_count(char *data);
 char		*more_than_one_expand(char *data, t_shell *mini);
 /*		var_expand		*/
@@ -75,6 +78,8 @@ int			redirect_type(char *data);
 t_red		**create_redir_list(t_lexer	*curr);
 /*		t_command - execution_utils			*/
 t_command	**create_command_list(t_lexer **lexer);
+/*		t_command_utils*/
+char		**get_args(t_lexer *curr);
 /*		pwd				*/
 void		ft_pwd(void);
 /*		echo			*/

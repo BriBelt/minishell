@@ -3,14 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   var_expand_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:50:33 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 11:31:19 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:56:39 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	set_first_quote2(char *data, int *count, int *first, int *i)
+{
+	if (data[*i] == '\'')
+	{
+		(*count)++;
+		if (*first == -1)
+			*first = *i;
+	}
+}
+
+/* Splits the given node->data depending on if it finds a "$"
+ * or quotes. Returns the result of the cutted *data. */
+char	*split_variables(char *data, int *i)
+{
+	int		loop;
+	int		start;
+	int		end;
+	char	*new;
+
+	start = *i;
+	end = -1;
+	loop = 0;
+	while (data[*i] && data[*i] != '$' && !quote_type(data[*i]))
+	{
+		loop = 1;
+		(*i)++;
+	}
+	while (!loop && data[*i] && end == -1)
+	{
+		if (quote_type(data[*i]) && start != *i)
+			break ;
+		if (data[*i] == '$' && start != *i)
+			break ;
+		(*i)++;
+	}
+	if (end == -1)
+		end = *i;
+	new = ft_substr(data, start, end - start);
+	return (new);
+}
+
+/* Gets the amount of memory that the new node data will
+ * need. */
+int	total_node_len(char *data, t_shell *mini)
+{
+	int		i;
+	int		total;
+	char	*new;
+	char	*aux;
+
+	i = 0;
+	total = 0;
+	while (i < (int)ft_strlen(data))
+	{
+		new = split_variables(data, &i);
+		if (ft_strchr(new, '$'))
+		{
+			aux = new;
+			new = expand_envar(aux, mini);
+			free(aux);
+		}
+		if (new)
+			total += ft_strlen(new);
+	}
+	return (total);
+}
 
 int	symbol_count(char *data)
 {

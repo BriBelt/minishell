@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:48:55 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/21 15:14:02 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:04:00 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ char	**get_new_envp(char **envp, char *desired_path)
 		new = NULL;
 	if (!new)
 		return (NULL);
-	i = 0;
+	i = -1;
 	j = 0;
 	len = ft_strlen(desired_path);
-	while (envp[i])
+	while (envp[++i])
 	{
 		if (!ft_strncmp(envp[i], desired_path, len))
 		{
@@ -64,7 +64,6 @@ char	**get_new_envp(char **envp, char *desired_path)
 		}
 		else
 			new[j++] = ft_strdup(envp[i]);
-		i++;
 	}
 	return (new);
 }
