@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 16:39:13 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:34:15 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void		executor(t_shell *mini);
 void		delete_all_files(int in_heredocs);
 t_pipex		pipex_init(void);
 void		wait_for_child(t_pipex pipex, int count, t_shell *mini);
+char		**find_all_del(t_command **commands);
 /*		children_utils		*/
 void		child_out_fd(t_pipex pipex, int i, int child_num);
 char		*get_child_path(t_command *command, t_shell *mini);

@@ -6,58 +6,54 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 12:14:48 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:45:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*set_final_str(char *f, char *aux, char *no_sym, char *exp, t_shell *m)
+void	set_final_str(t_exvar *ex, t_shell *mini)
 {
-	if (ft_strchr(aux, '$'))
+	if (ft_strchr(ex->aux, '$'))
 	{
-		exp = expand_envar(aux, m);
-		free(aux);
-		aux = f;
-		if (exp)
+		ex->expanded = expand_envar(ex->aux, mini);
+		free(ex->aux);
+		ex->aux = ex->final_str;
+		if (ex->expanded)
 		{
-			f = ft_strjoin(f, exp);
-			(free(exp), free(aux));
+			ex->final_str = ft_strjoin(ex->final_str, ex->expanded);
+			(free(ex->expanded), free(ex->aux));
 		}
 	}
-	else if (!ft_strchr(aux, '$'))
+	else if (!ft_strchr(ex->aux, '$'))
 	{
-		no_sym = ft_strdup(aux);
-		free(aux);
-		aux = f;
-		f = ft_strjoin(f, no_sym);
-		(free(aux), free(no_sym));
+		ex->no_sym = ft_strdup(ex->aux);
+		free(ex->aux);
+		ex->aux = ex->final_str;
+		ex->final_str = ft_strjoin(ex->final_str, ex->no_sym);
+		(free(ex->aux), free(ex->no_sym));
 	}
 	else
-		f = NULL;
-	return (f);
+		ex->final_str = NULL;
 }
 
 char	*found_symbol(char *data, t_shell *mini)
 {
 	int		i;
-	char	*expanded;
-	char	*final;
-	char	*no_sym;
-	char	*aux;
+	t_exvar	ex;
 
-	expanded = NULL;
-	no_sym = NULL;
-	final = ft_calloc(1, sizeof(char));
-	if (!final)
+	ex.expanded = NULL;
+	ex.no_sym = NULL;
+	ex.final_str = ft_calloc(1, sizeof(char));
+	if (!ex.final_str)
 		return (NULL);
 	i = 0;
 	while (i < (int)ft_strlen(data))
 	{
-		aux = split_variables(data, &i);
-		final = set_final_str(final, aux, no_sym, expanded, mini);
+		ex.aux = split_variables(data, &i);
+		set_final_str(&ex, mini);
 	}
-	return (final);
+	return (ex.final_str);
 }
 
 /* This function is only called when there's a node with
@@ -122,15 +118,11 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 	inside = 0;
 	while (curr)
 	{
-//		printf("node = %s, quote type = %zu\n", curr->data, curr->quote);
 		if (ft_strchr(curr->data, '$'))
 		{
 			count = symbol_count(curr->data);
 			if (curr->quote == 1)
-			{
-//				printf("quote type is single\n");
 				inside = sym_in_quotes(curr->data);
-			}
 			if (!inside || curr->quote != 1)
 			{
 				new_node = expand_method(&count, curr, new_node, mini);

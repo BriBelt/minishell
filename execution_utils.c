@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 16:24:43 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:34:30 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,33 @@ void	wait_for_child(t_pipex pipex, int count, t_shell *mini)
 	else
 		g_global.exit_stat = 1;
 	signal(SIGINT, signal_handler);
+}
+
+char	**find_all_del(t_command **commands)
+{
+	t_command	*curr;
+	t_red		*red_curr;
+	char		**dels;
+	int			i;
+
+	dels = ft_calloc(here_counter(commands) + 1, sizeof(char *));
+	if (!dels)
+		return (NULL);
+	curr = *commands;
+	i = 0;
+	while (curr)
+	{
+		red_curr = *curr->redirect;
+		while (red_curr)
+		{
+			if (red_curr->type == HEREDOC)
+			{
+				dels[i] = ft_strdup(red_curr->data);
+				i++;
+			}
+			red_curr = red_curr->next;
+		}
+		curr = curr->next;
+	}
+	return (dels);
 }

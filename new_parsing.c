@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 16:00:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:32:10 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,14 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	t_lexer	**lexer;
 
 	final_basic = last_basic(mini, rd);
-	lexer = final_lexer(final_basic);
-	(def_type(lexer), free_t_basic(final_basic));
-	if ((lexer && (!check_redirects(lexer) || !check_pipes(lexer))) || !lexer)
-		return (free_t_lexer(lexer), g_global.exit_stat = 258, NULL);
+	if (final_basic)
+	{
+		lexer = final_lexer(final_basic);
+		(def_type(lexer), free_t_basic(final_basic));
+		if (!check_redirects(lexer) || !check_pipes(lexer))
+			return (free_t_lexer(lexer), g_global.exit_stat = 258, NULL);
+	}
+	else
+		return (NULL);
 	return (lexer);
 }

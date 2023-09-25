@@ -6,40 +6,11 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 16:33:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:34:16 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**find_all_del(t_command **commands)
-{
-	t_command	*curr;
-	t_red		*red_curr;
-	char		**dels;
-	int			i;
-
-	dels = ft_calloc(here_counter(commands) + 1, sizeof(char *));
-	if (!dels)
-		return (NULL);
-	curr = *commands;
-	i = 0;
-	while (curr)
-	{
-		red_curr = *curr->redirect;
-		while (red_curr)
-		{
-			if (red_curr->type == HEREDOC)
-			{
-				dels[i] = ft_strdup(red_curr->data);
-				i++;
-			}
-			red_curr = red_curr->next;
-		}
-		curr = curr->next;
-	}
-	return (dels);
-}
 
 int	count_input_heredocs(t_command **commands)
 {
@@ -85,65 +56,70 @@ int	*input_heredocs(t_command **commands)
 	return (in_here);
 }
 
-int	here_doc_exe(t_command **commands)
+int	found_del(t_here *h)
 {
-	char		**dels;
-	char		*rd;
-	char		*tmp_name;
-	int			i;
-	int			created;
-	int			*input_here;
-	int			j;
-	int			tmp_file;
-	int			here_child;
-	char		*num;
-
-	here_child = fork();
-	if (!here_child)
+	if (h->rd && !ft_strcmp(h->rd, h->dels[h->i]))
 	{
-		signal(SIGINT, SIG_DFL);
-		i = 0;
-		created = 0;
-		dels = find_all_del(commands);
-		input_here = input_heredocs(commands);
-		while (1)
+		if (h->created)
 		{
-			rd = readline("> ");
-			j = -1;
-			while (++j < count_input_heredocs(commands))
-			{
-				if (i == input_here[j] - 1 && !created)
-				{
-					num = ft_itoa(j);
-					tmp_name = ft_strjoin("/tmp/.heredoc_", num);
-					tmp_file = open(tmp_name, O_CREAT | O_RDWR, 0644);
-					(free(num), free(tmp_name));
-					if (tmp_file < 0)
-						return (perror("Error creating the temp file"), -1);
-					created = 1;
-					j++;
-					break ;
-				}
-			}
-			if (rd && !ft_strcmp(rd, dels[i]))
-			{
-				if (created)
-				{
-					created = 0;
-					close(tmp_file);
-				}
-				i++;
-				if (!dels[i])
-					exit(0);
-			}
-			if (rd && tmp_file > 0 && i == input_here[j - 1] - 1)
-				(write(tmp_file, rd, ft_strlen(rd)), write(tmp_file, "\n", 1));
-			if (!rd && !dels[i + 1])
-				exit(0);
-			if (!rd)
-				i++;
-			free(rd);
+			h->created = 0;
+			close(h->fd);
+		}
+		h->i++;
+		if (!h->dels[h->i])
+			return (0);
+	}
+	if (h->rd && h->fd > 0 && h->i == h->in_h[h->j - 1] - 1)
+		(write(h->fd, h->rd, ft_strlen(h->rd)), write(h->fd, "\n", 1));
+	if (!h->rd && !h->dels[h->i + 1])
+		return (0);
+	if (!h->rd)
+		h->i++;
+	free(h->rd);
+	return (1);
+}
+
+int	create_tmp_file(t_here *h, t_command **commands)
+{
+	while (++h->j < count_input_heredocs(commands))
+	{
+		if (h->i == h->in_h[h->j] - 1 && !h->created)
+		{
+			h->num = ft_itoa(h->j);
+			h->name = ft_strjoin("/tmp/.heredoc_", h->num);
+			h->fd = open(h->name, O_CREAT | O_RDWR, 0644);
+			(free(h->num), free(h->name));
+			if (h->fd < 0)
+				return (0);
+			h->created = 1;
+			h->j++;
+			break ;
 		}
 	}
-	return (ft_heredoc_signal(here_child));
+	return (1);
+}
+
+int	here_doc_exe(t_command **commands)
+{
+	t_here	h;
+
+	h.child = fork();
+	if (!h.child)
+	{
+		signal(SIGINT, SIG_DFL);
+		h.i = 0;
+		h.created = 0;
+		h.dels = find_all_del(commands);
+		h.in_h = input_heredocs(commands);
+		while (1)
+		{
+			h.rd = readline("> ");
+			h.j = -1;
+			if (!create_tmp_file(&h, commands))
+				return (perror("Error creating the temp file"), -1);
+			if (!found_del(&h))
+				exit(0);
+		}
+	}
+	return (ft_heredoc_signal(h.child));
 }
