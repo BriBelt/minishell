@@ -6,51 +6,23 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 14:19:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:37:46 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_quote	*initialize_t_quote(void)
+void	set_open_closed(char *data, int *i, int *open, int *closed)
 {
-	t_quote	*handle;
-
-	handle = malloc(sizeof(t_quote));
-	if (!handle)
-		return (NULL);
-	handle->normal = 1;
-	handle->count = 0;
-	handle->start = -1;
-	handle->end = 0;
-	handle->first = 0;
-	return (handle);
-}
-
-void	check_closed_quotes(t_basic **pipes)
-{
-	t_basic	*curr;
-	int		closed;
-	int		open;
-	int		i;
-
-	curr = *pipes;
-	closed = -1;
-	open = 0;
-	while (curr)
+	while (data[++(*i)])
 	{
-		i = -1;
-		while (curr->data[++i])
+		if (quote_type(data[*i]))
 		{
-			if (quote_type(curr->data[i]))
-			{
-				if (!open)
-					open = quote_type(curr->data[i++]);
-				if (open && quote_type(curr->data[i]) == open && closed == -1)
-					closed = i;
-			}
+			if (!*open)
+				*open = quote_type(data[(*i)++]);
+			if (*open && quote_type(data[*i]) == *open && *closed == -1)
+				*closed = *i;
 		}
-		curr = curr->next;
 	}
 }
 
@@ -64,16 +36,7 @@ char	**quotes_in_node(char *data)
 	i = -1;
 	open = 0;
 	closed = -1;
-	while (data[++i])
-	{
-		if (quote_type(data[i]))
-		{
-			if (!open)
-				open = quote_type(data[i++]);
-			if (open && quote_type(data[i]) == open && closed == -1)
-				closed = i;
-		}
-	}
+	set_open_closed(data, &i, &open, &closed);
 	if (open && closed == -1)
 		return (printf(QUOTE_ERR), NULL);
 	if (open && closed > -1 && data[closed])
@@ -144,34 +107,4 @@ char	*split_quote_sens(char *data, size_t *i)
 		end = ft_strlen(data);
 	new = ft_substr(data, start, end - start);
 	return (new);
-}
-
-char	*handle_quotes(char *rd, size_t	*i)
-{
-	t_quote	*h;
-
-	h = initialize_t_quote();
-	while (rd[*i])
-	{
-		if (quote_type(rd[*i]))
-		{
-			h->normal = 0;
-			if (!h->first)
-				h->first = quote_type(rd[*i]);
-			if (quote_type(rd[*i]) == h->first)
-				h->count++;
-		}
-		if (h->count == 2)
-		{
-			h->end = (*i) + 1;
-			(*i)++;
-			break ;
-		}
-		if (h->normal && h->start == -1)
-			h->start = *i;
-		else if (h->count == 1 && h->first && h->start == -1)
-			h->start = *i;
-		(*i)++;
-	}
-	return (ft_substr(rd, h->start, h->end - h->start));
 }

@@ -6,11 +6,18 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 17:05:34 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 16:17:38 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:02:40 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	return_quote(int *pipe, int *quote)
+{
+	if (*pipe < *quote || *quote == -2)
+		return (*quote);
+	return (-1);
+}
 
 int	first_pipe(char *data)
 {
@@ -38,9 +45,7 @@ int	first_pipe(char *data)
 			break ;
 		}
 	}
-	if (pipe < quote || quote == -2)
-		return (quote);
-	return (-1);
+	return (return_quote(&pipe, &quote));
 }
 
 char	*pipe_split(char *data, size_t *i)

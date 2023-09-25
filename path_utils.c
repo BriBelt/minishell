@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 12:27:03 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:08:34 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ char	*ft_getenv(t_shell *mini, char *pathname)
 		joined_pathname = ft_strjoin(pathname, "=");
 		len = ft_strlen(joined_pathname);
 		while (mini->envp[++i])
+		{
 			if (!ft_strncmp(mini->envp[i], joined_pathname, len))
 			{
 				aux = ft_strdup(ft_strchr(mini->envp[i], '='));
 				new = ft_strdup(aux + 1);
 				return (free(joined_pathname), free(aux), new);
 			}
+		}
 		free(joined_pathname);
 	}
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:12:08 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 11:26:53 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:48:30 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,7 @@ char	*quote_split(char *rd, int *i)
 	h = initialize_t_quote();
 	while (rd[*i])
 	{
-		if (quote_type(rd[*i]))
-		{
-			h->normal = 0;
-			if (!h->first)
-				h->first = quote_type(rd[*i]);
-			if (quote_type(rd[*i]) == h->first)
-				h->count++;
-		}
+		count_quotes(rd, i, h);
 		if (h->count == 2)
 		{
 			h->end = (*i) + 1;

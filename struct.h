@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 18:22:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 12:50:34 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:04:18 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_quote
 	int		start;
 	int		first;
 	int		end;
+	int		i;
 }			t_quote;
 
 #endif

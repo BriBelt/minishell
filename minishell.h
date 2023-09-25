@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 19:13:05 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:50:21 by jaimmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ char		**get_paths(t_shell *mini, char *pathname);
 char		*expand_envar(char *data, t_shell *mini);
 char		**copy_envp(char **envp);
 /*		quotes		*/
-t_quote		*initialize_t_quote(void);
-void		check_closed_quotes(t_basic **pipes);
 void		clean_quotes(t_basic **pipes);
 char		*split_quote_sens(char *data, size_t *i);
 char		*handle_quotes(char	*rd, size_t	*i);
 /*		quote_utils		*/
 int			quote_type(char c);
+t_quote		*initialize_t_quote(void);
+void		count_quotes(char *rd, int *i, t_quote *h);
 /*		redirections	*/
 t_basic		**redirect_separate(t_basic **closed_q);
 int			check_redirects(t_lexer **lex);
