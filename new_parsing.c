@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 19:35:58 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:45:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,38 @@
 void	clean_false_joins(t_basic **pipes)
 {
 	t_basic	*curr;
+	int		single;
+	int		double_q;
 
 	curr = *pipes;
 	while (curr)
 	{
+		curr->quote = 0;
+		single = 0;
+		double_q = 0;
 		if (ft_strchr(curr->data, '\''))
-			curr->quote = 1;
-		else if (ft_strchr(curr->data, '\"'))
+			single = ft_strlen(ft_strchr(curr->data, '\''));
+		if (ft_strchr(curr->data, '\"'))
+			double_q = ft_strlen(ft_strchr(curr->data, '\"'));
+		if (single < double_q)
 			curr->quote = 2;
-		else
-			curr->quote = 0;
+		else if (double_q < single)
+			curr->quote = 1;
 		if (redirect_or_pipe(curr->data))
 			curr->join = 0;
+		curr = curr->next;
+	}
+}
+
+void	print_list(t_basic **lst, char *name)
+{
+	t_basic	*curr;
+
+	curr = *lst;
+	printf("--- %s ---\n", name);
+	while (curr)
+	{
+		printf("data = %s, quote = %li\n", curr->data, curr->quote);
 		curr = curr->next;
 	}
 }

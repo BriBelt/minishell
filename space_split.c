@@ -6,7 +6,7 @@
 /*   By: bbeltran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:11:03 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/15 17:09:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:34:49 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ int	cut_end_spaces(char *rd)
 }
 
 /* Needed function to set variables when a quote character is found. */
-void	found_quotes_rd(char c, int *normal, int *count)
+void	found_quotes_rd(char c, int *normal, int *count, int *first)
 {
 	if (quote_type(c))
 	{
+		if (!*first)
+			*first = quote_type(c);
 		*normal = 0;
-		(*count)++;
+		if (*first && quote_type(c) == *first)
+			(*count)++;
 	}
 	if (*count == 2)
 	{
@@ -54,15 +57,17 @@ char	*space_split(char *rd, int *i)
 	int	normal;
 	int	end;
 	int	count;
+	int	first;
 
 	ft_ignore_spaces(rd, i);
 	start = *i;
 	end = -1;
 	normal = 1;
 	count = 0;
+	first = 0;
 	while (rd[*i] && end == -1)
 	{
-		found_quotes_rd(rd[*i], &normal, &count);
+		found_quotes_rd(rd[*i], &normal, &count, &first);
 		if (normal && rd[*i] == ' ')
 			end = *i;
 		(*i)++;

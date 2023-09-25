@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 15:54:38 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:01:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	get_file_des(t_pipex *pipex, t_red **redirect)
 		if (out->type == APPEND)
 			(*pipex).out_fd = open(out->data, O_WRONLY | O_APPEND);
 		else
-			(*pipex).out_fd = open(out->data, O_WRONLY);
+			(*pipex).out_fd = open(out->data, O_WRONLY | O_TRUNC);
 	}
 }

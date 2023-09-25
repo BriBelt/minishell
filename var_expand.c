@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 16:14:12 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 18:17:22 by jaimmart         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:14:48 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,15 @@ void	change_node_var(t_basic **pipes, t_shell *mini)
 	inside = 0;
 	while (curr)
 	{
+//		printf("node = %s, quote type = %zu\n", curr->data, curr->quote);
 		if (ft_strchr(curr->data, '$'))
 		{
 			count = symbol_count(curr->data);
 			if (curr->quote == 1)
+			{
+//				printf("quote type is single\n");
 				inside = sym_in_quotes(curr->data);
+			}
 			if (!inside || curr->quote != 1)
 			{
 				new_node = expand_method(&count, curr, new_node, mini);
