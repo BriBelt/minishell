@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 11:19:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 12:45:02 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:00:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,14 @@ void	clean_false_joins(t_basic **pipes)
 	}
 }
 
-void	print_list(t_basic **lst, char *name)
-{
-	t_basic	*curr;
-
-	curr = *lst;
-	printf("--- %s ---\n", name);
-	while (curr)
-	{
-		printf("data = %s, quote = %li\n", curr->data, curr->quote);
-		curr = curr->next;
-	}
-}
-
-/* Provisional parsing function */
-t_lexer	**ft_parser(t_shell *mini, char *rd)
+t_basic	**last_basic(t_shell *mini, char *rd)
 {
 	t_basic	**space_sep;
 	t_basic	**quote_sep;
 	t_basic	**redirects;
 	t_basic	**pipes;
-	t_lexer	**lexer;
 
 	space_sep = create_space_sep(rd);
-	lexer = NULL;
 	if ((space_sep && !quote_list_checker(space_sep)) || !space_sep)
 	{
 		if (space_sep)
@@ -87,13 +71,18 @@ t_lexer	**ft_parser(t_shell *mini, char *rd)
 	redirects = redirect_separate(quote_sep);
 	free_t_basic(quote_sep);
 	pipes = pipe_separate(redirects);
-	free_t_basic(redirects);
-	clean_false_joins(pipes);
-	change_node_var(pipes, mini);
-	clean_quotes(pipes);
-	lexer = final_lexer(pipes);
-	def_type(lexer);
-	free_t_basic(pipes);
+	(free_t_basic(redirects), clean_false_joins(pipes));
+	return (change_node_var(pipes, mini), clean_quotes(pipes), pipes);
+}
+
+t_lexer	**ft_parser(t_shell *mini, char *rd)
+{
+	t_basic	**final_basic;
+	t_lexer	**lexer;
+
+	final_basic = last_basic(mini, rd);
+	lexer = final_lexer(final_basic);
+	(def_type(lexer), free_t_basic(final_basic));
 	if ((lexer && (!check_redirects(lexer) || !check_pipes(lexer))) || !lexer)
 		return (free_t_lexer(lexer), g_global.exit_stat = 258, NULL);
 	return (lexer);

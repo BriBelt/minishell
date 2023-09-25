@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:19:19 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/18 14:19:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:00:13 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,6 @@ t_quote	*initialize_t_quote(void)
 	handle->end = 0;
 	handle->first = 0;
 	return (handle);
-}
-
-void	check_closed_quotes(t_basic **pipes)
-{
-	t_basic	*curr;
-	int		closed;
-	int		open;
-	int		i;
-
-	curr = *pipes;
-	closed = -1;
-	open = 0;
-	while (curr)
-	{
-		i = -1;
-		while (curr->data[++i])
-		{
-			if (quote_type(curr->data[i]))
-			{
-				if (!open)
-					open = quote_type(curr->data[i++]);
-				if (open && quote_type(curr->data[i]) == open && closed == -1)
-					closed = i;
-			}
-		}
-		curr = curr->next;
-	}
 }
 
 char	**quotes_in_node(char *data)

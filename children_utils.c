@@ -6,57 +6,49 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 12:01:41 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:00:42 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	command_counter(t_command **commands)
+void	child_out_fd(t_pipex pipex, int i, int child_num)
 {
-	t_command	*curr;
-	int			count;
-
-	count = 0;
-	curr = *commands;
-	while (curr)
+	if (child_num == 1)
 	{
-		count++;
-		curr = curr->next;
+		if (pipex.out_fd != -1)
+			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
 	}
-	return (count);
+	else
+	{
+		if (pipex.out_fd != -1)
+			(dup2(pipex.out_fd, STDOUT), close(pipex.out_fd));
+		else
+			(dup2(pipex.pipes[i][1], STDOUT), close(pipex.pipes[i][1]));
+	}
 }
 
-/* Gets posible paths for executables with get_paths() and tries to access 
-every path with the node's data append to it. If it access the file 
-successfully, returns the correct path so that it can be use in a execve().*/
-char	*find_comm_path(t_shell *mini, char *data)
+char	*get_child_path(t_command *command, t_shell *mini)
 {
-	char	*com_path;
-	char	*tmp;
-	char	**paths;
-	int		i;
+	char	*cmd_path;
 
-	i = 0;
-	if (!data)
+	if (is_path(command->args[0]))
+		cmd_path = command->args[0];
+	else
+		cmd_path = find_comm_path(mini, command->args[0]);
+	return (cmd_path);
+}
+
+int	is_path(char *arg)
+{
+	if (!arg)
 		return (0);
-	paths = get_paths(mini, "PATH");
-	com_path = NULL;
-	while (paths && paths[i])
+	if (*arg == '/' || !ft_strncmp(arg, "./", 2))
 	{
-		tmp = ft_strjoin(paths[i], "/");
-		if (ft_strnstr(paths[i], "munki", ft_strlen(paths[i])))
-			return (free(tmp), free_2d_array(paths), NULL);
-		com_path = ft_strjoin(tmp, data);
-		free(tmp);
-		if (!access(com_path, F_OK | X_OK))
-			return (free_2d_array(paths), com_path);
-		free(com_path);
-		i++;
+		if (!access(arg, F_OK | X_OK))
+			return (1);
 	}
-	if (paths)
-		free_2d_array(paths);
-	return (com_path);
+	return (0);
 }
 
 /* This function checks the redirect list, counting the number

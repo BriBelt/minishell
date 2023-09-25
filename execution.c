@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:26:35 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 12:01:06 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:10:02 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	executor(t_shell *mini)
 	else if (count > 2 && !exited)
 		pipex = execute_all(mini, pipex, count);
 	if (!pipex.one_built && count > 0 && check_for_children(mini->lex)
-			&& (*mini->cmds)->args[0])
+		&& (*mini->cmds)->args[0])
 		wait_for_child(pipex, count, mini);
 	delete_all_files(mini->in_heredocs);
 }

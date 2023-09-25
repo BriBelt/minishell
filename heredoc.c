@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:35:10 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 11:51:57 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:33:24 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,9 @@ int	here_doc_exe(t_command **commands)
 	int			j;
 	int			tmp_file;
 	int			here_child;
-	int			status;
-	int			exited;
 	char		*num;
 
 	here_child = fork();
-	exited = 0;
 	if (!here_child)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -148,15 +145,5 @@ int	here_doc_exe(t_command **commands)
 			free(rd);
 		}
 	}
-	(signal(SIGINT, SIG_IGN), waitpid(here_child, &status, 0));
-	if (WIFEXITED(status))
-		g_global.exit_stat = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		exited = 1;
-		g_global.exit_stat = 1;
-	}
-	else
-		g_global.exit_stat = 0;
-	return (signal(SIGINT, signal_handler), exited);
+	return (ft_heredoc_signal(here_child));
 }

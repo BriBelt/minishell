@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 19:13:05 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:13:11 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char		*expand_envar(char *data, t_shell *mini);
 char		**copy_envp(char **envp);
 /*		quotes		*/
 t_quote		*initialize_t_quote(void);
-void		check_closed_quotes(t_basic **pipes);
 void		clean_quotes(t_basic **pipes);
 char		*split_quote_sens(char *data, size_t *i);
 char		*handle_quotes(char	*rd, size_t	*i);
@@ -145,17 +144,21 @@ void		executor(t_shell *mini);
 void		delete_all_files(int in_heredocs);
 t_pipex		pipex_init(void);
 void		wait_for_child(t_pipex pipex, int count, t_shell *mini);
-/*		children_utils	*/
-int			command_counter(t_command **commands);
-char		*find_comm_path(t_shell *mini, char *data);
+/*		children_utils		*/
+void		child_out_fd(t_pipex pipex, int i, int child_num);
+char		*get_child_path(t_command *command, t_shell *mini);
+int			is_path(char *arg);
 int			found_redirect_type(t_red **redirect, int type);
 void		get_file_des(t_pipex *pipex, t_red **redirect);
-void		create_pipes(t_command **commands, t_pipex pipex);
-/*		children		*/
+/*		command_utils		*/
+int			command_counter(t_command **commands);
+char		*find_comm_path(t_shell *mini, char *data);
+/*		children			*/
 void		only_child(t_pipex pipex, t_command *cmd, t_shell *mini);
 t_pipex		first_child(t_pipex pipex, t_command *cmd, t_shell *mini);
 t_pipex		middle_child(t_pipex pipex, t_command *cmd, t_shell *mini, int i);
 t_pipex		last_child(t_pipex pipex, t_command *cmd, t_shell *mini, int i);
-/*		signals			*/
+/*		signals				*/
+int			ft_heredoc_signal(int here_child);
 void		signal_handler(int sig);
 #endif

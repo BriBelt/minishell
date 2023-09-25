@@ -6,7 +6,7 @@
 #    By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 12:14:19 by jaimmart          #+#    #+#              #
-#    Updated: 2023/09/22 19:14:08 by bbeltran         ###   ########.fr        #
+#    Updated: 2023/09/25 15:40:37 by bbeltran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ env.c export.c free_utils.c list_utils.c minishell.c \
 redirections.c t_basic.c typesort.c typesort_utils.c unset.c pipes.c \
 new_parsing.c node_join.c quote_split.c space_split.c var_expand.c heredoc.c exe_redirect.c \
 t_red.c execution.c execution_utils.c t_command.c env_sort.c children.c children_utils.c \
-exit.c signals.c var_expand_utils.c export_utils.c heredoc_utils.c t_command_utils.c redir_utils.c
+exit.c signals.c var_expand_utils.c export_utils.c heredoc_utils.c t_command_utils.c redir_utils.c command_utils.c
 MINI_OBJ = $(MINI_SRC:.c=.o)
 
 
