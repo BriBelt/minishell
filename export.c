@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/26 14:45:45 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:10:10 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ char	**export_new_envar(char **envp, char *new_var)
 	return (new);
 }
 
+/* Part of ft_export function that we had to cut because of norminette.
+ * Takes the old value of new_envp, stores it in aux, calls the
+ * export_new_envar(); function, sets a new value to new_envp and frees
+ * the aux variable. */
 char	**return_new_envp(char **new_envp, int i, t_command *curr)
 {
 	char	**aux;
@@ -98,6 +102,7 @@ char	**ft_export(char **envp, t_command *node)
 
 	i = 0;
 	curr = node;
+	new_envp = NULL;
 	if (curr->args[1])
 	{
 		new_envp = envp;

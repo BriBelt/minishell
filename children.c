@@ -6,12 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:18:26 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 15:39:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:35:27 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*	Function to pass norminette, takes care and does the corresponding dup2();
+ *	for input fds during the child processes.	*/
 void	child_in_fd(t_pipex pipex, int i, int heredoc_fd, int child_num)
 {
 	if (child_num == 1)
@@ -34,6 +36,8 @@ void	child_in_fd(t_pipex pipex, int i, int heredoc_fd, int child_num)
 	}
 }
 
+/*	Child execution and change of fds for running commands. This child does
+ *	not execute builtins, the parents does it for them.	*/
 void	only_child(t_pipex pipex, t_command *command, t_shell *mini)
 {
 	int	heredoc_fd;

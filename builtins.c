@@ -6,12 +6,16 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:10:47 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 16:23:25 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:32:47 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Function that executes only one builtin, however, it checks if there's
+ * any heredocs or redirections in order to redirect the output of the
+ * given builtin. After checking and changing the fds, calls the
+ * call_builtins(); function.	*/
 void	exec_one_builtin(t_shell *mini, t_pipex pipex)
 {
 	int	here_fd;
@@ -29,6 +33,7 @@ void	exec_one_builtin(t_shell *mini, t_pipex pipex)
 	call_builtins(*mini->cmds, mini);
 }
 
+/*	Checks if the given node's first argument is a builtin or not.	*/
 int	builtin_arg(t_command *node)
 {
 	if (!node->args[0])

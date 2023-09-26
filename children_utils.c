@@ -6,12 +6,14 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:45:32 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 16:00:42 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:38:09 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Function to pass norminette, does the process of changing the fds of output
+ * depending if there's an output redirect or not. */
 void	child_out_fd(t_pipex pipex, int i, int child_num)
 {
 	if (child_num == 1)
@@ -28,6 +30,7 @@ void	child_out_fd(t_pipex pipex, int i, int child_num)
 	}
 }
 
+/*	Gets the command path that was given to the child process.	*/
 char	*get_child_path(t_command *command, t_shell *mini)
 {
 	char	*cmd_path;
@@ -39,6 +42,8 @@ char	*get_child_path(t_command *command, t_shell *mini)
 	return (cmd_path);
 }
 
+/*	Checks if the given argument is a path instead of a simple command or
+ *	something else like an executable or a file.	*/
 int	is_path(char *arg)
 {
 	if (!arg)
@@ -78,6 +83,7 @@ int	found_redirect_type(t_red **redirect, int type)
 	return (0);
 }
 
+/*	Gets the file descriptors of all the redirects.	*/
 void	get_file_des(t_pipex *pipex, t_red **redirect)
 {
 	t_red	*out;
