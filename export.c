@@ -6,34 +6,11 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 18:43:20 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:45:45 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_for_export(char *data)
-{
-	int	i;
-
-	i = -1;
-	while (data[++i] && data[i] != '=')
-	{
-		if (!ft_isalnum(data[i]))
-		{
-			g_global.exit_stat = 1;
-			return (ft_putstr_fd("export: not a valid identifier\n", 2), 0);
-		}
-	}
-	if (!ft_isalpha((int)data[0]) && data[0] != '_')
-	{
-		g_global.exit_stat = 1;
-		return (ft_putstr_fd("export: not a valid identifier\n", 2), 0);
-	}
-	if (!ft_strchr(data, '='))
-		return (2);
-	return (1);
-}
 
 /* Returns the index of the **envp that is the same string as the *new_var
  * or returns the end of the **envp index if not found. */
@@ -48,7 +25,7 @@ int	found_var(char **envp, char *new_var)
 		len++;
 	while (envp[i])
 	{
-		if (!ft_strncmp(envp[i], new_var, len))
+		if (envp[i] && !ft_strncmp(envp[i], new_var, len))
 		{
 			if (envp[i][len] == '=')
 				return (i);
@@ -58,34 +35,44 @@ int	found_var(char **envp, char *new_var)
 	return (-1);
 }
 
+char	**where_to_insert(char **envp, char **new, char *new_var, int a_size)
+{
+	int		i;
+	int		j;
+	int		found;
+
+	i = -1;
+	j = 0;
+	found = found_var(envp, new_var);
+	while (++i < a_size)
+	{
+		if (i == found)
+		{
+			new[i] = ft_strdup(new_var);
+			j++;
+		}
+		else if (found == -1 && i == a_size - 1)
+			new[i] = ft_strdup(new_var);
+		else if (envp[j])
+			new[i] = ft_strdup(envp[j++]);
+	}
+	return (new);
+}
+
 /* Iterates through the **envp array while copies it into a **new array, when
  * it reaches the end of the **envp, adds the *new_var into **new array. */
 char	**export_new_envar(char **envp, char *new_var)
 {
 	char	**new;
-	int		found;
-	int		i;
-	int		j;
 	int		array_size;
+	int		found;
 
 	found = found_var(envp, new_var);
-	array_size = find_size_envp(envp);
-	if (found == -1)
-		array_size++;
+	array_size = find_size_envp(envp, found);
 	new = ft_calloc(array_size + 1, sizeof(char *));
 	if (!new)
 		return (NULL);
-	j = 0;
-	i = -1;
-	while (++i < array_size)
-	{
-		if (i == found)
-			new[i] = ft_strdup(new_var);
-		else if (found == -1 && i == array_size - 1)
-			new[i] = ft_strdup(new_var);
-		else if (envp[j])
-			new[i] = ft_strdup(envp[j++]);
-	}
+	new = where_to_insert(envp, new, new_var, array_size);
 	return (new);
 }
 
@@ -121,11 +108,11 @@ char	**ft_export(char **envp, t_command *node)
 			{
 				g_global.exit_stat = 0;
 				if (result == 1)
-					return (new_envp = return_new_envp(new_envp, i, curr));
+					new_envp = return_new_envp(new_envp, i, curr);
 			}
 		}
 	}
 	else
 		print_sort_env(envp);
-	return (envp);
+	return (new_envp);
 }

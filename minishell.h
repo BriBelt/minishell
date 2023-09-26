@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 17:34:15 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:37:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void		ft_env(t_command *node, char **envp);
 int			array_size(char **envp, char *desired_path);
 char		**ft_unset(char **envp, t_command *node);
 /*		export_utils	*/
-int			find_size_envp(char **envp);
+int			find_size_envp(char **envp, int found);
+int			check_for_export(char *data);
 /*		export			*/
 void		print_sort_env(char **envp);
 char		**ft_export(char **envp, t_command *node);
