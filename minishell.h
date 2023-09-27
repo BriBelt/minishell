@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:24:58 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/26 16:19:14 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:59:31 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ void		executor(t_shell *mini);
 /*		
  *	execution_utils		
  *						*/
+int			is_space(char c);
 void		delete_all_files(int in_heredocs);
 t_pipex		pipex_init(void);
 void		wait_for_child(t_pipex pipex, int count, t_shell *mini);
