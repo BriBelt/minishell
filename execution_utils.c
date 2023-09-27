@@ -6,11 +6,33 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 11:23:37 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 17:34:30 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:51:41 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* This function has nothing to do with execution, but we have to pass the norm,
+ * and the rest of the functions are not selfish with their space.
+ * This function just checks if the given character is any type of space,
+ * return 1 if it is, if not returns 0. It's used during variable expansion,
+ * especifically in var_expand_utils.c in split_variables(); */
+int	is_space(char c)
+{
+	if (c == ' ')
+		return (1);
+	if (c == '\n')
+		return (1);
+	if (c == '\t')
+		return (1);
+	if (c == '\v')
+		return (1);
+	if (c == '\f')
+		return (1);
+	if (c == '\r')
+		return (1);
+	return (0);
+}
 
 void	delete_all_files(int in_heredocs)
 {

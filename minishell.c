@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 11:04:38 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 17:53:24 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 19:20:19 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int	main(int argc, char **argv, char **envp)
 	if (envp && envp[0])
 		mini->envp = copy_envp(envp);
 	else
-		mini->envp = NULL;
+		mini->envp = ft_calloc(1, sizeof(char *));
+	if (!mini->envp)
+		return (0);
 	g_global.exit_stat = 0;
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);

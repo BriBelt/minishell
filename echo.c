@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/20 14:56:01 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/26 19:19:32 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ int	only_n(char	*data)
 	int	i;
 
 	i = 0;
+	if (!data[1])
+		return (0);
 	while (data[++i])
 	{
-		if (data[i] != 'n')
+		if (data[0] != '-' || data[i] != 'n')
 			return (0);
 	}
 	return (1);

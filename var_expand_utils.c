@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:50:33 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/22 19:12:47 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:49:24 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*split_variables(char *data, int *i)
 	}
 	while (!loop && data[*i] && end == -1)
 	{
-		if (quote_type(data[*i]) && start != *i)
+		if ((quote_type(data[*i]) || is_space(data[*i])) && start != *i)
 			break ;
 		if (data[*i] == '$' && start != *i)
 			break ;
