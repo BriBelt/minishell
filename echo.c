@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:58:14 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/26 19:19:32 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:53:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ int	check_for_flag(char	**args)
 
 	count = 1;
 	i = 0;
-	while (args[++i])
-	{
-		if (args[i][0] == '-' && only_n(args[i]))
-			count++;
-	}
+	while (args[++i] && args[i][0] == '-' && only_n(args[i]))
+		count++;
 	return (count);
 }
 

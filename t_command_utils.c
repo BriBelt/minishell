@@ -6,11 +6,19 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 15:50:49 by jaimmart          #+#    #+#             */
-/*   Updated: 2023/09/25 14:56:06 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:53:59 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	count_tcommand_args(t_lexer *ptr, int *size, int *redir)
+{
+	if ((ptr->type == FIL && !(*redir))
+		|| (ptr->type == STR || ptr->type == BUILTIN || ptr->type == FLAG
+			|| ptr->type == VAR))
+		(*size)++;
+}
 
 /* Iterates though the **lexer from the given *node, checks the amount of
  **/
@@ -35,9 +43,7 @@ int	args_size(t_lexer *curr)
 			if (ptr->type == PIPE)
 				break ;
 		}
-		if ((ptr->type == FIL && !redir)
-			|| (ptr->type == STR || ptr->type == BUILTIN || ptr->type == FLAG))
-			size++;
+		count_tcommand_args(ptr, &size, &redir);
 		ptr = ptr->next;
 	}
 	return (size);
@@ -52,7 +58,8 @@ void	set_redir(t_lexer *ptr, int *redir)
 t_lexer	*set_args(t_lexer *ptr, char **args, int *i, int *redir)
 {
 	if ((ptr->type == FIL && !(*redir))
-		|| (ptr->type == STR || ptr->type == BUILTIN || ptr->type == FLAG))
+		|| (ptr->type == STR || ptr->type == BUILTIN || ptr->type == FLAG
+			|| ptr->type == VAR))
 	{
 		args[*i] = ft_strdup(ptr->data);
 		(*i)++;

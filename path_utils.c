@@ -6,7 +6,7 @@
 /*   By: jaimmart <jaimmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:11:06 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/25 17:51:51 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:01:20 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*expand_envar(char *data, t_shell *mini)
 	int		len;
 
 	len = ft_strlen(data) - 1;
+	if (len < 1)
+		return (ft_strdup(data));
 	clean_data = ft_substr(data, 1, len);
 	if (!ft_strncmp(clean_data, "?", 1))
 	{
