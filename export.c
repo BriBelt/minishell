@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:29:30 by bbeltran          #+#    #+#             */
-/*   Updated: 2023/09/26 16:10:10 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:13:45 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,6 @@ char	**ft_export(char **envp, t_command *node)
 		}
 	}
 	else
-		print_sort_env(envp);
+		return (print_sort_env(envp), envp);
 	return (new_envp);
 }
