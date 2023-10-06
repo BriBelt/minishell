@@ -6,7 +6,7 @@
 /*   By: jaimmart32 <jaimmart32@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 23:01:41 by jaimmart32        #+#    #+#             */
-/*   Updated: 2023/09/01 13:42:17 by bbeltran         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:16:54 by bbeltran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	print_sort_env(char **envp)
 
 	i = 0;
 	num_strings = 0;
+	if (!envp)
+		return ;
 	while (envp[num_strings])
 		num_strings++;
 	sel_sort_strings(envp, num_strings);
